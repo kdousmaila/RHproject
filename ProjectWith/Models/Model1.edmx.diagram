@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="126007abf1aa46de8dbfd897288b99cf" Name="Diagram1" ZoomLevel="18">
+        <EntityTypeShape EntityType="baseModel.AutoEvaluation" Width="1.5" PointX="10" PointY="10.5" />
+        <EntityTypeShape EntityType="baseModel.competence" Width="1.5" PointX="5.25" PointY="7.875" />
+        <EntityTypeShape EntityType="baseModel.deletedAutoEvaluation" Width="1.5" PointX="12" PointY="23.375" />
+        <EntityTypeShape EntityType="baseModel.DeletedCompetence" Width="1.5" PointX="15" PointY="5.25" />
+        <EntityTypeShape EntityType="baseModel.DeletedDiplome" Width="1.5" PointX="15" PointY="8.75" />
+        <EntityTypeShape EntityType="baseModel.DeletedEmployees" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="baseModel.DeletedEntretienAnnuel" Width="1.5" PointX="9.75" PointY="17.625" />
+        <EntityTypeShape EntityType="baseModel.deletedEvalGen" Width="1.5" PointX="12" PointY="29.5" />
+        <EntityTypeShape EntityType="baseModel.DeletedExperience" Width="1.5" PointX="15" PointY="12.375" />
+        <EntityTypeShape EntityType="baseModel.DeletedFicheFonctions" Width="1.5" PointX="12.75" PointY="5.75" />
+        <EntityTypeShape EntityType="baseModel.DeletedFormation" Width="1.5" PointX="15" PointY="1.5" />
+        <EntityTypeShape EntityType="baseModel.deletedObjSpecifique" Width="1.5" PointX="12" PointY="26.5" />
+        <EntityTypeShape EntityType="baseModel.deletedObjV" Width="1.5" PointX="12" PointY="20.25" />
+        <EntityTypeShape EntityType="baseModel.Departement" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="baseModel.Diplome" Width="1.5" PointX="5.25" PointY="14.25" />
+        <EntityTypeShape EntityType="baseModel.Education" Width="1.5" PointX="5.25" PointY="4.875" />
+        <EntityTypeShape EntityType="baseModel.Employee" Width="1.5" PointX="0.75" PointY="3.25" />
+        <EntityTypeShape EntityType="baseModel.EntretienAnnuel" Width="1.5" PointX="7.75" PointY="1.625" />
+        <EntityTypeShape EntityType="baseModel.EvaluatinGenN_1" Width="1.5" PointX="10" PointY="4.625" />
+        <EntityTypeShape EntityType="baseModel.Experience" Width="1.5" PointX="5.25" PointY="10.875" />
+        <EntityTypeShape EntityType="baseModel.FicheFonction" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="baseModel.Formation" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="baseModel.ObjectifsAVenir" Width="1.5" PointX="10" PointY="7.625" />
+        <EntityTypeShape EntityType="baseModel.ObjSpecifique" Width="1.5" PointX="10" PointY="13.5" />
+        <EntityTypeShape EntityType="baseModel.permission" Width="1.5" PointX="18" PointY="9.875" />
+        <EntityTypeShape EntityType="baseModel.Role" Width="1.5" PointX="11.75" PointY="17.375" />
+        <AssociationConnector Association="baseModel.FK_AutoEvaluation_EntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_competence_FicheFonction" />
+        <AssociationConnector Association="baseModel.FK_deletedAutoEvaluation_DeletedEntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_DeletedCompetence_DeletedFicheFonctions" />
+        <AssociationConnector Association="baseModel.FK_DeletedDiplome_DeletedFicheFonctions" />
+        <AssociationConnector Association="baseModel.FK_deletedEvalGen_DeletedEntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_deletedObjSpecifique_DeletedEntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_deletedObjV_DeletedEntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_DeletedExperience_DeletedFicheFonctions" />
+        <AssociationConnector Association="baseModel.FK_DeletedFormation_DeletedFicheFonctions" />
+        <AssociationConnector Association="baseModel.FK_FicheFonction_Departement" />
+        <AssociationConnector Association="baseModel.FK_Diplome_FicheFonction" />
+        <AssociationConnector Association="baseModel.FK_Education_FicheFonction" />
+        <AssociationConnector Association="baseModel.FK_Employee_Employee" />
+        <AssociationConnector Association="baseModel.FK_FicheFonction_Employee" />
+        <AssociationConnector Association="baseModel.FK_permission_Employee" />
+        <AssociationConnector Association="baseModel.FK_EvaluatinGenN_1_EntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_ObjectifsAVenir_EntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_ObjSpecifique_EntretienAnnuel" />
+        <AssociationConnector Association="baseModel.FK_Experience_FicheFonction" />
+        <AssociationConnector Association="baseModel.FK_Formation_FicheFonction" />
+        <AssociationConnector Association="baseModel.FK_permission_Role" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,120 @@
+﻿@model ProjectWith.Models.EmployeeFicheFonctionViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5; /* Light gray background */
+    }
+
+    .white-container {
+        background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        margin: 50px auto;
+        animation: fade-in 0.5s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #8c8c8c;
+        }
+
+    .square-btn {
+        padding: 12px 20px;
+        border: none;
+        background-color: #c72727;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+        .square-btn:hover {
+            background-color: #a62020;
+        }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="white-container">
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee.Matricule, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Employee.Matricule, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Employee.Matricule, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee.Nom, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Employee.Nom, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Employee.Nom, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee.Prenom, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Employee.Prenom, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Employee.Prenom, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee.email, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Employee.email, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Employee.email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group app-label">
+      
+        <div class="form-group">
+            <label for="etatCivil" class="form-label">Poste</label>
+            @Html.DropDownListFor(model => model.SelectedRole,
+                new SelectList(new[]
+                {
+                    new SelectListItem { Text = "Responsable RH", Value = "RH" },
+                    new SelectListItem { Text = "Directeur Site", Value = "DS" }
+                }, "Value", "Text"),
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SelectedRole, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee.CmptWin, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Employee.CmptWin, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Employee.CmptWin, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="button-container">
+        <input type="submit" value="Envoyer" class="square-btn" />
+    </div>
+</div>
+}

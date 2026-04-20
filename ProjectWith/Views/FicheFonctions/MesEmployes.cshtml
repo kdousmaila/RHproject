@@ -1,0 +1,259 @@
+﻿@model IEnumerable<ProjectWith.Models.FicheFonction>
+@{
+    ViewBag.Title = "MesEmployes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* Styles pour la carte */
+    .profile_view {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 200px;
+        position: relative;
+        background: linear-gradient(to bottom, #ffffff 70%, #f0f0f0 70%);
+    }
+
+        .profile_view .right-top {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+            .profile_view .right-top img {
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+            }
+
+        .profile_view .bottom-right {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+            .profile_view .bottom-right .btn {
+                margin-top: 5px;
+                width: auto;
+                padding: 2px 8px;
+                font-size: 12px;
+            }
+
+        .profile_view .profile_content p {
+            margin-bottom: 5px;
+        }
+
+    .btn-small {
+        font-size: 10px;
+    }
+
+    .ratings a {
+        font-size: 14px;
+    }
+
+    .inf-content {
+        border: 1px solid #DDDDDD;
+        border-radius: 10px;
+        box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+    }
+
+    .create-new-button {
+        display: inline-block;
+        padding: 6px 7px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #ba2d2d;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+        .create-new-button:hover {
+            background-color: #801f1f;
+        }
+
+    .container-box {
+        border: 0px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .action-buttons .btn {
+        margin-right: 5px;
+    }
+
+    .input-group {
+        max-width: 270px;
+    }
+</style>
+
+<h5 style="padding-left: 96px; color: #c21c1c; font-size: 24px; font-weight: bold; margin-top: 20px;">Mes Employés</h5>
+
+<div class="row mb-5">
+    <div class="col-8" style="padding-left: 100px; margin-top: 30px;">
+        @using (Html.BeginForm("MesEmployes", "FicheFonctions", FormMethod.Get))
+        {
+            <div class="input-group">
+                <input type="text" id="letter" name="letter" class="form-control input-primary text-black small" placeholder="Search for..."
+                       aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="col-md-12 bootstrap snippets bootdeys" style="margin-top: 30px;">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="well profile_view">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <div class="left col-xs-7 profile_content" style="padding-left: 10px;">
+                                                <h4 class="brief">
+                                                    @Html.DisplayFor(modelItem => item.nom) @Html.DisplayFor(modelItem => item.prenom)
+                                                </h4>
+                                                <p><strong>Email: </strong>@Html.DisplayFor(modelItem => item.email)</p>
+                                                <p><strong>Poste: </strong>@Html.DisplayFor(modelItem => item.poste)</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="right-top text-right" style="padding-top: 40px;">
+                                                @if (string.IsNullOrEmpty(item.image))
+                                                {
+                                                    <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002403-homme-avec-barbe-avatar-personnage-icone-isole-gratuit-vectoriel.jpg" alt="" class="img-circle img-responsive" style="max-width: 80px; max-height: 80px;">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/Content/image/@item.image" class="img-circle img-responsive" alt="Avatar" style="max-width: 80px; max-height: 80px;">
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="background-gray">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6 emphasis bottom-content">
+                                                <div class="background-gray">
+                                                    <p class="ratings" style="padding-bottom: px;">
+                                                        @{
+                                                            if (ViewBag.EntretienAnnuelNotes != null && ViewBag.EntretienAnnuelNotes.ContainsKey(item.Matricule))
+                                                            {
+                                                                var note = Convert.ToDouble(ViewBag.EntretienAnnuelNotes[item.Matricule]);
+                                                                <a> @note</a>
+                                                                var roundedNote = Math.Round(note);
+                                                                var filledStars = (int)Math.Floor(roundedNote / 4.0);
+                                                                var remainder = roundedNote % 4.0;
+                                                                var emptyStars = 5 - filledStars - (remainder > 0 ? 1 : 0);
+
+                                                                for (var i = 0; i < filledStars; i++)
+                                                                {
+                                                                    <a href="#"><span class="fa fa-star"></span></a>
+                                                                }
+                                                                if (remainder > 0)
+                                                                {
+                                                                    string partialClass = remainder >= 0.5 ? "fa-star" : "fa-star-o";
+                                                                    <a href="#"><span class="fa @partialClass"></span></a>
+                                                                }
+                                                                for (var i = 0; i < emptyStars; i++)
+                                                                {
+                                                                    <a href="#"><span class="fa fa-star-o"></span></a>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>non disponible</span>
+                                                            }
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 emphasis bottom-content text-right fixed-buttons">
+                                                <div class="right-bottom btn-group">
+                                                    <button type="button" class="btn btn-primary btn-xs btn-small" style="width: 120px; height: 30px; margin-right: @(ProjectWith.Models.ath_windows.CurrentUser.getRole() == "CHEF" ? "80px" : "60px")" onclick="redirectToEntretienAnnuel('@item.Matricule')">
+                                                        <i class="fa fa-user"></i> Entretien Annuel
+                                                    </button>
+
+                                                    @if (@ProjectWith.Models.ath_windows.CurrentUser.getRole() != "CHEF")
+                                                    {
+                                                        <button type="button" class="btn btn-success btn-xs btn-small hre" style="width: 30px; height: 30px;" onclick="confirmDelete('@item.id')">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <script>
+                                                function redirectToEntretienAnnuel(matricule) {
+                                                    window.location.href = '../EntretienAnnuels/index?matricule=' + encodeURIComponent(matricule);
+                                                }
+                                            </script>
+                                            <script>
+                                                function confirmDelete(id) {
+                                                    var reason = prompt("Please enter the reason for deletion:");
+                                                    if (reason != null) {
+                                                        var url = '@Url.Action("Delete", "FicheFonctions")' + '/' + id + '?reason=' + encodeURIComponent(reason);
+                                                        window.location.href = url;
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="/FicheFonctions/Index?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                    </svg>
+                </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.NoOfPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.PageNo ? "active" : "")">
+                    <a class="page-link" href="/FicheFonctions/MesEmployes?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=@i">@i</a>
+                </li>
+            }
+            <li class="page-item">
+                <a class="page-link" href="/FicheFonctions/matricule?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=@ViewBag.NoOfPages"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+</svg></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+function searchByLetter() {
+    var letter = document.getElementById('letter').value;
+    window.location.href = '@Url.Action("MesEmployes", "FicheFonctions")' + '?letter=' + encodeURIComponent(letter);
+}
+</script>

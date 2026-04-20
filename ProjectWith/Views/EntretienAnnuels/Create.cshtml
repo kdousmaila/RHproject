@@ -1,0 +1,310 @@
+﻿@model ProjectWith.Models.entretienViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .white-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .square-btn {
+        padding: 15px 20px;
+        border: none;
+        background-color: #c72727;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .square-btn:hover {
+            background-color: #a62020;
+        }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+@using (Html.BeginForm("Create", "EntretienAnnuels", FormMethod.Post, new { id = "entretienForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="white-container">
+        <div class="row">
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Nom:</label>
+                    <input value="@ProjectWith.Models.ath_windows.CurrentUser.getName()" name="Nom" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Service:</label>
+                 
+                  
+                        <input value="" name="Service" class="form-control" />
+                    
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Prenom:</label>
+                    <input value="@ProjectWith.Models.ath_windows.CurrentUser.getLastName()" name="Prenom" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Matricule:</label>
+                    <input id="matriculeInput" value="@ProjectWith.Models.ath_windows.CurrentUser.getMatricule()" name="Matricule" class="form-control" />
+                    <p id="matriculeError" style="color: red; display: none;">Matricule does not exist.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">libelle de fonction:</label>
+                    <input value="" name="LibelleFonction" class="form-control" />
+                </div>
+            </div>
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Nom du responsable hierarchique (N+1):</label>
+                    <input value="@ProjectWith.Models.ath_windows.CurrentUser.getResponsable()" name="NomRespHierarchiqueN_1" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">date d'entree en fonction (mois/ annee):</label>
+                    <input value="@ProjectWith.Models.ath_windows.CurrentUser.getDateEntree()" type="date" name="DateEntree" class="form-control" id="DateEntree" />
+                    <p id="dateEntreeError" style="color: red; display: none;">La date d'entrée en fonction doit être antérieure aux deux autres dates.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Nom du resp. fonctionnel:</label>
+                    <input value="" name="NomRespFonctionel" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Date dernière revue de description de fonction:</label>
+                    @Html.EditorFor(model => model.entretienAnnuels.DateDerniereRevue, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "DateDerniereRevue", id = "DateDerniereRevue" } })
+                    <p id="dateDerniereRevueError" style="color: red; display: none;">La date ne peut pas être dans le futur et doit être postérieure au 15 juin 2012.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="mb-3">
+                    <label class="text-label form-label">Date de l'entretien:</label>
+                    @Html.EditorFor(model => model.entretienAnnuels.DateEntretien, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "DateEntretien", id = "DateEntretien", Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                    <p id="dateEntretienError" class="error-msg" style="color: red; display: none;"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="button-container">
+        <input type="submit" value="Ajouter" class="square-btn" id="entretienSubmit" />
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    // Function to validate the date
+    function validateDate() {
+        var inputDate = document.getElementById("DateDerniereRevue").value;
+        var currentDate = new Date();
+        var inputDateObj = new Date(inputDate);
+        var errorElement = document.getElementById("dateDerniereRevueError");
+
+        // Check if the input date is in the future or later than June 15, 2012
+        if (inputDateObj > currentDate || inputDateObj < new Date("2012-06-15")) {
+            errorElement.style.display = "block"; // Display the error message
+            document.getElementById("entretienSubmit").disabled = true; // Disable the submit button
+            return false;
+        } else {
+            errorElement.style.display = "none"; // Hide the error message
+            document.getElementById("entretienSubmit").disabled = false; // Enable the submit button
+            return true;
+        }
+    }
+
+    // Function to validate the date of entretien
+    function validateDateEntretien() {
+        var selectedDate = new Date(document.getElementById("DateEntretien").value);
+        var currentDate = new Date();
+        var errorElement = document.getElementById("dateEntretienError");
+
+        // Check if the selected date is in the future or before June 15, 2012
+        if (selectedDate > currentDate || selectedDate < new Date("2012-06-15")) {
+            errorElement.innerText = "La date ne peut pas être dans le futur et doit être postérieure au 15 juin 2012.";
+            errorElement.style.display = "block"; // Display the error message
+            document.getElementById("entretienSubmit").disabled = true; // Disable the submit button
+            return false;
+        } else {
+            errorElement.style.display = "none"; // Hide the error message
+            document.getElementById("entretienSubmit").disabled = false; // Enable the submit button
+            return true;
+        }
+    }
+
+    // Function to validate that the "date d'entrée en fonction" is before the other two dates
+    function validateDateEntree() {
+        var dateEntree = new Date(document.getElementById("DateEntree").value);
+        var currentDate = new Date();
+        var errorElement = document.getElementById("dateEntreeError");
+
+        // Check if date entree is in the future
+        if (dateEntree > currentDate) {
+            errorElement.innerText = "La date d'entrée en fonction ne peut pas être dans le futur.";
+            errorElement.style.display = "block"; // Display the error message
+            document.getElementById("entretienSubmit").disabled = true; // Disable the submit button
+            return false;
+        } else if (dateEntree < new Date("2012-06-15")) {
+            errorElement.innerText = "La date d'entrée en fonction doit être postérieure au 15 juin 2012.";
+            errorElement.style.display = "block"; // Display the error message
+            document.getElementById("entretienSubmit").disabled = true; // Disable the submit button
+            return false;
+        } else {
+            errorElement.style.display = "none"; // Hide the error message
+            document.getElementById("entretienSubmit").disabled = false; // Enable the submit button
+            return true;
+        }
+    }
+
+
+
+    // Add event listeners to trigger the validation on input change
+    document.getElementById("DateDerniereRevue").addEventListener("change", validateDate);
+    document.getElementById("DateEntretien").addEventListener("change", validateDateEntretien);
+    document.getElementById("DateEntree").addEventListener("change", validateDateEntree);
+
+    $(document).ready(function () {
+        // Function to validate the entire form
+        function validateForm() {
+            var isValid = true;
+            // Check each input field
+            $('input[type="text"], input[type="email"], input[type="date"], select').each(function () {
+                if (!$(this).val() && !$(this).prop('disabled') && $(this).is(":visible")) {
+                    isValid = false;
+                    return false; // Exit the loop if any field is empty
+                }
+            });
+            return isValid;
+        }
+
+        // Function to check if "Date de l'entretien" is after "Date dernière revue de description de fonction"
+        function validateDates() {
+            var dateDerniereRevue = new Date($('#DateDerniereRevue').val());
+            var dateEntretien = new Date($('#DateEntretien').val());
+            var dateEntree = new Date($('#DateEntree').val());
+
+            if (dateDerniereRevue < dateEntree || dateEntretien < dateEntree) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'LDate dernière revue de description de fonction et date entretien doivent être postérieures à la date d\'entrée en fonction.'
+                });
+                return false;
+            }
+
+            if (dateEntretien < dateDerniereRevue) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'La date de l\'entretien ne peut pas être antérieure à la date de la dernière revue de description de fonction.'
+                });
+                return false;
+            }
+
+
+            return true;
+        }
+
+        // Function to check the date entretien via AJAX
+        function checkDateEntretien(callback) {
+            var selectedDate = $('#DateEntretien').val();
+            var matricule = $('#matriculeInput').val();
+
+            $.ajax({
+                url: '@Url.Action("CheckDateEntretien", "EntretienAnnuels")',
+                type: 'POST',
+                data: { dateEntretien: selectedDate, matricule: matricule },
+                success: function (data) {
+                    if (!data) {
+                        $('#dateEntretienError').text("Date d'entretien déjà existante. Veuillez en choisir un autre.").show();
+                        callback(false);
+                    } else {
+                        $('#dateEntretienError').hide();
+                        callback(true);
+                    }
+                },
+                error: function () {
+                    console.log('An error occurred during the AJAX request.');
+                    callback(false); // Consider the validation failed in case of an error
+                }
+            });
+        }
+
+        // Function to handle form submission
+        $('#entretienForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Validate the form
+            if (!validateForm()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Veuillez remplir tous les champs.'
+                });
+                return; // Exit if the form is not valid
+            }
+
+            // Validate the dates
+            if (!validateDates() || !validateDateEntree()) {
+                return; // Exit if the dates are not valid
+            }
+
+            // Validate the date of entretien
+            if (validateDateEntretien()) {
+                checkDateEntretien(function (dateIsValid) {
+                    if (!dateIsValid) {
+                        // Display an error if the date is not valid
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur',
+                            text: 'Date d\'entretien déjà existante. Veuillez en choisir un autre.'
+                        });
+                        return; // Exit if the date is not valid
+                    }
+
+                    // If both form and date validation passed, submit the form
+                    $('#entretienForm').unbind('submit').submit();
+                });
+            }
+        });
+    });
+</script>

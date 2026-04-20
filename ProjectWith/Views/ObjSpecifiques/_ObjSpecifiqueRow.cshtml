@@ -1,0 +1,37 @@
+﻿@model ProjectWith.Models.ObjSpecifique
+
+
+
+<tr>
+    <td>@Model.ObjSpecifique1</td>
+    <td>@Model.Synthese</td>
+    <td>
+       
+            @Html.ActionLink("Delete", "DeleteConfirmed", "ObjSpecifiques", new { id = Model.id }, new { @class = "delete-link", data_id = Model.id })
+
+        @Html.AntiForgeryToken() <!-- Add anti-forgery token here -->
+
+
+    </td>
+</tr>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<style>
+    .swal2-confirm {
+        height: 50px; /* Adjust the height of the button */
+        width: 150px; /* Adjust the width of the button */
+        font-size: 18px; /* Optionally adjust the font size */
+    }
+
+    .swal-cancel-button-class {
+        width: 100px;
+    }
+</style>
+
+
+
+
+

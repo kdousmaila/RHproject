@@ -1,0 +1,561 @@
+﻿@model ProjectWith.Models.DeletedEntretienAnnuel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DeletedEntretienAnnuel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.deletedId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.deletedId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LibelleFonction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LibelleFonction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEntree)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEntree)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDerniereRevue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDerniereRevue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomRespHierarchiqueN_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomRespHierarchiqueN_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomRespFonctionel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomRespFonctionel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEntretien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEntretien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autoEvalSal1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autoEvalSal1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.competenceCaractUtiles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.competenceCaractUtiles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.competenceCaractAcquerir)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.competenceCaractAcquerir)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.orientationResulttat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.orientationResulttat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.agilite_Adaptabilite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.agilite_Adaptabilite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ouvertureEsprit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ouvertureEsprit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.qualitesRelationnelles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.qualitesRelationnelles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.travailEquipe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.travailEquipe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolutionProbleme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolutionProbleme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gestionProjet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gestionProjet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.communication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.communication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Leadership)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Leadership)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gestionBudget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gestionBudget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.charisme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.charisme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.maitriseSoi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.maitriseSoi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultatActFormation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultatActFormation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormationMesureDev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormationMesureDev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResourceNecessaire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResourceNecessaire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comntSouhaitEvolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comntSouhaitEvolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comntSouhaitMobilite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comntSouhaitMobilite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comntProchaineEtape)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comntProchaineEtape)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateProchainEnretien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateProchainEnretien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comntGenereaux)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comntGenereaux)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Signature1RespN_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Signature1RespN_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comntSalaire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comntSalaire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.signature2Salarie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.signature2Salarie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvisN_2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvisN_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomSignatureN_2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomSignatureN_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvisRespFonctionel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvisRespFonctionel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomSignatureResFonct_Depart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomSignatureResFonct_Depart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comOrientationResulttat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comOrientationResulttat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComAgilite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComAgilite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comOuv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comOuv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comQualité)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comQualité)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comEquipe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comEquipe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comResolP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comResolP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comGP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comGP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comCommunication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comCommunication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comLeadership)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comLeadership)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comGBud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comGBud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comMaitriseSoi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comMaitriseSoi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comCharisme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comCharisme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comC1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comC1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comC2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comC2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comC3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comC3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comC4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comC4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matricule)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matricule)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

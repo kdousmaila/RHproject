@@ -1,0 +1,2291 @@
+﻿@model ProjectWith.Models.entretienViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<link href="~/fonts/css/CreateEntretien.css" rel="stylesheet" />
+
+<!-- Meta -->
+<meta charset="utf-8">
+
+
+<!-- PAGE TITLE HERE -->
+<title>Entretien annuel</title>
+
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+<!-- Form step -->
+<link href="vendor/jquery-smartwizard/dist/css/smart_wizard.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-datepicker-master/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+
+
+        td input {
+            width: 100%;
+            border: none;
+            padding: 4px;
+        }
+
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+
+        input[type="checkbox"] + label {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+
+        input[type="checkbox"]:checked + label {
+            background-color: #007bff;
+        }
+
+    .cadre {
+        border: 2px solid #000;
+        padding: 10px;
+    }
+
+    .bold-label {
+        font-weight: bold;
+    }
+
+    .wide-input {
+        width: 100px;
+        border-color: red; /* Inclure la couleur de la bordure ici si vous préférez */
+    }
+
+
+    .underlined-input {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+
+    .custom-table table td:nth-child(1),
+    .custom-table table th:nth-child(1) {
+        width: 30%;
+    }
+
+    .custom-table table td:nth-child(6),
+    .custom-table table th:nth-child(6) {
+        width: 30%;
+    }
+
+    .underlined-input1 {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        box-sizing: border-box;
+    }
+
+    .underlined-input2 {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        width: 80%;
+        box-sizing: border-box;
+    }
+
+    .cadre1 {
+        border: 1px dashed blue;
+        padding: 10px;
+    }
+    /* Ajoutez du style à votre tableau ici */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+    /* Style pour la classe .header et .header-content */
+
+    /* Ajoutez du style à votre tableau ici */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+    .large-column {
+        width: 100%; /* Largeur de la deuxième colonne */
+    }
+
+    /* Style pour la classe .header et .header-content */
+
+    .header {
+        color: #fff;
+        padding: 10px;
+    }
+
+    .header-content {
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .fullWidth {
+        width: 8%; /* Définir la largeur du bouton sur 100% */
+    }
+
+    .swal2-popup .btn-large {
+        width: 200px; /* Adjust the font size */
+        padding: 10px 20px; /* Adjust the padding */
+    }
+
+    .swal2-button-size {
+        padding: 10px 24px; /* Vous pouvez ajuster ces valeurs selon vos préférences */
+        width: 200px; /* Vous pouvez ajuster cette valeur selon vos préférences */
+    }
+
+    /* CSS pour la texte de couleur rouge du bouton "Non" */
+    .swal2-cancel-button {
+        color: #ff0000 !important; /* Couleur du texte en rouge */
+    }
+</style>
+
+
+<div class="row page-titles">
+    <div id="container">
+        <div id="progressbarContainer">
+            <div id="emptyProgressbar"></div>
+            <div id="completedProgress"></div>
+            <ul>
+                <li id="stepLable1">1</li>
+                <li id="stepLable2">2</li>
+                <li id="stepLable3">3</li>
+                <li id="stepLable4">4</li>
+                <li id="stepLable5">5</li>
+            </ul>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter un objectif spécifique</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "ObjSpecifiques", FormMethod.Post, new { id = "objectifForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="idEntretien" value="@Model.entretienAnnuels.id" />
+                            <label for="ObjSpecifique1">Objectif Spécifique :</label>
+                            <input type="text" name="ObjSpecifique1" class="form-control" id="ObjSpecifique1" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Synthese">Synthèse :</label>
+                            <input type="text" name="Synthese" class="form-control" id="Synthese" />
+                        </div>
+
+                        <button type="submit" id="ajouterObjectifBtn" class="btn btn-primary" style="width: 100px;">Ajouter</button>
+
+
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter un objectif spécifique</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "AutoEvaluations", FormMethod.Post, new { id = "autoEvaluationForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="idEntretien" value="@Model.entretienAnnuels.id" />
+                            <label for="theme">theme :</label>
+                            <input type="text" name="theme" class="form-control" id="theme" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lieu">lieu:</label>
+                            <input type="text" name="lieu" class="form-control" id="lieu" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duree">duree:</label>
+                            <input type="text" name="duree" class="form-control" id="duree" />
+                        </div>
+
+                        <button type="submit" id="ajouterEVBtn" class="btn btn-primary" style="width: 100px;">Ajouter</button>
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter un EvaluatinGenN_ </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "EvaluatinGenN_1", FormMethod.Post, new { id = "EvalGenForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="idEntretien" value="@Model.entretienAnnuels.id" />
+                            <label for="performance">Performance :</label>
+                            @Html.DropDownListFor(model => model.entretienAnnuels.EvaluatinGenN_1.First().performance,
+                                new SelectList(new List<SelectListItem>
+                                {
+                                    new SelectListItem { Text = "A:Supérieur aux attentes", Value = "A:Supérieur aux attentes" },
+                                    new SelectListItem { Text = "B:Conforme aux attentes", Value = "B:Conforme aux attentes" },
+                                    new SelectListItem { Text = "C:Inférieur aux attentes (plan d'action requis)", Value = "C:Inférieur aux attentes (plan d'action requis)" }
+                                }, "Value", "Text"),
+                                new { @class = "default-select form-control form-control-lg wide mb-3", Name = "performance" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label card-title">Commentaires</label>
+                            <input type="text" name="commentaire" class="form-control" id="commentaire" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label card-title">Tendance</label>
+                            <input type="text" name="tendance" class="form-control" id="tendance" />
+                        </div>
+
+                        <button type="submit" id="ajouterEVGen" class="btn btn-primary" style="width: 100px;">Ajouter</button>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter un objectif spécifique</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "ObjectifsAVenirs", FormMethod.Post, new { id = "ObjVForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="idEntretien" value="@Model.entretienAnnuels.id" />
+                            <label for="performance">Performance :</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label card-title">Objectifs Principaux Smart</label>
+                            <input type="text" name="ObjectifsPrincipeauxSmart" class="form-control" id="ObjectifsPrincipauxSmart" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label card-title">Indicateur</label>
+                            <input type="text" name="indicateur" class="form-control" id="indicateur" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label card-title">A Réaliser En T1 - T4</label>
+                            <input type="text" name="ARealiserEnT1__T4" class="form-control" id="ARealiserEnT1_T4" />
+                        </div>
+                        <button type="submit" id="ajouterEVGen" class="btn btn-primary" style="width: 100px;">Ajouter</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- row -->
+<div class="row">
+
+    <div class="col-xl-12 col-xxl-12">
+
+        <div class="card">
+            <div class="card-header">
+
+
+                <h4 class="card-title">Entretiens Annuels</h4>
+
+            </div>
+            @using (Html.BeginForm("Edit", "EntretienAnnuels", FormMethod.Post, new { id = "entretienForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+
+                <input type="hidden" name="idEntretien" value="@Model.entretienAnnuels.id" , id="id" />
+
+                <div class="card-body">
+
+                    <div class="stepPage" id="stepPage1">
+                        <p>
+                            Pour faciliter la préparation et le déroulement de cet entretien, merci de
+                            compléter ce document et de le retourner à votre responsable direct. Les lignes
+                            en pointillé seront remplies par votre responsable direct.
+                        </p>
+                        <h2><u>SECTION 1: INFORMATION GÉNÉRALE & ÉVALUATION DE LA PERFORMANCE</u></h2>
+                        <h4>1.1 INFORMATION GÉNÉRALE</h4>
+
+                        <div class="tab-pane" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Nom:</label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.Nom, new { htmlAttributes = new { @class = "form-control", data_index = "200", id = "Nom_200", Name = "Nom", @readonly = "readonly" } })
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Service:</label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.Service, new { htmlAttributes = new { @class = "form-control", data_index = "200", id = "Service_200", Name = "Service", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Prenom:</label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.Prenom, new { htmlAttributes = new { @class = "form-control", Name = "Prenom", id = "Prenom", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Matricule:</label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.Matricule, new { htmlAttributes = new { @class = "form-control", Name = "Matricule", id = "Matricule", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">libelle de fonction:</label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.LibelleFonction, new { htmlAttributes = new { @class = "form-control", Name = "LibelleFonction", id = "LibelleFonction", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            Nom du responsable hierarchique
+                                            (N+1):
+                                        </label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.NomRespHierarchiqueN_1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" }, Name = "NomRespHierarchiqueN_", id = "NomRespHierarchiqueN_1" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            date d'entree en fonction(mois/
+                                            annee):
+                                        </label>
+
+                                        @Html.TextBoxFor(model => model.entretienAnnuels.DateEntree, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateEntree", id = "DateEntree", type = "date", @readonly = "readonly" })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            Nom du resp.
+                                            fonctionnel:
+                                        </label>
+                                        @Html.EditorFor(model => model.entretienAnnuels.NomRespFonctionel, new { htmlAttributes = new { @class = "form-control", Name = "NomRespFonctionel", id = "NomRespFonctionel", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            date derniere revue de
+                                            description de fonction:
+                                        </label>
+                                        @Html.TextBoxFor(model => model.entretienAnnuels.DateDerniereRevue, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateDerniereRevue", id = "DateDerniereRevue", type = "date", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Date de l'entretien:</label>
+                                        @Html.TextBoxFor(model => model.entretienAnnuels.DateEntretien, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateEntretien", id = "DateEntretien", type = "date", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h4> 1.2 EVALUATION DE LA PERFORMANCE DE L'ANNEE ECOULEE </h4>
+                                <h5>
+                                    1.2.1 Indiquer les principaux objectifs specifiques fixes lors du
+                                    dernier entretien d'evaluation ou au cours de l'annee et commentez la
+                                    performance réalisée par le salarié. Merci de reprendre les éléments
+                                    cpntenus dans le précédent formulaire d'entretien.
+                                </h5>
+
+                                <label> Objectifs spécifiques</label>
+
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" style="margin-bottom: 20px;">
+                                    Ajouter un objectif spécifique
+                                </button>
+                                <br />
+
+                                <div id="tableContainer">
+                                    <table id="objSpecifiqueTable">
+                                        <tr>
+                                            <td>Objectif Specifique</td>
+                                            <td>Synthèse</td>
+                                            <td>Action</td>
+                                        </tr>
+                                        @foreach (var objSpecifique in Model.entretienAnnuels.ObjSpecifique)
+                                        {
+                                            @Html.Partial("~/Views/ObjSpecifiques/_ObjSpecifiqueRow.cshtml", objSpecifique)
+                                        }
+                                    </table>
+
+                                </div>
+                                <script>
+    $(document).ready(function () {
+        $('#objSpecifiqueTable').on('click', '.delete-link', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Utiliser SweetAlert pour la confirmation
+            Swal.fire({
+                title: 'Êtes-vous sûr?',
+                text: 'Vous ne pourrez pas revenir en arrière!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui, supprimez-le!',
+                cancelButtonText: 'Annuler',
+                customClass: {
+                    confirmButton: 'btn-large', // Apply custom class for larger button
+                    cancelButton: 'btn-large'   // Apply custom class for larger button
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        });
+
+        function deleteItem(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteConfirmed", "ObjSpecifiques")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+                    $('a[data-id="' + id + '"]').closest('tr').remove();
+                    Swal.fire(
+                        'Supprimé!',
+                        'Votre élément a été supprimé.',
+                        'success'
+                    );
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire(
+                        'Erreur!',
+                        'Une erreur s\'est produite lors de la tentative de suppression de l\'élément.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+                                </script>
+
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+                                <label> Synthèse de l'appreciation de la performance obtenue</label>
+                                @*  @Html.TextAreaFor(model => model.entretienAnnuels.ObjSpecifiques.First().Synthese, new { @class = "form-control", Name = "Synthese" })*@
+                            </div>
+
+                            <div class="row">
+
+                                <h5>1.2.2 Auto-évaluation</h5>
+                                <label>
+                                    1.2.2.1- Auto-évaluation par le salarié des actions et réalisations
+                                    les plus significatives, inclus ou non dans les objectifs :
+                                </label>
+                                @Html.TextAreaFor(model => model.entretienAnnuels.autoEvalSal1, new { @class = "form-control", Name = "autoEvalSal1", id = "autoEvalSal1" })
+
+
+                                <label>
+                                    1.2.2.2- Compétences et caractéristiques personnelles qui ont été
+                                    les plus utiles :
+                                </label>
+                                @Html.TextAreaFor(model => model.entretienAnnuels.competenceCaractUtiles, new { @class = "form-control", Name = "competenceCaractUtiles", id = "competenceCaractUtiles" })
+
+
+                                <label>
+                                    1.2.2.2- Compétences et caractéristiques personnelles qu''il
+                                    semble nécessaire d'acquérir ou d'améliorer :
+                                </label>
+
+
+                                @Html.TextAreaFor(model => model.entretienAnnuels.competenceCaractAcquerir, new { @class = "form-control", Name = "competenceCaractAcquerir", id = "competenceCaractAcquerir" })
+
+
+                                <label>
+                                    1.2.2.1- Auto-évaluation par le salarié des actions de
+                                    formation (interne et externe) effectuée dans l'année : (thème,
+                                    lieu, durée)
+                                </label>
+                                @*@Html.EditorFor(model => model.entretienAnnuels.autoEvalSal1, new { htmlAttributes = new { @class = "form-control", Name = "autoEvalSal1" } })*@
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal1">
+                                    Ajouter une auto evaluation
+                                </button>
+                                <ul id="autoEvaluationList">
+                                    @foreach (var Autoevaluation in Model.entretienAnnuels.AutoEvaluation)
+                                    {
+                                        @Html.Partial("~/Views/AutoEvaluations/row.cshtml", Autoevaluation)
+                                    }
+                                </ul>
+
+
+                                <label>
+
+                                    <script>
+    $(document).ready(function () {
+        // Déliez les événements de clic précédemment liés pour éviter les liaisons multiples
+        $('#autoEvaluationList').off('click', '.delete-link');
+
+        // Liez l'événement de clic aux liens de suppression
+        $('#autoEvaluationList').on('click', '.delete-link', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Utilisez SweetAlert pour la confirmation
+            Swal.fire({
+                title: 'Êtes-vous sûr?',
+                text: 'Vous ne pourrez pas revenir en arrière!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui, supprimez-le!',
+                cancelButtonText: 'Annuler',
+                customClass: {
+                    confirmButton: 'btn-large', // Apply custom class for larger button
+                    cancelButton: 'btn-large'   // Apply custom class for larger button
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        });
+
+        function deleteItem(id) {
+            $.ajax({
+                url: '@Url.Action("Delete", "AutoEvaluations")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+                    // Optionnellement, gérer le succès, par exemple, supprimer l'élément li de la liste
+                    $('a[data-id="' + id + '"]').closest('li').remove();
+                    Swal.fire(
+                        'Supprimé!',
+                        'Votre élément a été supprimé.',
+                        'success'
+                    );
+                },
+                error: function (xhr, status, error) {
+                    // Optionnellement, gérer les erreurs
+                    Swal.fire(
+                        'Erreur!',
+                        'Une erreur s\'est produite lors de la tentative de suppression de l\'élément.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+                                    </script>
+
+                                    Que m'a-t-elle apporté dans ma pratique
+                                    professionnelle?
+                                </label>
+                                @Html.TextAreaFor(model => model.entretienAnnuels.question1, new { @class = "form-control", Name = "question1", id = "question1" })
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stepPage" id="stepPage2">
+
+                        <div class="row">
+
+                            <div class="col-xl-12 col-lg-6">
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <div class="basic-form">
+                                            <form>
+                                                <div class="mb-3 ">
+                                                    <h5>
+                                                        1.2.3 Evaluation générale par N+1 / réalisation des
+                                                        objectifs et performance obtenue dans
+                                                        l'accomplissement des missions générales du poste
+                                                        pendant l'année écoulé. Commentaires et tendance par
+                                                        rapport à l'évalusation précédente :
+                                                    </h5>
+
+
+                                                    @{
+                                                        var controller = ViewContext.Controller as @ProjectWith.Controllers.EntretienAnnuelsController; // Replace YourControllerName with the actual name of your controller class
+                                                    }
+
+                                                    @if (controller != null && controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule))
+                                                    {
+
+
+                                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2" style="margin-bottom: 20px; width: 1160px;" disabled>
+                                                            Ajouter une evaluation generale
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2" style="margin-bottom: 20px; width: 1160px;">
+                                                            Ajouter une evaluation generale
+                                                        </button>}
+                                                    <table id="EvalGenTable">
+                                                        <tr>
+                                                            <td>Performance</td>
+                                                            <td>Commentaires</td>
+                                                            <td>Tendance</td>
+                                                            <td>Action</td>
+                                                        </tr>
+                                                        @foreach (var EvalGen in Model.entretienAnnuels.EvaluatinGenN_1)
+                                                        {
+
+                                                            @Html.Partial("~/Views/EvaluatinGenN_1/row.cshtml", EvalGen)
+
+                                                        }
+                                                    </table>
+                                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <!-- Inclure SweetAlert -->
+
+                                                    <style>
+                                                        /* Agrandir le bouton d'annulation */
+                                                        .swal2-cancel {
+                                                            font-size: 18px; /* Taille de la police */
+                                                            padding: 10px 20px; /* Rembourrage */
+                                                        }
+                                                    </style>
+
+                                                    <script>
+    $(document).ready(function () {
+        $('#EvalGenTable').on('click', '.delete-link', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Utiliser SweetAlert pour la confirmation
+            Swal.fire({
+                title: 'Êtes-vous sûr?',
+                text: 'Vous ne pourrez pas revenir en arrière!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui, supprimez-le!',
+                cancelButtonText: 'Annuler',
+                customClass: {
+                    confirmButton: 'btn-large', // Apply custom class for larger button
+                    cancelButton: 'btn-large'   // Apply custom class for larger button
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        });
+
+        function deleteItem(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteConfirmed", "EvaluatinGenN_1")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+                    $('a[data-id="' + id + '"]').closest('tr').remove();
+                    Swal.fire(
+                        'Supprimé!',
+                        'Votre élément a été supprimé.',
+                        'success'
+                    );
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire(
+                        'Erreur!',
+                        'Une erreur s\'est produite lors de la tentative de suppression de l\'élément.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+                                                    </script>
+
+
+                                                    @*@Html.DropDownListFor(model => model.entretienAnnuels.EvaluatinGenN_1.First().performance,
+                                                        new SelectList(new List<SelectListItem>
+                                                        {
+                                                             new SelectListItem { Text = "A:Supérieur aux attentes", Value = "A" },
+                                                             new SelectListItem { Text = "B:Conforme aux attentes", Value = "B" },
+                                                             new SelectListItem { Text = "C:Inférieur aux attentes (plan d'action requis)", Value = "C" }}, "Value", "Text"),
+                                                        new { @class = "default-select form-control form-control-lg wide mb-3", Name = "performance" })*@
+
+
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-xxl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">1.3 OBJECTIFS POUR L'ANNEE A AVENIR </h4>
+                                        </div>
+                                        <div class="card-body custom-ekeditor">
+                                            <div id="ckeditor">
+
+                                                <P>
+                                                    Objectif SMART= Spécifique + Mesurable + Acceptable +
+                                                    Réaliste + temporel
+                                                </P>
+                                                <h5>
+                                                    Un
+                                                    objectif de mangement pour la menager
+                                                </h5><br>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal3" style="margin-bottom: 20px; width: 1160px;">
+                                                    OBJECTIFS POUR L'ANNEE A AVENIR
+                                                </button>
+                                                <table id="objectifsTable">
+                                                    <tr>
+                                                        <td>Objectifs Principaux Smart</td>
+                                                        <td>Indicateur</td>
+                                                        <td>A Réaliser En T1-T4</td>
+                                                        <td>Action</td>
+                                                    </tr>
+                                                    @foreach (var objAvenir in Model.entretienAnnuels.ObjectifsAVenir)
+                                                    {
+                                                        @Html.Partial("~/Views/ObjectifsAVenirs/row.cshtml", objAvenir)
+                                                    }
+                                                </table>
+
+
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                                <script>
+    $(document).ready(function () {
+        $('#objectifsTable').on('click', '.delete-link', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Use SweetAlert for confirmation with custom button classes
+            Swal.fire({
+                title: 'Êtes-vous sûr?',
+                text: 'Vous ne pourrez pas revenir en arrière!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui, supprimez-le!',
+                cancelButtonText: 'Annuler',
+                customClass: {
+                    confirmButton: 'btn-large', // Apply custom class for larger button
+                    cancelButton: 'btn-large'   // Apply custom class for larger button
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        });
+
+        function deleteItem(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteConfirmed", "ObjectifsAVenirs")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (result) {
+                    $('a[data-id="' + id + '"]').closest('tr').remove();
+                    Swal.fire(
+                        'Supprimé!',
+                        'Votre élément a été supprimé.',
+                        'success'
+                    );
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire(
+                        'Erreur!',
+                        'Une erreur s\'est produite lors de la tentative de suppression de l\'élément.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+                                                </script>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stepPage" id="stepPage3">
+                        <h2><u>SECTION 2: COMPETENCES</u></h2>
+                        <h4> 1.1 EVALUATION DES COMPETENCES</h4>
+                        <div class="row">
+                            <h5> <u>1.2.2 Compétences transverses</u></h5>
+                            <p class="mb-5">Evaluation réalisée par le responsable hiérarchique (N+1)</p>
+
+                            <table>
+                                <tr>
+                                    <th>Compétences</th>
+                                    <th>Supervisé</th>
+                                    <th>Expérimenté</th>
+                                    <th>Autonome</th>
+                                    <th>Exemplaire</th>
+                                    <th>
+                                        Commentaire <br>(Indiquer si la compétence n'est <br>pas encore
+                                        acquise ou non <br> nécessaire)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Compétences transverses</th>
+                                </tr>
+                                <tr>
+                                    <td>Orientation résultat</td>
+                                    <td>
+                                        <input type="radio" id="checkbox1" value="Supervisé" name="orientationResulttat" @(Model.entretienAnnuels.orientationResulttat == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.orientationResulttat) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox1"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox2" value="Expérimenté" name="orientationResulttat" @(Model.entretienAnnuels.orientationResulttat == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox2"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox3" value="Autonome" name="orientationResulttat" @(Model.entretienAnnuels.orientationResulttat == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox3"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox4" value="Exemplaire" name="orientationResulttat" @(Model.entretienAnnuels.orientationResulttat == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox4"></label>
+                                    </td>
+                                    <td><input type="text" name="comOrientationResulttat" id="comOrientationResulttat" value="@Model.entretienAnnuels.comOrientationResulttat" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Agilité-Adaptabilité</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox5" value="Supervisé" name="agilite_Adaptabilite" @(Model.entretienAnnuels.agilite_Adaptabilite == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.agilite_Adaptabilite) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox5"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox6" value="Expérimenté" name="agilite_Adaptabilite" @(Model.entretienAnnuels.agilite_Adaptabilite == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox6"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox7" value="Autonome" name="agilite_Adaptabilite" @(Model.entretienAnnuels.agilite_Adaptabilite == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox7"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox8" value="Exemplaire" name="agilite_Adaptabilite" @(Model.entretienAnnuels.agilite_Adaptabilite == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox8"></label>
+                                    </td>
+                                    <td><input type="text" name="ComAgilite" , id="ComAgilite" value="@Model.entretienAnnuels.ComAgilite" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>Ouverture d'esprit</td>
+                                    <td>
+                                        <input type="radio" id="checkbox9" value="Supervisé" name="ouvertureEsprit" @(Model.entretienAnnuels.ouvertureEsprit == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.ouvertureEsprit) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox9"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox10" value="Expérimenté" name="ouvertureEsprit" @(Model.entretienAnnuels.ouvertureEsprit == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox10"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox11" value="Autonome" name="ouvertureEsprit" @(Model.entretienAnnuels.ouvertureEsprit == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox11"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox12" value="Exemplaire" name="ouvertureEsprit" @(Model.entretienAnnuels.agilite_Adaptabilite == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox12"></label>
+                                    </td>
+                                    <td><input type="text" name="comOuv" , id="comOuv" value="@Model.entretienAnnuels.comOuv" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>Qualités relationnelles</td>
+                                    <td>
+                                        <input type="radio" id="checkbox13" value="Supervisé" name="qualitesRelationnelles" @(Model.entretienAnnuels.qualitesRelationnelles == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.qualitesRelationnelles) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox13"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox14" value="Expérimenté" name="qualitesRelationnelles" @(Model.entretienAnnuels.qualitesRelationnelles == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox14"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox15" value="Autonome" name="qualitesRelationnelles" @(Model.entretienAnnuels.qualitesRelationnelles == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox15"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox16" value="Exemplaire" name="qualitesRelationnelles" @(Model.entretienAnnuels.qualitesRelationnelles == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox16"></label>
+                                    </td>
+                                    <td><input type="text" name="comQualité" , id="comQualité" value="@Model.entretienAnnuels.comQualité" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>Travail en équipe</td>
+                                    <td>
+                                        <input type="radio" id="checkbox17" value="Supervisé" name="travailEquipe" @(Model.entretienAnnuels.travailEquipe == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.travailEquipe) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox17"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox18" value="Expérimenté" name="travailEquipe" @(Model.entretienAnnuels.travailEquipe == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox18"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox19" value="Autonome" name="travailEquipe" @(Model.entretienAnnuels.travailEquipe == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox19"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox20" value="Exemplaire" name="travailEquipe" @(Model.entretienAnnuels.travailEquipe == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox20"></label>
+                                    </td>
+                                    <td><input type="text" name="comEquipe" , id="comEquipe" value="@Model.entretienAnnuels.comEquipe" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>Résolution de problèmes</td>
+                                    <td>
+                                        <input type="radio" id="checkbox21" value="Supervisé" name="ResolutionProbleme" @(Model.entretienAnnuels.ResolutionProbleme == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.ResolutionProbleme) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox21"></label>
+                                    </td>
+                                    <td><input type="radio" id="checkbox22" value="Expérimenté" name="ResolutionProbleme" @(Model.entretienAnnuels.ResolutionProbleme == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td>
+                                        <input type="radio" id="checkbox23" value="Autonome" name="ResolutionProbleme" @(Model.entretienAnnuels.ResolutionProbleme == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox23"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox24" value="Exemplaire" name="ResolutionProbleme" @(Model.entretienAnnuels.ResolutionProbleme == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox24"></label>
+                                    </td>
+                                    <td><input type="text" name="comResolP" , id="comResolP" value="@Model.entretienAnnuels.comResolP" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>Gestion de projet</td>
+                                    <td>
+                                        <input type="radio" id="checkbox25" value="Supervisé" name="gestionProjet" @(Model.entretienAnnuels.gestionProjet == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.gestionProjet) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox25"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox26" value="Expérimenté" name="gestionProjet" @(Model.entretienAnnuels.gestionProjet == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox26"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox27" value="Autonome" name="gestionProjet" @(Model.entretienAnnuels.gestionProjet == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox27"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox28" value="Exemplaire" name="gestionProjet" @(Model.entretienAnnuels.gestionProjet == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox28"></label>
+                                    </td>
+                                    <td><input type="text" name="comGP" , id="comGP" value="@Model.entretienAnnuels.comGP" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="6">Compétences managériale</th>
+                                </tr>
+                                <tr>
+                                    <td>la communication claire et efficace</td>
+                                    <td>
+                                        <input type="radio" id="checkbox29" value="Supervisé" name="communication" @(Model.entretienAnnuels.communication == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.communication) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox29"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox30" value="Expérimenté" name="communication" @(Model.entretienAnnuels.communication == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox30"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox31" value="Autonome" name="communication" @(Model.entretienAnnuels.communication == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox31"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox32" value="Exemplaire" name="communication" @(Model.entretienAnnuels.communication == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox32"></label>
+                                    </td>
+                                    <td><input type="text" name="comCommunication" , id="comCommunication" value="@Model.entretienAnnuels.comCommunication" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td>le Leadership et la motivation d'équipe</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox33" value="Supervisé" name="Leadership" @(Model.entretienAnnuels.Leadership == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.Leadership) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox33"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox34" value="Expérimenté" name="Leadership" @(Model.entretienAnnuels.Leadership == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox34"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox35" value="Autonome" name="Leadership" @(Model.entretienAnnuels.Leadership == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox35"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox36" value="Exemplaire" name="Leadership" @(Model.entretienAnnuels.Leadership == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox36"></label>
+                                    </td>
+                                    <td><input type="text" name="comLeadership" , id="comLeadership" value="@Model.entretienAnnuels.comLeadership" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Gestion budgétaire</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox37" value="Supervisé" name="gestionBudget" @(Model.entretienAnnuels.gestionBudget == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.gestionBudget) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox37"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox38" value="Expérimenté" name="gestionBudget" @(Model.entretienAnnuels.gestionBudget == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox38"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox39" value="Autonome" name="gestionBudget" @(Model.entretienAnnuels.gestionBudget == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox39"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox40" value="Exemplaire" name="gestionBudget" @(Model.entretienAnnuels.gestionBudget == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox40"></label>
+                                    </td>
+                                    <td><input type="text" name="comGBud" , id="comGBud" value="@Model.entretienAnnuels.comGBud" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Maitrise de soi</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox41" value="Supervisé" name="maitriseSoi" @(Model.entretienAnnuels.maitriseSoi == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.maitriseSoi) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox41"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox42" value="Expérimenté" name="maitriseSoi" @(Model.entretienAnnuels.maitriseSoi == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox42"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox43" value="Autonome" name="maitriseSoi" @(Model.entretienAnnuels.maitriseSoi == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox43"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox44" value="Exemplaire" name="maitriseSoi" @(Model.entretienAnnuels.maitriseSoi == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox44"></label>
+                                    </td>
+                                    <td><input type="text" name="comCharisme" , id="comCharisme" value="@Model.entretienAnnuels.comCharisme" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Charisme- Pouvoir de persuasion</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox45" value="Supervisé" name="charisme" @(Model.entretienAnnuels.charisme == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.charisme) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox45"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox46" value="Expérimenté" name="charisme" @(Model.entretienAnnuels.charisme == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox46"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox47" value="Autonome" name="charisme" @(Model.entretienAnnuels.charisme == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox47"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox48" value="Exemplaire" name="charisme" @(Model.entretienAnnuels.charisme == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")><label for="checkbox4"></label>
+                                    </td>
+
+                                    <td><input type="text" name="comMaitriseSoi" , id="comMaitriseSoi" value="@Model.entretienAnnuels.comMaitriseSoi" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="stepPage" id="stepPage4">
+
+                        <h4>2.1.2 Competences professionnelles</h4>
+                        <h3>Evaluation réalisée par le resp. hiérarchique</h3>
+                        <p>* une ligne de compétence peut être vide si n'a pa encore atteint le niveau minimal requis</p>
+                        <div class="custom-table">
+                            <table>
+                                <tr>
+                                    <th>Compétences</th>
+                                    <th>Supervisé</th>
+                                    <th>Expérimenté</th>
+                                    <th>Autonome</th>
+                                    <th>Exemplaire</th>
+                                    <th>Commentaires (indiquez si la compétence n'est pas encore acquise ou non nécessaire)</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c1" id="c1" value="@Model.entretienAnnuels.c1" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC1" @(Model.entretienAnnuels.checkC1 == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.checkC1) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC1" @(Model.entretienAnnuels.checkC1 == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC1" @(Model.entretienAnnuels.checkC1 == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC1" @(Model.entretienAnnuels.checkC1 == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ) ? "disabled" : "" )></td>
+                                    <td><input type="text" name="comC1" id="comC1" value="@Model.entretienAnnuels.comC1" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c2" id="c2" value="@Model.entretienAnnuels.c2" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC2" @(Model.entretienAnnuels.checkC2 == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.checkC2) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC2" @(Model.entretienAnnuels.checkC2 == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC2" @(Model.entretienAnnuels.checkC2 == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC2" @(Model.entretienAnnuels.checkC2 == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="text" name="comC2" id="comC2" value="@Model.entretienAnnuels.comC2" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c3" id="c3" value="@Model.entretienAnnuels.c3" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC3" @(Model.entretienAnnuels.checkC3 == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.checkC3) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC3" @(Model.entretienAnnuels.checkC3 == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC3" @(Model.entretienAnnuels.checkC3 == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC3" @(Model.entretienAnnuels.checkC3 == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="text" name="comC3" id="comC3" value="@Model.entretienAnnuels.comC3" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c4" id="c4" value="@Model.entretienAnnuels.c4" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC4" @(Model.entretienAnnuels.checkC4 == "Supervisé" || string.IsNullOrEmpty(Model.entretienAnnuels.checkC4) ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC4" @(Model.entretienAnnuels.checkC4 == "Expérimenté" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC4" @(Model.entretienAnnuels.checkC4 == "Autonome" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC4" @(Model.entretienAnnuels.checkC4 == "Exemplaire" ? "checked" : "") @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "disabled" : "")></td>
+                                    <td><input type="text" name="comC4" id="comC4" value="@Model.entretienAnnuels.comC4" @(controller == null || (!controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) && !(@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")) ? "readonly" : "")></td>
+                                </tr>
+                            </table>
+
+                        </div><br>
+                        <h2>Section 3 : FORMATION ET EVOLUTION DE CARRIERE</h2>
+                        <div class="cadre1">
+                            <h5>3.1 FORMATION ET RESSOURCES (nécessaires à l'atteinte des objectifs à cout et moyen terme)</h5>
+                            <h4>3.1.1 Résultats des actions de formation planifiées de l'année</h4>
+                            @Html.EditorFor(model => model.entretienAnnuels.ResultatActFormation, new { htmlAttributes = new { @class = "form-control", Name = "ResultatActFormation", id = "ResultatActFormation" } })
+                            <h4>3.1.2 Formations et mesures de développement personnel pour l'année à venir et à moyen terme(2-3) ans à en liaison avec l'analyse des compétences acquises et requises pour le poste actuel ou le prochain poste.</h4>
+                            @Html.EditorFor(model => model.entretienAnnuels.FormationMesureDev, new { htmlAttributes = new { @class = "form-control", Name = "FormationMesureDev", id = "FormationMesureDev" } })
+
+                        </div><br>
+                        <div class="cadre1">
+
+                            <h4>3.1.3 Ressources nécessaire pour atteindre les objectifs de l'année à venir ( y compris cochaing par n+1 , sauf formation)</h4>
+                            @Html.EditorFor(model => model.entretienAnnuels.ResourceNecessaire, new { htmlAttributes = new { @class = "form-control", Name = "ResourceNecessaire", id = "ResourceNecessaire" } })
+
+                        </div><br>
+                        <h5>3.2 EVOLUTION DE CARRIERE</h5>
+                        <p>A remplir pendant l'entretien entre le salarié et son responsable direct(à detailler autant que possible)</p>
+                        <div class="cadre">
+
+                            <h4>3.2.1 souhaits d'évaluation professionelle</h4><br>
+                            <h4>commentaires:</h4>
+                            @Html.EditorFor(model => model.entretienAnnuels.comntSouhaitEvolution, new { htmlAttributes = new { @class = "form-control", Name = "comntSouhaitEvolution", id = "comntSouhaitEvolution" } })
+
+
+                            <h4>3.2.2 Souhaits de mobilité nationale ou inernationale- à précisier.</h4>
+                            <h4>commentaires:</h4>
+                            @Html.EditorFor(model => model.entretienAnnuels.comntSouhaitMobilite, new { htmlAttributes = new { @class = "form-control", Name = "comntSouhaitMobilite", id = "comntSouhaitMobilite" } })
+
+
+                        </div>
+                    </div>
+
+                    <div class="stepPage" id="stepPage5">
+
+
+                        <div class="cadre1">
+
+                            <h4>3.2.3 Prochaines étapes de carrière (qui peuvent avoir été discutées séparement)</h4>
+                            <h4>commentaires:</h4><br>
+                            @Html.EditorFor(model => model.entretienAnnuels.comntProchaineEtape, new { htmlAttributes = new { @class = "form-control", Name = "comntProchaineEtape", id = "comntProchaineEtape" } })
+                            @*<input type="text" class="underlined-input">
+                                <input type="text" class="underlined-input">*@
+                            <h4>3.2.4 Souhaits de carrière pouvant l'objet d'un examen faire l'objet d'un examen plus approfondi lors d'un entretien de carrière</h4>
+                            <p>
+                                Date du prochain entretien de carrière:
+                                <input type="date" class="form-control" name="dateProchainEnretien" id="dateProchainEnretien">
+                            </p>
+
+                            <script>
+                                // Get today's date
+                                var today = new Date();
+
+                                // Add one day to today's date
+                                today.setDate(today.getDate() + 1);
+
+                                // Convert the date to string format (YYYY-MM-DD)
+                                var tomorrow = today.toISOString().split('T')[0];
+
+                                // Set the minimum date for the input field
+                                document.getElementById('dateProchainEnretien').setAttribute('min', tomorrow);
+                            </script>
+
+
+
+
+                        </div>
+                        <h2>Section 4 : EVALUATION GENERALE</h2>
+                        <div class="cadre1">
+                            <h5>4.1 EVALUATION GENERALE DU RESPONSABLE DIRECT (N+1)</h5>
+                            <p>Commentaires généraux : évaluation de la maîtrise de fonction au regard des standards TIS et orientations principales pour le développement futur</p>
+                            @if (controller != null && controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule))
+                            {
+
+                                @Html.EditorFor(model => model.entretienAnnuels.comntGenereaux, new { htmlAttributes = new { @class = "form-control", Name = "comntGenereaux", id = "comntGenereaux" } })
+
+                                <div>
+                                    <p>
+                                        Signature du Responsable direct (N+1) @Html.EditorFor(model => model.entretienAnnuels.Signature1RespN_1, new { htmlAttributes = new { @class = "form-control", Name = "Signature1RespN_1", id = "Signature1RespN_1" } })
+
+                                        Date:
+                                        @Html.EditorFor(model => model.entretienAnnuels.date1, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date1", id = "date1", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+
+
+                                    </p>
+                                </div>}
+                            else
+                            { @Html.EditorFor(model => model.entretienAnnuels.comntGenereaux, new { htmlAttributes = new { @class = "form-control", Name = "comntGenereaux", id = "comntGenereaux", disabled = "disabled" } })
+
+                            <div>
+                                <p>
+                                    Signature du Responsable direct (N+1) @Html.EditorFor(model => model.entretienAnnuels.Signature1RespN_1, new { htmlAttributes = new { @class = "form-control", Name = "Signature1RespN_1", id = "Signature1RespN_1", disabled = "disabled" } })
+
+                                    Date:
+                                    @Html.EditorFor(model => model.entretienAnnuels.date1, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date1", id = "date1", @readonly = "readonly", disabled = "disabled", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                </p>
+                            </div>
+                        }
+
+
+
+                        </div><br>
+                        <h5>4.2 COMMENTAIRES DU SALARIE</h5>
+                        <div class="cadre">
+
+                            @Html.EditorFor(model => model.entretienAnnuels.comntSalaire, new { htmlAttributes = new { @class = "form-control", Name = "comntSalaire", id = "comntSalaire" } })
+                            <div>
+
+                                <p>
+                                    Date:
+                                    @Html.EditorFor(model => model.entretienAnnuels.date2, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date2", id = "date2", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                </p>
+
+
+                            </div>
+
+
+                        </div><br>
+                        <h5>4.3 AVIS DES RESPONSABLES N+2 ET FONCTIONNEL/DEPARTEMENT</h5>
+
+
+                        <div class="cadre1">
+
+                            <h4>4.3.1 Avis du N+2</h4>
+                            @if (ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")
+                            {
+                                @Html.EditorFor(model => model.entretienAnnuels.AvisN_2, new { htmlAttributes = new { @class = "form-control", Name = "AvisN_2", id = "AvisN_2" } })
+                                <div>
+                                    <p>Nom (N+2) @Html.EditorFor(model => model.entretienAnnuels.NomSignatureN_2, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureN_2", id = "NomSignatureN_2" } })</p>
+
+                                </div>
+                                <h4>4.3.2 Avis du Responsable fonctionnel</h4>
+                                @Html.EditorFor(model => model.entretienAnnuels.AvisRespFonctionel, new { htmlAttributes = new { @class = "form-control", Name = "AvisRespFonctionel", id = "AvisRespFonctionel" } });
+                                <div>
+                                    <p>
+                                        Nom (Resp. Fonctionnel/Département) @Html.EditorFor(model => model.entretienAnnuels.NomSignatureResFonct_Depart, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureResFonct_Depart", id = "NomSignatureResFonct_Depart" } })
+                                        Date:@Html.EditorFor(model => model.entretienAnnuels.date4, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date4", id = "date4", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                    </p>
+
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.EditorFor(model => model.entretienAnnuels.AvisN_2, new { htmlAttributes = new { @class = "form-control", Name = "AvisN_2", id = "AvisN_2", disabled = "disabled" } })
+                                <div>
+                                    <p>Nom & Signature (N+2) @Html.EditorFor(model => model.entretienAnnuels.NomSignatureN_2, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureN_2", id = "NomSignatureN_2", disabled = "disabled" } })</p>
+                                </div>
+                                <h4>4.3.2 Avis du Responsable fonctionnel</h4>
+                                @Html.EditorFor(model => model.entretienAnnuels.AvisRespFonctionel, new { htmlAttributes = new { @class = "form-control", Name = "AvisRespFonctionel", id = "AvisRespFonctionel", disabled = "disabled" } });
+                                <div>
+                                    <p>
+                                        Nom & Signature (Resp. Fonctionnel/Département) @Html.EditorFor(model => model.entretienAnnuels.NomSignatureResFonct_Depart, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureResFonct_Depart", id = "NomSignatureResFonct_Depart", disabled = "disabled" } })
+                                        Date:@Html.EditorFor(model => model.entretienAnnuels.date4, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date4", id = "date4", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd"), disabled = "disabled" } })
+                                    </p>
+                                </div>
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+                            <input type="hidden" id="status2" name="status2" value="@Model.entretienAnnuels.status2" />
+
+                            <input type="hidden" id="status3" name="status3" value="@Model.entretienAnnuels.status3">
+
+
+                            <input id="currentUserMatricule" value="@ProjectWith.Models.ath_windows.CurrentUser.getMatricule()" hidden>
+
+
+                            @Html.EditorFor(model => model.entretienAnnuels.matriculeResp, new { htmlAttributes = new { @class = "form-control", type = "hidden", id = "res" } })
+
+                        </div><br>
+
+                        @if (controller != null && @ProjectWith.Models.ath_windows.CurrentUser.getMatricule() != Model.entretienAnnuels.Matricule && controller.IsCurrentUserResponsableFonctionnel(Model.entretienAnnuels.Matricule) || @ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS")
+                        {
+                            <div class="col-lg-1 mb-2" style="padding-left:1110px">
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.entretienAnnuels.Note, new { @class = "text-label form-label bold-label", style = "font-size: 25px" })
+                                    @Html.EditorFor(model => model.entretienAnnuels.Note, new { htmlAttributes = new { @class = "form-control wide-input", type = "text", Name = "Note", id = "AAAAAAAA", style = "border-style: dashed;" } })
+                                </div>
+                            </div>
+
+                        }
+
+
+                        @if (controller != null && @ProjectWith.Models.ath_windows.CurrentUser.getMatricule() != Model.entretienAnnuels.Matricule && @ProjectWith.Models.ath_windows.CurrentUser.getRole() == "RH")
+                        {
+                            <div class="col-lg-1 mb-2" style="padding-left:1110px">
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.entretienAnnuels.Note, new { @class = "text-label form-label bold-label", style = "font-size: 25px" })
+                                    @Html.EditorFor(model => model.entretienAnnuels.Note, new { htmlAttributes = new { @class = "form-control wide-input", type = "text", Name = "Note", id = "AAAAAAAA", style = "border-style: dashed;", @readonly = "readonly" } })
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+
+
+
+
+                    <input id="role" hidden value="@ProjectWith.Models.ath_windows.CurrentUser.getRole()"/>
+
+
+                    <nav id="navigation">
+                        <button id="prev" onclick="prev()"> &lt; </button>
+                        <button id="next"> &gt; </button>
+
+
+                    </nav>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="vendor/global/global.min.js"></script>
+
+<script src="vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js"></script>
+<script src="vendor/jquery-steps/build/jquery.steps.min.js"></script>
+<script src="page-error-404.html"></script>
+<!-- Form validate init -->
+<script src="js/plugins-init/jquery.validate-init.js"></script>
+
+
+<!-- Form Steps -->
+<script src="vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
+<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+
+<script src="js/custom.min.js"></script>
+<script src="js/dlabnav-init.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/styleSwitcher.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // SmartWizard initialize
+        $('#smartwizard').smartWizard();
+    });
+</script>
+
+
+<script>
+    var currentStep = 1;
+    var stepsNum = 5;
+
+    // Show default page
+    document.getElementById("stepPage" + currentStep).style.display = "block";
+    document.getElementById("stepLable" + currentStep).classList.add("activeStep");
+
+    function changeStep(active, newActive) {
+        document.getElementById("stepPage" + active).style.display = "none";
+        document.getElementById("stepPage" + newActive).style.display = "block";
+
+        var activeStepLabel = document.querySelector(".activeStep");
+        activeStepLabel.classList.remove("activeStep");
+        var newActiveStepLabel = document.getElementById("stepLable" + newActive);
+        newActiveStepLabel.classList.add("activeStep");
+
+        var progress = (100 / (stepsNum - 1)) * (newActive - 1);
+        document.getElementById("completedProgress").style.width = progress + "%";
+
+        if (active < newActive) {
+            activeStepLabel.classList.add("completedStep");
+            activeStepLabel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="font-size:40px" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">' +
+                '<path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>' +
+                '</svg>';
+        }
+
+        if (newActiveStepLabel.classList.contains("completedStep")) {
+            newActiveStepLabel.classList.remove("completedStep");
+            newActiveStepLabel.innerHTML = newActive;
+        }
+
+        if (newActive === stepsNum) {
+            document.getElementById("next").style.display = "none";
+            var submitButton = document.getElementById("send");
+            if (!submitButton) {
+                submitButton = document.createElement("button");
+                submitButton.innerHTML = "Submit";
+                submitButton.type = "submit";
+                submitButton.id = "send";
+                submitButton.classList.add("btn", "btn-primary", "ml-2");
+                submitButton.classList.add("fullWidth"); // Ajouter une classe pour augmenter la largeur du bouton
+
+                submitButton.onclick = function (event) {
+                    event.preventDefault();
+                    handleFormSubmission();
+                };
+                document.getElementById("navigation").appendChild(submitButton);
+            }
+            hideSubmitButtonIfNecessary();
+        } else {
+            document.getElementById("next").style.display = "inline";
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.parentNode.removeChild(submitButton);
+            }
+        }
+    }
+
+    document.querySelectorAll("#progressbarContainer ul li").forEach(function (stepLabel) {
+        stepLabel.addEventListener("click", function () {
+            var newStep = parseInt(stepLabel.innerHTML);
+            if (newStep !== currentStep) {
+                changeStep(currentStep, newStep);
+                currentStep = newStep;
+                document.getElementById("prev").style.visibility = currentStep === 1 ? "hidden" : "visible";
+                document.getElementById("next").style.display = currentStep === stepsNum ? "none" : "inline";
+            }
+        });
+    });
+
+    document.getElementById("next").addEventListener("click", next);
+    document.getElementById("prev").addEventListener("click", prev);
+
+    function next(event) {
+        event.preventDefault();
+        window.scrollTo(0, 0);
+
+        if (currentStep >= stepsNum) {
+            handleFormSubmission();
+        } else {
+            changeStep(currentStep, currentStep + 1);
+            currentStep++;
+            document.getElementById("prev").style.visibility = "visible";
+
+            if (currentStep === stepsNum) {
+                document.getElementById("next").style.display = "none";
+                var submitButton = document.getElementById("send");
+                if (!submitButton) {
+                    submitButton = document.createElement("button");
+                    submitButton.innerHTML = "Submit";
+                    submitButton.type = "submit";
+                    submitButton.id = "send";
+                    submitButton.classList.add("btn", "btn-primary", "ml-2");
+                    submitButton.onclick = function (event) {
+                        event.preventDefault();
+                        handleFormSubmission();
+                    };
+                    document.getElementById("navigation").appendChild(submitButton);
+                }
+                hideSubmitButtonIfNecessary();
+            } else {
+                document.getElementById("next").innerHTML = "&gt;";
+                document.getElementById("next").id = "next";
+            }
+        }
+    }
+
+    function prev(event) {
+        event.preventDefault();
+        window.scrollTo(0, 0);
+
+        if (currentStep >= 2) {
+            changeStep(currentStep, currentStep - 1);
+            currentStep--;
+            document.getElementById("prev").style.visibility = currentStep < 2 ? "hidden" : "visible";
+
+            if (currentStep === stepsNum) {
+                var submitButton = document.getElementById("send");
+                if (submitButton) {
+                    submitButton.parentNode.removeChild(submitButton);
+                }
+                document.getElementById("next").style.display = "inline";
+            }
+        }
+
+        if (currentStep !== stepsNum) {
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.parentNode.removeChild(submitButton);
+            }
+            document.getElementById("next").style.display = "inline";
+        }
+    }
+    function handleFormSubmission() {
+        var currentUserMatricule = document.getElementById("currentUserMatricule").value;
+        var entretienMatricule = document.getElementById("Matricule").value;
+        var employee = document.getElementById("res").value;
+
+        console.log("currentUserMatricule:", currentUserMatricule);
+        console.log("entretienMatricule:", entretienMatricule);
+        console.log("employee:", employee);
+        if (currentUserMatricule === entretienMatricule) {
+            Swal.fire({
+                title: 'Voulez-vous envoyer l\'entretien?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Non',
+                cancelButtonColor: '#ff0000',
+                customClass: {
+                    confirmButton: 'swal2-button-size',
+                    cancelButton: 'swal2-button-size'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("status2").value = "envoyé";
+                    document.getElementById("entretienForm").submit();
+                }
+            });
+        } else {
+            if (employee === currentUserMatricule) {
+                Swal.fire({
+                    title: 'Envoyer cette note ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Oui',
+                    cancelButtonText: 'Non',
+                    cancelButtonColor: '#ff0000',
+                    customClass: {
+                        confirmButton: 'swal2-button-size',
+                        cancelButton: 'swal2-button-size'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var noteInput = document.getElementById("AAAAAAAA").value.trim();
+                        console.log("Note input value:", noteInput);
+                        var note = parseInt(noteInput);
+                        console.log("Parsed note value:", note);
+                        if (noteInput === '' || isNaN(note)) {
+                            Swal.fire('Erreur', 'vous devez remplir le champs de note.', 'error');
+                            return;
+                        }
+                        if (note < 0 || note > 20) {
+                            Swal.fire('Erreur', 'La note doit être un entier entre 0 et 20', 'error');
+                            return;
+                        }
+                        document.getElementById("status3").value = "fini";
+                        document.getElementById("entretienForm").submit();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Voulez-vous vraiment modifier cette note ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Oui',
+                    cancelButtonText: 'Non',
+                    cancelButtonColor: '#ff0000',
+                    customClass: {
+                        confirmButton: 'swal2-button-size',
+                        cancelButton: 'swal2-button-size'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("entretienForm").submit();
+                    }
+                });
+
+            }
+        }
+    }
+
+
+
+
+    function hideSubmitButtonIfNecessary() {
+        var status2 = document.getElementById("status2").value;
+        var status3 = document.getElementById("status3").value; // Make sure status3 is correctly defined
+        var currentUserMatricule = document.getElementById("currentUserMatricule").value;
+        var entretienMatricule = document.getElementById("Matricule").value;
+        var employee = document.getElementById("res").value;
+        var role = document.getElementById("role").value;
+      
+
+        if (status2 === "envoyé" && currentUserMatricule === entretienMatricule) {
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.style.display = "none";
+            }
+        }
+
+        if (status3 === "fini" && (currentUserMatricule === employee)) {
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.style.display = "none";
+            }
+        }
+
+        if (status3 === "fini" && (role === "RH")) {
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.style.display = "none";
+            }
+        }
+
+       
+
+
+
+
+
+    }
+
+    // Initial check to hide the submit button if necessary when the page loads
+    hideSubmitButtonIfNecessary();
+</script>
+
+
+
+
+
+<script>
+    $("#Send").on("click", function () {
+        var id = $("#id").val();
+ // Assurez-vous que l'ID est correctement défini
+        var Nom = $("#Nom").val();
+        var Prenom = $("#Prenom").val();
+var LibelleFonction = $("#LibelleFonction").val();
+var DateEntree = $("#DateEntree").val();
+var DateDerniereRevue = $("#DateDerniereRevue").val();
+var Service = $("#Service").val();
+var NomRespHierarchiqueN_1 = $("#NomRespHierarchiqueN_1").val();
+var NomRespFonctionel = $("#NomRespFonctionel").val();
+var DateEntretien = $("#DateEntretien").val();
+        var autoEvalSal1 = $("#autoEvalSal1").val();
+var competenceCaractUtiles = $("#competenceCaractUtiles").val();
+var competenceCaractAcquerir = $("#competenceCaractAcquerir").val();
+var question1 = $("#question1").val();
+var orientationResulttat = $("#orientationResulttat").val();
+var agilite_Adaptabilite = $("#agilite_Adaptabilite").val();
+var ouvertureEsprit = $("#ouvertureEsprit").val();
+var qualitesRelationnelles = $("#qualitesRelationnelles").val();
+var travailEquipe = $("#travailEquipe").val();
+var ResolutionProbleme = $("#ResolutionProbleme").val();
+var gestionProjet = $("#gestionProjet").val();
+var communication = $("#communication").val();
+var Leadership = $("#Leadership").val();
+var gestionBudget = $("#gestionBudget").val();
+var charisme = $("#charisme").val();
+var maitriseSoi = $("#maitriseSoi").val();
+var ResultatActFormation = $("#ResultatActFormation").val();
+var FormationMesureDev = $("#FormationMesureDev").val();
+var ResourceNecessaire = $("#ResourceNecessaire").val();
+var comntSouhaitEvolution = $("#comntSouhaitEvolution").val();
+var comntSouhaitMobilite = $("#comntSouhaitMobilite").val();
+var comntProchaineEtape = $("#comntProchaineEtape").val();
+var dateProchainEnretien = $("#dateProchainEnretien").val();
+var comntGenereaux = $("#comntGenereaux").val();
+var Signature1RespN_1 = $("#Signature1RespN_1").val();
+var date1 = $("#date1").val();
+var comntSalaire = $("#comntSalaire").val();
+var signature2Salarie = $("#signature2Salarie").val();
+var date2 = $("#date2").val();
+var AvisN_2 = $("#AvisN_2").val();
+var NomSignatureN_2 = $("#NomSignatureN_2").val();
+var date3 = $("#date3").val();
+var AvisRespFonctionel = $("#AvisRespFonctionel").val();
+var NomSignatureResFonct_Depart = $("#NomSignatureResFonct_Depart").val();
+var date4 = $("#date4").val();
+var comOrientationResulttat = $("#comOrientationResulttat").val();
+var ComAgilite = $("#ComAgilite").val();
+var comOuv = $("#comOuv").val();
+var comQualité = $("#comQualité").val();
+var comEquipe = $("#comEquipe").val();
+var comResolP = $("#comResolP").val();
+var comGP = $("#comGP").val();
+var comCommunication = $("#comCommunication").val();
+var comLeadership = $("#comLeadership").val();
+var comGBud = $("#comGBud").val();
+var comMaitriseSoi = $("#comMaitriseSoi").val();
+var comCharisme = $("#comCharisme").val();
+var c1 = $("#c1").val();
+var c2 = $("#c2").val();
+var c3 = $("#c3").val();
+var c4 = $("#c4").val();
+var comC1 = $("#comC1").val();
+var comC2 = $("#comC2").val();
+var comC3 = $("#comC3").val();
+        var comC4 = $("#comC4").val();
+
+
+        var Matricule = $("#Matricule").val();
+        var Note = $("#Note").val();
+        var checkC1 = $("checkC1").val();
+        var checkC2 = $("checkC2").val();
+        var checkC3 = $("checkC3").val();
+        var checkC4 = $("checkC4").val();
+        var status2= $("status2").val()
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit", "EntretienAnnuels")",
+            data: {
+                id: id,
+                Nom: Nom,
+                Prenom: Prenom,
+                LibelleFonction: LibelleFonction,
+                DateEntree: DateEntree,
+                DateDerniereRevue: DateDerniereRevue,
+                Service: Service,
+                NomRespHierarchiqueN_1: NomRespHierarchiqueN_1,
+                NomRespFonctionel: NomRespFonctionel,
+                DateEntretien: DateEntretien,
+                autoEvalSal1: autoEvalSal1,
+                competenceCaractUtiles: competenceCaractUtiles,
+                competenceCaractAcquerir: competenceCaractAcquerir,
+                question1: question1,
+                orientationResulttat: orientationResulttat,
+                agilite_Adaptabilite: agilite_Adaptabilite,
+                ouvertureEsprit: ouvertureEsprit,
+                qualitesRelationnelles: qualitesRelationnelles,
+                travailEquipe: travailEquipe,
+                ResolutionProbleme: ResolutionProbleme,
+                gestionProjet: gestionProjet,
+                communication: communication,
+                Leadership: Leadership,
+                gestionBudget: gestionBudget,
+                charisme: charisme,
+                maitriseSoi: maitriseSoi,
+                ResultatActFormation: ResultatActFormation,
+                FormationMesureDev: FormationMesureDev,
+                ResourceNecessaire: ResourceNecessaire,
+                comntSouhaitEvolution: comntSouhaitEvolution,
+                comntSouhaitMobilite: comntSouhaitMobilite,
+                comntProchaineEtape: comntProchaineEtape,
+                dateProchainEnretien: dateProchainEnretien,
+                comntGenereaux: comntGenereaux,
+                Signature1RespN_1: Signature1RespN_1,
+                date1: date1,
+                comntSalaire: comntSalaire,
+                signature2Salarie: signature2Salarie,
+                date2: date2,
+                AvisN_2: AvisN_2,
+                NomSignatureN_2: NomSignatureN_2,
+                date3: date3,
+                AvisRespFonctionel: AvisRespFonctionel,
+                NomSignatureResFonct_Depart: NomSignatureResFonct_Depart,
+                date4: date4,
+                comOrientationResulttat: comOrientationResulttat,
+                ComAgilite: ComAgilite,
+                comOuv: comOuv,
+                comQualité: comQualité,
+                comEquipe: comEquipe,
+                comResolP: comResolP,
+                comGP: comGP,
+                comCommunication: comCommunication,
+                comLeadership: comLeadership,
+                comGBud: comGBud,
+                comMaitriseSoi: comMaitriseSoi,
+                comCharisme: comCharisme,
+                c1: c1,
+                c2: c2,
+                c3: c3,
+                c4: c4,
+                comC1: comC1,
+                comC2: comC2,
+                comC3: comC3,
+                comC4: comC4,
+                Matricule: Matricule,
+                Note: Note,
+                checkC1: checkC1,
+                checkC2: checkC2,
+                checkC3: checkC3,
+                checkC4: checkC4,
+                status2: status2,
+
+
+            },
+
+            success: function (data) {
+                console.log("Modifications enregistrées avec succès");
+
+                window.location.reload();
+                // Rediriger ou afficher un message de succès si nécessaire
+            },
+            error: function (xhr, status, error) {
+                console.error("Erreur lors de la modification :", error);
+                // Gérer les erreurs si nécessaire
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#objectifForm').submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#myModal').modal('hide');
+                    $('.modal-backdrop').remove();
+
+                    // Create delete link with anti-forgery token using jQuery
+                    var deleteLink = $('<a></a>')
+                        .attr('href', '#') // Set href to '#' to prevent navigation
+                        .attr('class', 'delete-link')
+                        .attr('data-id', data.id)
+                        .text('Delete')
+                        .click(function (event) {
+                            event.preventDefault(); // Prevent default link behavior
+
+                            var id = $(this).data('id');
+
+                            // Send AJAX request to delete the item
+                            $.ajax({
+                                url: '/ObjSpecifiques/Delete/' + id,
+                                type: 'POST',
+                                data: { id: id, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                                success: function () {
+                                    // Remove the row from the table upon successful deletion
+                                    $('#objSpecifiqueTable tr[data-id="' + id + '"]').remove();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                        });
+
+                    // Append delete link to table row
+                    var newRowHtml = $('<tr></tr>')
+                        .append('<td>' + data.ObjectifSpecifique + '</td>')
+                        .append('<td>' + data.Synthese + '</td>')
+                        .append($('<td></td>').append(deleteLink));
+
+                    // Append new row to table
+                    $('#objSpecifiqueTable').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#autoEvaluationForm').submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#myModal1').modal('hide');
+                    $('.modal-backdrop').remove();
+
+                    var deleteLink = $('<a></a>')
+                        .attr('href', '#')
+                        .attr('class', 'delete-link')
+                        .attr('data-id', data.id)
+                        .text('Delete');
+                    var newRowHtml = $('<li></li>')
+                        .attr('data-id', data.id)
+                        .append('<span><strong>theme :</strong> ' + data.theme + '</span>')
+                        .append('<span><strong>lieu :</strong> ' + data.lieu + '</span>')
+                        .append('<span><strong>durée :</strong> ' + data.duree + '</span>')
+                        .append(' | ') // Adding space and separator before the delete link
+                        .append($('<span></span>').append('&nbsp;', deleteLink)); // Adding non-breaking space before delete link
+
+
+                    $('#autoEvaluationList').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+
+            $('#autoEvaluationForm')[0].reset();
+        });
+    });
+
+</script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        // Variable pour suivre le nombre de soumissions
+        var submissionsCount = 0;
+
+        $('#ObjVForm').submit(function (event) {
+            // Empêcher le comportement par défaut du formulaire
+            event.preventDefault();
+
+            // Récupérer les données du formulaire
+            var formData = $(this).serialize();
+
+            // Effectuer une requête AJAX pour soumettre le formulaire
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function (data) {
+                    // Actualiser le contenu de la stepPage2
+                    $('#stepPage2').html($(data).find('#stepPage2').html());
+
+                    // Masquer la modal après la soumission réussie
+                    $('#myModal3').modal('hide');
+
+                    // Supprimer le backdrop après la fermeture de la modal
+                    $('.modal-backdrop').remove();
+
+                    var deleteLink = $('<a></a>')
+                        .attr('href', '#') // Set href to '#' to prevent navigation
+                        .attr('class', 'delete-link')
+                        .attr('data-id', data.id)
+                        .text('Delete')
+                        .click(function (event) {
+                            event.preventDefault(); // Prevent default link behavior
+
+                            var id = $(this).data('id');
+
+                            // Send AJAX request to delete the item
+                            $.ajax({
+                                url: '/ObjectifsAVenirs/Delete/' + id, // Added trailing slash
+                                type: 'POST',
+                                data: { id: id, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                                success: function () {
+                                    // Remove the row from the table upon successful deletion
+                                    $('#objectifsTable tr[data-id="' + id + '"]').remove();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                        });
+
+                    // Incrémenter le nombre de soumissions
+                    submissionsCount++;
+
+                    // Insérer les données dans le tableau
+                    var newRowHtml = $('<tr></tr>')
+                        .attr('data-id', data.id) // Assurez-vous que chaque ligne a un attribut data-id
+                        .append('<td>' + data.ObjectifsPrincipeauxSmart + '</td>')
+                        .append('<td>' + data.indicateur + '</td>')
+                        .append('<td>' + data.ARealiserEnT1__T4 + '</td>')
+                        .append($('<td></td>').append(deleteLink));
+
+                    // Append the new row to the objectifsTable
+                    $('#objectifsTable').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    // Gérer les erreurs en conséquence
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#EvalGenForm').submit(function (event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Store a reference to the stepPage2
+            var $stepPage2 = $('#stepPage2');
+
+            // Perform an AJAX request to submit the form
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Update the content of stepPage2 with the received data
+                    $stepPage2.html($(data).find('#stepPage2').html());
+
+                    // Hide the modal after successful submission
+                    $('#myModal2').modal('hide');
+
+                    // Remove the modal backdrop after modal closure
+                    $('.modal-backdrop').remove();
+
+                    var deleteLink = $('<a></a>')
+                        .attr('href', '#') // Set href to '#' to prevent navigation
+                        .attr('class', 'delete-link')
+                        .attr('data-id', data.id)
+                        .text('Delete')
+                        .click(function (event) {
+                            event.preventDefault(); // Prevent default link behavior
+
+                            var id = $(this).data('id');
+
+                            // Send AJAX request to delete the item
+                            $.ajax({
+                                url: '/EvaluatinGenN_1/Delete/' + id, // Added trailing slash
+                                type: 'POST',
+                                data: { id: id, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                                success: function () {
+                                    // Remove the row from the table upon successful deletion
+                                    $('#EvalGenTable tr[data-id="' + id + '"]').remove();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                        });
+
+                    // Construct the new row HTML based on the submitted data
+                    var newRowHtml = $('<tr></tr>')
+                        .attr('data-id', data.id) // Ensure each row has a data-id attribute
+                        .append('<td>' + data.Performance + '</td>')
+                        .append('<td>' + data.commentaire + '</td>')
+                        .append('<td>' + data.tendance + '</td>')
+                        .append($('<td></td>').append(deleteLink));
+
+                    // Append the new row to the EvalGenTable
+                    $('#EvalGenTable').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors accordingly
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#noteForm').submit(function (event) {
+            // Empêcher le comportement par défaut du formulaire
+            console.log("Form submission triggered!");
+            event.preventDefault();
+
+            // Stocker une référence à la stepPage2
+            var $stepPage5 = $('#stepPage5');
+
+            // Effectuer une requête AJAX pour soumettre le formulaire
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Actualiser le contenu de la stepPage2
+                    $stepPage5.html($(data).find('#stepPage5').html());
+
+                    // Masquer la modal après la soumission réussie
+                    $('#myModal4').modal('hide');
+
+                    // Supprimer le backdrop après la fermeture de la modal
+                    $('.modal-backdrop').remove();
+
+                    // Afficher un message de succès ou effectuer toute autre manipulation nécessaire
+
+
+                    // Réinitialiser les scripts et les événements associés à la stepPage2
+                    // Cela peut inclure la réinitialisation des plugins jQuery ou la réattribution des événements
+                    // Assurez-vous d'ajuster cette partie en fonction de votre code JavaScript existant
+                    // Par exemple :
+                    // $('.datepicker').datepicker(); // Si vous utilisez un plugin de datepicker
+
+                },
+                error: function (xhr, status, error) {
+                    // Gérer les erreurs en conséquence
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+<script>
+    // Function to store the current step in session storage
+    function setCurrentStep(step) {
+        sessionStorage.setItem('currentStep', step);
+    }
+
+    // Function to retrieve the current step from session storage
+    function getCurrentStep() {
+        return sessionStorage.getItem('currentStep');
+    }
+
+    // Function to initialize the current step on page load
+    window.onload = function () {
+        var currentStep = getCurrentStep();
+        if (currentStep) {
+            // If a current step is stored, show that step
+            showStep(currentStep);
+        }
+    }
+
+    // Function to show the specified step
+    function showStep(step) {
+        // Hide all steps
+        var steps = document.querySelectorAll('.stepPage');
+        steps.forEach(function (step) {
+            step.style.display = 'none';
+        });
+
+        // Show the specified step
+        document.getElementById('stepPage' + step).style.display = 'block';
+
+        // Store the current step
+        setCurrentStep(step);
+    }
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Sélectionnez toutes les étapes
+        var steps = document.querySelectorAll('.page-titles ul li');
+        // Ajoutez un écouteur de clic à chaque étape
+        steps.forEach(function (step, index) {
+            step.addEventListener('click', function () {
+                // Masquez toutes les parties du formulaire
+                var allStepPages = document.querySelectorAll('.stepPage');
+                allStepPages.forEach(function (page) {
+                    page.style.display = 'none';
+                });
+                // Affichez uniquement la partie du formulaire correspondant à l'étape cliquée
+                var selectedStepPage = document.getElementById('stepPage' + (index + 1));
+                if (selectedStepPage) {
+                    selectedStepPage.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
+
+
+

@@ -1,0 +1,51 @@
+﻿@model ProjectWith.Models.EvaluatinGenN_1
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EvaluatinGenN_1</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.performance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.performance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentaire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentaire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tendance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tendance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EntretienAnnuel.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntretienAnnuel.Nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

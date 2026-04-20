@@ -1,0 +1,296 @@
+﻿@model IEnumerable<ProjectWith.Models.DeletedFicheFonctions>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<style>
+    /* Style de base pour les tableaux */
+    table tr {
+        border-bottom: 1px solid #ddd; /* Style of the separation line */
+    }
+
+    /* CSS style for left and right borders */
+    table {
+        border-collapse: collapse; /* Collapse the borders */
+        border: 1px solid #ddd; /* Table border */
+        width: 100%; /* Set table width to 100% */
+    }
+
+        /* CSS style for column separation */
+        table th,
+        table td {
+            border-right: 1px solid #ddd; /* Style of the separation line */
+            padding: 8px; /* Add padding for better appearance */
+            color: #333; /* Darker text color */
+        }
+
+    /* Style pour une colonne spécifique */
+    .large-column {
+        width: 100%; /* Largeur de la deuxième colonne */
+    }
+
+    /* Styles pour les en-têtes de tableau */
+    .header {
+        color: #fff;
+        padding: 10px;
+    }
+
+    .header-content {
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center; /* Alignement horizontal au centre */
+    }
+
+    .text-black {
+        color: #000000; /* Couleur noire */
+    }
+</style>
+
+<style>
+    /* Ajouter une marge en haut et en bas de la pagination */
+    .pagination-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .action-buttons .btn {
+        margin-right: 5px; /* Ajoute une marge à droite pour créer un espace entre les boutons */
+    }
+</style>
+<h5 style="padding-left: 30px; color: #c21c1c; font-size: 24px; font-weight: bold; margin-top: 20px;">Historique</h5>
+@using (Html.BeginForm("Index", "DeletedFicheFonctions", FormMethod.Get))
+{
+    <div class="row mb-5">
+        <div class="col-4" style="padding-left: 35px; margin-top: 30px;">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" name="searchLetter" class="form-control input-primary text-black small" placeholder="Search for..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" value="Search">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+@if (string.IsNullOrEmpty(ViewBag.Matricule) && (@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "RH" || @ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS"))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">@Html.DisplayNameFor(model => model.Matricule)</th>
+
+                            <th style="text-align: center;">@Html.DisplayNameFor(model => model.nom)</th>
+                            <th style="text-align: center;">@Html.DisplayNameFor(model => model.prenom)</th>
+                            <th style="text-align: center;">@Html.DisplayNameFor(model => model.poste)</th>
+                            <th style="text-align: center;">Le temps de suppression</th>
+                            <th style="text-align: center;">Cause de suppression</th>
+                            <th style="text-align: center;">@Html.DisplayNameFor(model => model.email)</th>
+                            <th style="text-align: center;">Entretien annuel</th>
+                            <th class="text-end" style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.Matricule)</td>
+
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.nom)</td>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.prenom)</td>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.poste)</td>
+                                <td style="text-align: center;">@item.DeletedAt.ToString("yyyy-MM-dd")</td>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.DeletionReason)</td>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => item.email)</td>
+                                <td style="text-align: center;">
+                                    <button type="button" class="btn btn-primary btn-xs btn-small" onclick="redirectToDeletedEntretienAnnuel('@item.Matricule')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z" />
+                                            <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z" />
+                                            <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                                <script>
+                                    function redirectToDeletedEntretienAnnuel(matricule) {
+                                        window.location.href = '../DeletedEntretienAnnuels/index?matricule=' + encodeURIComponent(matricule);
+                                    }
+                                </script>
+                                <td class="text-end, action-buttons" style="text-align: center;">
+                                    <div class="action-buttons">
+                                        <form id="deleteForm-@item.Id" action="@Url.Action("Delete", "DeletedFicheFonctions", new { id = item.Id })" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-danger delete-btn" data-id="@item.Id" title="Supprimer entretien">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        <button type="button" class="btn btn-warning" onclick="restoreEmployee('@item.Id')" title="Restore employe">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
+                                            </svg>
+                                        </button>
+                                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-info me-2" title="Détails employe" style="text-decoration:none;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pagination-wrapper">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="/DeletedFicheFonctions/Index?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.NoOfPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PageNo ? "active" : "")">
+                            <a class="page-link" href="/DeletedFicheFonctions/Index?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="/DeletedFicheFonctions/Index?matricule=@ViewBag.Matricule&searchLetter=@Request.QueryString["searchLetter"]&PageNo=@ViewBag.NoOfPages"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+</svg></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    // Utiliser SweetAlert pour confirmer la suppression
+                    Swal.fire({
+                        title: 'Êtes-vous sûr de supprimer cette fiche fonction?',
+                        text: "Vous ne pourrez pas revenir en arrière!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Oui, supprime-le!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var form = document.getElementById('deleteForm-' + btn.getAttribute('data-id'));
+                            // Envoyer la requête de suppression via AJAX
+                            $.ajax({
+                                type: 'POST',
+                                url: form.action,
+                                data: $(form).serialize(),
+                                success: function (response) {
+                                    // Afficher une SweetAlert pour indiquer le succès de la suppression
+                                    Swal.fire(
+                                        'Supprimé!',
+                                        'L\'entretien a été supprimé.',
+                                        'success'
+                                    ).then(() => {
+                                        // Actualiser la page ou effectuer d'autres actions si nécessaire
+                                        location.reload();
+                                    });
+                                },
+                                error: function (xhr, status, error) {
+                                    // Afficher une SweetAlert pour indiquer une erreur lors de la suppression
+                                    Swal.fire(
+                                        'Erreur!',
+                                        'Une erreur s\'est produite lors de la suppression de l\'entretien.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Assurez-vous d'inclure SweetAlert -->
+
+    <script>
+    function restoreEmployee(id) {
+        // Utiliser SweetAlert pour confirmer la restauration
+        Swal.fire({
+            title: 'Êtes-vous sûr de restaurer cette fiche fonction?',
+            text: "Vous ne pourrez pas revenir en arrière!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, restaure-le!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si l'utilisateur confirme, effectuez la restauration
+                $.ajax({
+                    type: 'GET', // Assurez-vous d'utiliser la méthode correcte (GET, POST, etc.)
+                    url: '@Url.Action("Restore", "DeletedFicheFonctions")/' + id,
+                    success: function (response) {
+                        // Gérer la réponse en cas de succès
+                        Swal.fire(
+                            'Restauré!',
+                            'L\'employé a été restauré.',
+                            'success'
+                        ).then(() => {
+                            // Actualiser la page ou effectuer d'autres actions si nécessaire
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Gérer les erreurs
+                        Swal.fire(
+                            'Erreur!',
+                            'Une erreur s\'est produite lors de la restauration de l\'employé.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+        }
+
+    </script>
+
+}
+else
+{
+    <script>
+    window.location.href = '@Url.Action("Unauthorized", "Error")';
+    </script>
+}
+
+
+
+

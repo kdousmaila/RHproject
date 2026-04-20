@@ -1,0 +1,1710 @@
+﻿@model ProjectWith.Models.DeletedentretienViewModel
+
+@{
+   
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+
+
+<link href="~/fonts/css/CreateEntretien.css" rel="stylesheet" />
+
+<!-- Meta -->
+<meta charset="utf-8">
+
+
+<!-- PAGE TITLE HERE -->
+<title>Entretien annuel</title>
+
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+<!-- Form step -->
+<link href="vendor/jquery-smartwizard/dist/css/smart_wizard.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-datepicker-master/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+
+
+        td input {
+            width: 100%;
+            border: none;
+            padding: 4px;
+        }
+
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+
+        input[type="checkbox"] + label {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+
+        input[type="checkbox"]:checked + label {
+            background-color: #007bff;
+        }
+
+    .cadre {
+        border: 2px solid #000;
+        padding: 10px;
+    }
+
+
+    .underlined-input {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+
+    .custom-table table td:nth-child(1),
+    .custom-table table th:nth-child(1) {
+        width: 30%;
+    }
+
+    .custom-table table td:nth-child(6),
+    .custom-table table th:nth-child(6) {
+        width: 30%;
+    }
+
+    .underlined-input1 {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        box-sizing: border-box;
+    }
+
+    .underlined-input2 {
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 2px;
+        width: 80%;
+        box-sizing: border-box;
+    }
+
+    .cadre1 {
+        border: 1px dashed blue;
+        padding: 10px;
+    }
+    /* Ajoutez du style à votre tableau ici */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+    /* Style pour la classe .header et .header-content */
+
+    /* Ajoutez du style à votre tableau ici */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+    .large-column {
+        width: 100%; /* Largeur de la deuxième colonne */
+    }
+
+    /* Style pour la classe .header et .header-content */
+
+    .header {
+        color: #fff;
+        padding: 10px;
+    }
+
+    .header-content {
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+</style>
+
+
+<div class="row page-titles">
+    <div id="container">
+        <div id="progressbarContainer">
+            <div id="emptyProgressbar"></div>
+            <div id="completedProgress"></div>
+            <ul>
+                <li id="stepLable1">1</li>
+                <li id="stepLable2">2</li>
+                <li id="stepLable3">3</li>
+                <li id="stepLable4">4</li>
+                <li id="stepLable5">5</li>
+            </ul>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+<script>
+    // Compteur de soumissions
+    var submissionCount = 0;
+
+    // Nombre minimal de soumissions autorisées
+    var minSubmissions = 3;
+
+    // Nombre maximal de soumissions autorisées
+    var maxSubmissions = 6;
+
+    // Sélection du formulaire
+    var form = document.getElementById('ObjVForm');
+
+    // Ajout d'un écouteur d'événements pour la soumission du formulaire
+    form.addEventListener('submit', function (event) {
+        // Incrémenter le compteur de soumissions
+        submissionCount++;
+
+        // Vérifier si le nombre maximal de soumissions est atteint
+        if (submissionCount > maxSubmissions) {
+            // Empêcher la soumission du formulaire
+            event.preventDefault();
+            // Afficher un message pour informer l'utilisateur
+            alert('Vous ne pouvez ajouter que jusqu\'à 6 objectifs à venir.');
+        } else if (submissionCount >= minSubmissions) {
+            // Afficher un message pour informer l'utilisateur
+            alert('Vous avez atteint le nombre minimal d\'objectifs à ajouter.');
+        }
+    });
+</script>
+
+
+
+<!-- row -->
+<div class="row">
+    <div class="col-xl-12 col-xxl-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Form step</h4>
+            </div>
+       
+
+
+
+                <input type="hidden" name="idEntretien" value="@Model.deletedentretienAnnuels.id" , id="id" />
+
+                <div class="card-body">
+
+                    <div class="stepPage" id="stepPage1">
+                        <p>
+                            Pour faciliter la préparation et le déroulement de cet entretien, merci de
+                            compléter ce document et de le retourner à votre responsable direct. Les lignes
+                            en pointillé seront remplies par votre responsable direct.
+                        </p>
+                        <h2><u>SECTION 1: INFORMATION GÉNÉRALE & ÉVALUATION DE LA PERFORMANCE</u></h2>
+                        <h4>1.1 INFORMATION GÉNÉRALE</h4>
+
+                        <div class="tab-pane" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Nom:</label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.Nom, new { htmlAttributes = new { @class = "form-control", data_index = "200", id = "Nom_200", Name = "Nom", @readonly = "readonly" } })
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Service:</label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.Service, new { htmlAttributes = new { @class = "form-control", data_index = "200", id = "Service_200", Name = "Service", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Prenom:</label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.Prenom, new { htmlAttributes = new { @class = "form-control", Name = "Prenom", id = "Prenom", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Matricule:</label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.Matricule, new { htmlAttributes = new { @class = "form-control", Name = "Matricule", id = "Matricule", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">libelle de fonction:</label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.LibelleFonction, new { htmlAttributes = new { @class = "form-control", Name = "LibelleFonction", id = "LibelleFonction", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            Nom du responsable hierarchique
+                                            (N+1):
+                                        </label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.NomRespHierarchiqueN_1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" }, Name = "NomRespHierarchiqueN_", id = "NomRespHierarchiqueN_1" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            date d'entree en fonction(mois/
+                                            annee):
+                                        </label>
+
+                                        @Html.TextBoxFor(model => model.deletedentretienAnnuels.DateEntree, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateEntree", id = "DateEntree", type = "date", @readonly = "readonly" })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            Nom du resp.
+                                            fonctionnel:
+                                        </label>
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.NomRespFonctionel, new { htmlAttributes = new { @class = "form-control", Name = "NomRespFonctionel", id = "NomRespFonctionel", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">
+                                            date derniere revue de
+                                            description de fonction:
+                                        </label>
+                                        @Html.TextBoxFor(model => model.deletedentretienAnnuels.DateDerniereRevue, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateDerniereRevue", id = "DateDerniereRevue", type = "date", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        <label class="text-label form-label">Date de l'entretien:</label>
+                                        @Html.TextBoxFor(model => model.deletedentretienAnnuels.DateEntretien, "{0:yyyy-MM-dd}", new { @class = "form-control", Name = "DateEntretien", id = "DateEntretien", type = "date", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h4> 1.2 EVALUATION DE LA PERFORMANCE DE L'ANNEE ECOULEE </h4>
+                                <h5>
+                                    1.2.1 Indiquer les principaux objectifs specifiques fixes lors du
+                                    dernier entretien d'evaluation ou au cours de l'annee et commentez la
+                                    performance réalisée par le salarié. Merci de reprendre les éléments
+                                    cpntenus dans le précédent formulaire d'entretien.
+                                </h5>
+
+                                <label> Objectifs spécifiques</label>
+
+                                @*<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" style="margin-bottom: 20px;">
+                                    Ajouter un objectif spécifique
+                                </button>*@
+                                <br />
+
+                                <div id="tableContainer">
+                                    <table id="objSpecifiqueTable">
+                                        <tr>
+                                            <td>Objectif Specifique</td>
+                                            <td>Synthèse</td>
+                                        </tr>
+                                        @*@foreach (var objSpecifique in Model.deletedentretienAnnuels.deletedObjSpecifique)
+                                            {
+                                                @Html.Partial("~/Views/ObjSpecifiques/_ObjSpecifiqueRow.cshtml", objSpecifique)
+                                            }*@
+                                    </table>
+
+                                </div>
+
+
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+                                <label> Synthèse de l'appreciation de la performance obtenue</label>
+                                @*  @Html.TextAreaFor(model => model.entretienAnnuels.ObjSpecifiques.First().Synthese, new { @class = "form-control", Name = "Synthese" })*@
+                            </div>
+
+                            <div class="row">
+
+                                <h5>1.2.2 Auto-évaluation</h5>
+                                <label>
+                                    1.2.2.1- Auto-évaluation par le salarié des actions et réalisations
+                                    les plus significatives, inclus ou non dans les objectifs :
+                                </label>
+                                @Html.TextAreaFor(model => model.deletedentretienAnnuels.autoEvalSal1, new { @class = "form-control", Name = "autoEvalSal1", id = "autoEvalSal1", @readonly = "readonly"})
+
+                                <label>
+                                    1.2.2.2- Compétences et caractéristiques personnelles qui ont été
+                                    les plus utiles :
+                                </label>
+                                @Html.TextAreaFor(model => model.deletedentretienAnnuels.competenceCaractUtiles, new { @class = "form-control", Name = "competenceCaractUtiles", id = "competenceCaractUtiles", @readonly = "readonly" })
+
+
+                                <label>
+                                    1.2.2.2- Compétences et caractéristiques personnelles qu''il
+                                    semble nécessaire d'acquérir ou d'améliorer :
+                                </label>
+
+
+                                @Html.TextAreaFor(model => model.deletedentretienAnnuels.competenceCaractAcquerir, new { @class = "form-control", Name = "competenceCaractAcquerir", id = "competenceCaractAcquerir", @readonly = "readonly" })
+
+
+                                <label>
+                                    1.2.2.1- Auto-évaluation par le salarié des actions de
+                                    formation (interne et externe) effectuée dans l'année : (thème,
+                                    lieu, durée)
+                                </label>
+                                @*@Html.EditorFor(model => model.entretienAnnuels.autoEvalSal1, new { htmlAttributes = new { @class = "form-control", Name = "autoEvalSal1" } })*@
+                                @*<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal1">
+                                    Ajouter une auto evaluation
+                                </button>*@
+                                <ul id="autoEvaluationList">
+                                    @foreach (var Autoevaluation in Model.deletedentretienAnnuels.deletedAutoEvaluation)
+                                    {
+                                        <li>
+                                            <span>@Autoevaluation.theme</span>
+                                            <span>@Autoevaluation.lieu</span>
+                                            <span>@Autoevaluation.duree</span>
+                                        </li>
+                                    }
+                                </ul>
+
+
+                                <label>
+                                    Que m'a-t-elle apporté dans ma pratique
+                                    professionnelle?
+                                </label>
+                                @Html.TextAreaFor(model => model.deletedentretienAnnuels.question1, new { @class = "form-control", Name = "question1", id = "question1", @readonly = "readonly" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stepPage" id="stepPage2">
+
+                        <div class="row">
+
+                            <div class="col-xl-12 col-lg-6">
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <div class="basic-form">
+                                            <form>
+                                                <div class="mb-3 ">
+                                                    <h5>
+                                                        1.2.3 Evaluation générale par N+1 / réalisation des
+                                                        objectifs et performance obtenue dans
+                                                        l'accomplissement des missions générales du poste
+                                                        pendant l'année écoulé. Commentaires et tendance par
+                                                        rapport à l'évalusation précédente :
+                                                    </h5>
+
+                                                    @*<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2">
+                                                        Ajouter une evaluation generale
+                                                    </button>*@
+                                                    <table>
+                                                        <tr>
+                                                            <td>Performance</td>
+                                                            <td>Commentaires</td>
+                                                            <td>Tendance</td>
+                                                        </tr>
+                                                        @foreach (var EvalGen in Model.deletedentretienAnnuels.deletedEvalGen)
+                                                        {
+                                                            <tr>
+                                                                <td>@EvalGen.performance</td>
+                                                                <td>@EvalGen.commentaire</td>
+                                                                <td>@EvalGen.tendance</td>
+                                                            </tr>
+
+
+                                                        }
+                                                    </table>
+                                                    @*@Html.DropDownListFor(model => model.entretienAnnuels.EvaluatinGenN_1.First().performance,
+                                                        new SelectList(new List<SelectListItem>
+                                                        {
+                                                             new SelectListItem { Text = "A:Supérieur aux attentes", Value = "A" },
+                                                             new SelectListItem { Text = "B:Conforme aux attentes", Value = "B" },
+                                                             new SelectListItem { Text = "C:Inférieur aux attentes (plan d'action requis)", Value = "C" }}, "Value", "Text"),
+                                                        new { @class = "default-select form-control form-control-lg wide mb-3", Name = "performance" })*@
+
+
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-xxl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">1.3 OBJECTIFS POUR L'ANNEE A AVENIR </h4>
+                                        </div>
+                                        <div class="card-body custom-ekeditor">
+                                            <div id="ckeditor">
+
+                                                <P>
+                                                    Objectif SMART= Spécifique + Mesurable + Acceptable +
+                                                    Réaliste + temporel
+                                                </P>
+                                                <h5>
+                                                    Minimum 3 objectifs , maximum 6 objectifs<br> Un
+                                                    objectif de mangement pour la menager
+                                                </h5><br>
+                                                @*<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal3">
+                                                    b bbbbb
+                                                </button>*@
+                                                <table>
+                                                    <tr>
+                                                        <td>ObjectifsPrincipeauxSmart</td>
+                                                        <td>indicateur</td>
+                                                        <td>[ARealiserEnT1..T4]</td>
+                                                    </tr>
+                                                    @foreach (var ObjAvenir in Model.deletedentretienAnnuels.deletedObjV)
+                                                    {
+                                                        <tr>
+                                                            <td>@ObjAvenir.ObjectifsPrincipeauxSmart</td>
+                                                            <td>@ObjAvenir.indicateur</td>
+                                                            <td>@ObjAvenir.ARealiserEnT1__T4</td>
+                                                        </tr>
+
+
+                                                    }
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stepPage" id="stepPage3">
+                        <h2><u>SECTION 2: COMPETENCES</u></h2>
+                        <h4> 1.1 EVALUATION DES COMPETENCES</h4>
+                        <div class="row">
+                            <h5> <u>1.2.2 Compétences transverses</u></h5>
+                            <p class="mb-5">Evaluation réalisée par le responsable hiérarchique (N+1)</p>
+
+                            <table>
+                                <tr>
+                                    <th>Compétences</th>
+                                    <th>Supervisé</th>
+                                    <th>Expérimenté</th>
+                                    <th>Autonome</th>
+                                    <th>Exemplaire</th>
+                                    <th>
+                                        Commentaire <br>(Indiquer si la compétence n'est <br>pas encore
+                                        acquise ou non <br> nécessaire)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Compétences transverses</th>
+                                </tr>
+                                <tr>
+                                    <td>Orientation résultat</td>
+                                    <td>
+                                        <input type="radio" id="checkbox1" value="Supervisé" name="orientationResulttat" @(Model.deletedentretienAnnuels.orientationResulttat == "Supervisé" ? "checked" : "")><label for="checkbox1"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox2" value="Expérimenté" name="orientationResulttat" @(Model.deletedentretienAnnuels.orientationResulttat == "Expérimenté" ? "checked" : "")><label for="checkbox2"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox3" value="Autonome" name="orientationResulttat" @(Model.deletedentretienAnnuels.orientationResulttat == "Autonome" ? "checked" : "")><label for="checkbox3"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox4" value="Exemplaire" name="orientationResulttat" @(Model.deletedentretienAnnuels.orientationResulttat == "Exemplaire" ? "checked" : "")><label for="checkbox4"></label>
+                                    </td>
+                                    <td><input type="text" name="comOrientationResulttat" id="comOrientationResulttat" value="@Model.deletedentretienAnnuels.comOrientationResulttat"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Agilité-Adaptabilité</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox5" value="Supervisé" name="agilite_Adaptabilite" @(Model.deletedentretienAnnuels.agilite_Adaptabilite == "Supervisé" ? "checked" : "")><label for="checkbox5"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox6" value="Expérimenté" name="agilite_Adaptabilite" @(Model.deletedentretienAnnuels.agilite_Adaptabilite == "Expérimenté" ? "checked" : "")><label for="checkbox6"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox7" value="Autonome" name="agilite_Adaptabilite" @(Model.deletedentretienAnnuels.agilite_Adaptabilite == "Autonome" ? "checked" : "")><label for="checkbox7" </label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox8" value="Exemplaire" name="agilite_Adaptabilite" @(Model.deletedentretienAnnuels.agilite_Adaptabilite == "Exemplaire" ? "checked" : "")><label for="checkbox8"></label>
+                                    </td>
+                                    <td><input type="text" name="ComAgilite" , id="ComAgilite"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ouverture d'esprit</td>
+                                    <td>
+                                        <input type="radio" id="checkbox9" value="Supervisé" name="ouvertureEsprit" @(Model.deletedentretienAnnuels.ouvertureEsprit == "Supervisé" ? "checked" : "")><label for="checkbox9"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox10" value="Expérimenté" name="ouvertureEsprit" @(Model.deletedentretienAnnuels.ouvertureEsprit == "Expérimenté" ? "checked" : "")><label for="checkbox10"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox11" value="Autonome" name="ouvertureEsprit" @(Model.deletedentretienAnnuels.ouvertureEsprit == "Autonome" ? "checked" : "")><label for="checkbox11"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox12" value="Exemplaire" name="ouvertureEsprit" @(Model.deletedentretienAnnuels.agilite_Adaptabilite == "Exemplaire" ? "checked" : "")><label for="checkbox12"></label>
+                                    </td>
+                                    <td><input type="text" name="comOuv" , id="comOuv"></td>
+                                </tr>
+                                <tr>
+                                    <td>Qualités relationnelles</td>
+                                    <td>
+                                        <input type="radio" id="checkbox13" value="Supervisé" name="qualitesRelationnelles" @(Model.deletedentretienAnnuels.qualitesRelationnelles == "Supervisé" ? "checked" : "")><label for="checkbox13"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox14" value="Expérimenté" name="qualitesRelationnelles" @(Model.deletedentretienAnnuels.qualitesRelationnelles == "Expérimenté" ? "checked" : "")><label for="checkbox14"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox15" value="Autonome" name="qualitesRelationnelles" @(Model.deletedentretienAnnuels.qualitesRelationnelles == "Autonome" ? "checked" : "")><label for="checkbox15"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox16" value="Exemplaire" name="qualitesRelationnelles" @(Model.deletedentretienAnnuels.qualitesRelationnelles == "Exemplaire" ? "checked" : "")><label for="checkbox16"></label>
+                                    </td>
+                                    <td><input type="text" name="comQualité" , id="comQualité"></td>
+                                </tr>
+                                <tr>
+                                    <td>Travail en équipe</td>
+                                    <td>
+                                        <input type="radio" id="checkbox17" value="Supervisé" name="travailEquipe" @(Model.deletedentretienAnnuels.travailEquipe == "Supervisé" ? "checked" : "")><label for="checkbox17"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox18" value="Expérimenté" name="travailEquipe" @(Model.deletedentretienAnnuels.travailEquipe == "Expérimenté" ? "checked" : "")><label for="checkbox18"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox19" value="Autonome" name="travailEquipe" @(Model.deletedentretienAnnuels.travailEquipe == "Autonome" ? "checked" : "")><label for="checkbox19"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox20" value="Exemplaire" name="travailEquipe" @(Model.deletedentretienAnnuels.travailEquipe == "Exemplaire" ? "checked" : "")><label for="checkbox20"></label>
+                                    </td>
+                                    <td><input type="text" name="comEquipe" , id="comEquipe"></td>
+                                </tr>
+                                <tr>
+                                    <td>Résolution de problèmes</td>
+                                    <td>
+                                        <input type="radio" id="checkbox21" value="Supervisé" name="ResolutionProbleme" @(Model.deletedentretienAnnuels.ResolutionProbleme == "Supervisé" ? "checked" : "")><label for="checkbox21"></label>
+                                    </td>
+                                    <td><input type="radio" id="checkbox22" value="Expérimenté" name="ResolutionProbleme" @(Model.deletedentretienAnnuels.ResolutionProbleme == "Expérimenté" ? "checked" : "")></td>
+                                    <td>
+                                        <input type="radio" id="checkbox23" value="Autonome" name="ResolutionProbleme" @(Model.deletedentretienAnnuels.ResolutionProbleme == "Autonome" ? "checked" : "")><label for="checkbox23"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox24" value="Exemplaire" name="ResolutionProbleme" @(Model.deletedentretienAnnuels.ResolutionProbleme == "Exemplaire" ? "checked" : "")><label for="checkbox24"></label>
+                                    </td>
+                                    <td><input type="text" name="comResolP" , id="comResolP"></td>
+                                </tr>
+                                <tr>
+                                    <td>Gestion de projet</td>
+                                    <td>
+                                        <input type="radio" id="checkbox25" value="Supervisé" name="gestionProjet" @(Model.deletedentretienAnnuels.gestionProjet == "Supervisé" ? "checked" : "")><label for="checkbox25"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox26" value="Expérimenté" name="gestionProjet" @(Model.deletedentretienAnnuels.gestionProjet == "Expérimenté" ? "checked" : "")><label for="checkbox26"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox27" value="Autonome" name="gestionProjet" @(Model.deletedentretienAnnuels.gestionProjet == "Autonome" ? "checked" : "")><label for="checkbox27"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox28" value="Exemplaire" name="gestionProjet" @(Model.deletedentretienAnnuels.gestionProjet == "Exemplaire" ? "checked" : "")><label for="checkbox28"></label>
+                                    </td>
+                                    <td><input type="text" name="comGP" , id="comGP"></td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="6">Compétences managériale</th>
+                                </tr>
+                                <tr>
+                                    <td>la communication claire et efficace</td>
+                                    <td>
+                                        <input type="radio" id="checkbox29" value="Supervisé" name="communication" @(Model.deletedentretienAnnuels.communication == "Supervisé" ? "checked" : "")><label for="checkbox29"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox30" value="Expérimenté" name="communication" @(Model.deletedentretienAnnuels.communication == "Expérimenté" ? "checked" : "")><label for="checkbox30"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox31" value="Autonome" name="communication" @(Model.deletedentretienAnnuels.communication == "Autonome" ? "checked" : "")><label for="checkbox31"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox32" value="Exemplaire" name="communication" @(Model.deletedentretienAnnuels.communication == "Exemplaire" ? "checked" : "")><label for="checkbox32"></label>
+                                    </td>
+                                    <td><input type="text" name="comCommunication" , id="comCommunication"></td>
+                                </tr>
+                                <tr>
+                                    <td>le Leadership et la motivation d'équipe</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox33" value="Supervisé" name="Leadership" @(Model.deletedentretienAnnuels.Leadership == "Supervisé" ? "checked" : "")><label for="checkbox33"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox34" value="Expérimenté" name="Leadership" @(Model.deletedentretienAnnuels.Leadership == "Expérimenté" ? "checked" : "")><label for="checkbox34"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox35" value="Autonome" name="Leadership" @(Model.deletedentretienAnnuels.Leadership == "Autonome" ? "checked" : "")><label for="checkbox35"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox36" value="Exemplaire" name="Leadership" @(Model.deletedentretienAnnuels.Leadership == "Exemplaire" ? "checked" : "")><label for="checkbox36"></label>
+                                    </td>
+                                    <td><input type="text" name="comLeadership" , id="comLeadership"></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Gestion budgétaire</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox37" value="Supervisé" name="gestionBudget" @(Model.deletedentretienAnnuels.gestionBudget == "Supervisé" ? "checked" : "")><label for="checkbox37"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox38" value="Expérimenté" name="gestionBudget" @(Model.deletedentretienAnnuels.gestionBudget == "Expérimenté" ? "checked" : "")><label for="checkbox38"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox39" value="Autonome" name="gestionBudget"><label for="checkbox39" @(Model.deletedentretienAnnuels.gestionBudget == "Autonome" ? "checked" : "")></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox40" value="Exemplaire" name="gestionBudget"><label for="checkbox40" @(Model.deletedentretienAnnuels.gestionBudget == "Exemplaire" ? "checked" : "")></label>
+                                    </td>
+                                    <td><input type="text" name="comGBud" , id="comGBud"></td>
+                                </tr>
+                                <tr>
+                                    <td>Maitrise de soi</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox41" value="Supervisé" name="maitriseSoi" @(Model.deletedentretienAnnuels.maitriseSoi == "Supervisé" ? "checked" : "")><label for="checkbox41"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox42" value="Expérimenté" name="maitriseSoi" @(Model.deletedentretienAnnuels.maitriseSoi == "Expérimenté" ? "checked" : "")><label for="checkbox42"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox43" value="Autonome" name="maitriseSoi" @(Model.deletedentretienAnnuels.maitriseSoi == "Autonome" ? "checked" : "")><label for="checkbox43"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox44" value="Exemplaire" name="maitriseSoi" @(Model.deletedentretienAnnuels.maitriseSoi == "Exemplaire" ? "checked" : "")><label for="checkbox44"></label>
+                                    </td>
+                                    <td><input type="text" name="comCharisme" , id="comCharisme"></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Charisme- Pouvoir de persuasion</td>
+
+                                    <td>
+                                        <input type="radio" id="checkbox45" value="Supervisé" name="charisme" @(Model.deletedentretienAnnuels.charisme == "Supervisé"  ? "checked" : "")><label for="checkbox45"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox46" value="Expérimenté" name="charisme" @(Model.deletedentretienAnnuels.charisme == "Expérimenté" ? "checked" : "")><label for="checkbox46"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox47" value="Autonome" name="charisme" @(Model.deletedentretienAnnuels.charisme == "Autonome" ? "checked" : "")><label for="checkbox47"></label>
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="checkbox48" value="Exemplaire" name="charisme" @(Model.deletedentretienAnnuels.charisme == "Exemplaire" ? "checked" : "")><label for="checkbox4"></label>
+                                    </td>
+
+                                    <td><input type="text" name="comMaitriseSoi" , id="comMaitriseSoi"></td>
+
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="stepPage" id="stepPage4">
+
+                        <h4>2.1.2 Competences professionnelles</h4>
+                        <h3>Evaluation réalisée par le resp. hiérarchique</h3>
+                        <p>* une ligne de compétence peut être vide si n'a pa encore atteint le niveau minimal requis</p>
+                        <div class="custom-table">
+                            <table>
+                                <tr>
+                                    <th>Compétences</th>
+                                    <th>Supervisé</th>
+                                    <th>Expérimenté</th>
+                                    <th>Autonome</th>
+                                    <th>Exemplaire</th>
+                                    <th>Commentaires(indiquez si la compétencce n'est pas encore aquise ou non nécessaire)</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c1" , id="c1" value="@Model.deletedentretienAnnuels.c1"></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC1" @(Model.deletedentretienAnnuels.checkC1 == "Supervisé" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC1" @(Model.deletedentretienAnnuels.checkC1 == "Expérimenté" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC1" @(Model.deletedentretienAnnuels.checkC1 == "Autonome" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC1" @(Model.deletedentretienAnnuels.checkC1 == "Exemplaire" ? "checked" : "")></td>
+                                    <td><input type="text" name="comC1" , id="comC1" value="@Model.deletedentretienAnnuels.comC1"></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c2" , id="c2" value="@Model.deletedentretienAnnuels.c2"></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC2" @(Model.deletedentretienAnnuels.checkC2 == "Supervisé" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC2" @(Model.deletedentretienAnnuels.checkC2 == "Expérimenté" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC2" @(Model.deletedentretienAnnuels.checkC2 == "Autonome" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC2" @(Model.deletedentretienAnnuels.checkC2 == "Exemplaire" ? "checked" : "")></td>
+                                    <td><input type="text" name="comC2" , id="comC2" value="@Model.deletedentretienAnnuels.comC2"></td>
+
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="c3" , id="c3" value="@Model.deletedentretienAnnuels.c3"></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC3" @(Model.deletedentretienAnnuels.checkC3 == "Supervisé" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC3" @(Model.deletedentretienAnnuels.checkC3 == "Expérimenté" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC3" @(Model.deletedentretienAnnuels.checkC3 == "Autonome" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC3" @(Model.deletedentretienAnnuels.checkC3 == "Exemplaire" ? "checked" : "")></td>
+                                    <td><input type="text" name="comC3" , id="comC3" value="@Model.deletedentretienAnnuels.comC3"></td>
+                                </tr>
+                                <tr>
+
+                                    <td><input type="text" name="c4" , id="c4" value="@Model.deletedentretienAnnuels.c4"></td>
+                                    <td><input type="radio" value="Supervisé" name="checkC4" @(Model.deletedentretienAnnuels.checkC4 == "Supervisé" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Expérimenté" name="checkC4" @(Model.deletedentretienAnnuels.checkC4 == "Expérimenté" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Autonome" name="checkC4" @(Model.deletedentretienAnnuels.checkC4 == "Autonome" ? "checked" : "")></td>
+                                    <td><input type="radio" value="Exemplaire" name="checkC4" @(Model.deletedentretienAnnuels.checkC4 == "Exemplaire" ? "checked" : "")></td>
+                                    <td><input type="text" name="comC4" , id="comC4" value="@Model.deletedentretienAnnuels.comC4"></td>
+                                </tr>
+
+                            </table>
+                        </div><br>
+                        <h2>Section 3 : FORMATION ET EVOLUTION DE CARRIERE</h2>
+                        <div class="cadre1">
+                            <h5>3.1 FORMATION ET RESSOURCES (nécessaires à l'atteinte des objectifs à cout et moyen terme)</h5>
+                            <h4>3.1.1 Résultats des actions de formation planifiées de l'année</h4>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.ResultatActFormation, new { htmlAttributes = new { @class = "form-control", Name = "ResultatActFormation", id = "ResultatActFormation" } })
+                            <h4>3.1.2 Formations et mesures de développement personnel pour l'année à venir et à moyen terme(2-3) ans à en liaison avec l'analyse des compétences acquises et requises pour le poste actuel ou le prochain poste.</h4>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.FormationMesureDev, new { htmlAttributes = new { @class = "form-control", Name = "FormationMesureDev", id = "FormationMesureDev" } })
+
+                        </div><br>
+                        <div class="cadre1">
+
+                            <h4>3.1.3 Ressources nécessaire pour atteindre les objectifs de l'année à venir ( y compris cochaing par n+1 , sauf formation)</h4>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.ResourceNecessaire, new { htmlAttributes = new { @class = "form-control", Name = "ResourceNecessaire", id = "ResourceNecessaire" } })
+
+                        </div><br>
+                        <h5>3.2 EVOLUTION DE CARRIERE</h5>
+                        <p>A remplir pendant l'entretien entre le salarié et son responsable direct(à detailler autant que possible)</p>
+                        <div class="cadre">
+
+                            <h4>3.2.1 souhaits d'évaluation professionelle</h4><br>
+                            <h4>commentaires:</h4>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.comntSouhaitEvolution, new { htmlAttributes = new { @class = "form-control", Name = "comntSouhaitEvolution", id = "comntSouhaitEvolution" } })
+
+
+                            <h4>3.2.2 Souhaits de mobilité nationale ou inernationale- à précisier.</h4>
+                            <h4>commentaires:</h4>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.comntSouhaitMobilite, new { htmlAttributes = new { @class = "form-control", Name = "comntSouhaitMobilite", id = "comntSouhaitMobilite" } })
+
+
+                        </div>
+                    </div>
+
+                    <div class="stepPage" id="stepPage5">
+                        and here's the last step. the progress bar is responsive btw
+
+                        <div class="cadre1">
+
+                            <h4>3.2.3 Prochaines étapes de carrière (qui peuvent avoir été discutées séparement)</h4>
+                            <h4>commentaires:</h4><br>
+                            @Html.EditorFor(model => model.deletedentretienAnnuels.comntProchaineEtape, new { htmlAttributes = new { @class = "form-control", Name = "comntProchaineEtape", id = "comntProchaineEtape" } })
+                            @*<input type="text" class="underlined-input">
+                                <input type="text" class="underlined-input">*@
+                            <h4>3.2.4 Souhaits de carrière pouvant l'objet d'un examen faire l'objet d'un examen plus approfondi lors d'un entretien de carrière</h4>
+                            <p>
+                                Date du prochain entretien de carrière:
+                                <input type="date" class="form-control" name="dateProchainEnretien" id="dateProchainEnretien">
+                            </p>
+
+                            <script>
+                                // Get today's date
+                                var today = new Date();
+
+                                // Add one day to today's date
+                                today.setDate(today.getDate() + 1);
+
+                                // Convert the date to string format (YYYY-MM-DD)
+                                var tomorrow = today.toISOString().split('T')[0];
+
+                                // Set the minimum date for the input field
+                                document.getElementById('dateProchainEnretien').setAttribute('min', tomorrow);
+                            </script>
+
+
+
+
+                        </div>
+                        <h2>Section 4 : EVALUATION GENERALE</h2>
+                        <div class="cadre1">
+                            <h5>4.1 EVALUATION GENERALE DU RESPONSABLE DIRECT (N+1)</h5>
+                            <p>Commentaires généraux : évaluation de la maîtrise de fonction au regard des standards TIS et orientations principales pour le développement futur</p>
+                            @Html.TextAreaFor(model => model.deletedentretienAnnuels.comntGenereaux, new { htmlAttributes = new { @class = "form-control", Name = "comntGenereaux", id = "comntGenereaux" } });
+                            <div>
+                                <p>
+                                    Signature du Responsable direct (N+1) @Html.EditorFor(model => model.deletedentretienAnnuels.Signature1RespN_1, new { htmlAttributes = new { @class = "form-control", Name = "Signature1RespN_1", id = "Signature1RespN_1" } })
+
+                                    Date:
+                                    @Html.EditorFor(model => model.deletedentretienAnnuels.date1, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date1", id = "date1", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+
+
+                                </p>
+                            </div>
+
+
+
+                        </div><br>
+                        <h5>4.2 COMMENTAIRES DU SALARIE</h5>
+                        <div class="cadre">
+
+                            @Html.TextAreaFor(model => model.deletedentretienAnnuels.comntSalaire, new { htmlAttributes = new { @class = "form-control", Name = "comntSalaire", id = "comntSalaire" } });
+                            <div>
+                                <p>Signature du Salarié: @Html.EditorFor(model => model.deletedentretienAnnuels.signature2Salarie, new { htmlAttributes = new { @class = "form-control", Name = "signature2Salarie", id = "signature2Salarie" } })
+                                <p>
+                                    Date:
+                                    @Html.EditorFor(model => model.deletedentretienAnnuels.date2, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date2", id = "date2", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                </p>
+                                </p>
+                                <P>nota bene:la signature du salarié ne signifie pas l'acceptation du contenu de ce documment</P>
+                            </div>
+
+
+                        </div><br>
+                        <h5>4.3 AVIS DES RESPONSABLES N+2 ET FONCTIONNEL/DEPARTEMENT</h5>
+                        <div class="cadre1">
+
+                            <h4>4.3.1 Avis du N+2</h4>
+                            @Html.TextAreaFor(model => model.deletedentretienAnnuels.AvisN_2, new { htmlAttributes = new { @class = "form-control", Name = "AvisN_2", id = "AvisN_2" } })
+                            <div>
+                                <p>Nom & Signature (N+2) @Html.EditorFor(model => model.deletedentretienAnnuels.NomSignatureN_2, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureN_2", id = "NomSignatureN_2" } })</p>
+
+                            </div>
+                            <h4>4.3.2 Avis du Responsable fonctionnel</h4>
+                            @Html.TextAreaFor(model => model.deletedentretienAnnuels.AvisRespFonctionel, new { htmlAttributes = new { @class = "form-control", Name = "AvisRespFonctionel", id = "AvisRespFonctionel" } });
+                            <div>
+                                <p>
+                                    Nom & Signature (Resp. Fonctionnel/Département) @Html.EditorFor(model => model.deletedentretienAnnuels.NomSignatureResFonct_Depart, new { htmlAttributes = new { @class = "form-control", Name = "NomSignatureResFonct_Depart", id = "NomSignatureResFonct_Depart" } })
+                                    Date:@Html.EditorFor(model => model.deletedentretienAnnuels.date4, new { htmlAttributes = new { @class = "form-control", type = "date", Name = "date4", id = "date4", @readonly = "readonly", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                </p>
+
+                            </div>
+
+
+
+
+                            @*@if (@prjetFinal.Models.ath_windows.CurrentUser.getMatricule() == Model.entretienAnnuels.NomRespFonctionel)
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal4">
+                                        b bbbbb
+                                    </button>
+                                }*@
+
+
+                            @{
+                                var controller = ViewContext.Controller as @ProjectWith.Controllers.EntretienAnnuelsController; // Replace YourControllerName with the actual name of your controller class
+                            }
+
+                            @if (controller != null && controller.IsCurrentUserResponsableFonctionnel(Model.deletedentretienAnnuels.Matricule))
+                            {
+                                <div class="col-lg-6 mb-2">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(model => model.deletedentretienAnnuels.Note, new { @class = "text-label form-label" })
+                                        @Html.EditorFor(model => model.deletedentretienAnnuels.Note, new { htmlAttributes = new { @class = "form-control", type = "text", Name = "Note", id = "Note" } })
+                                    </div>
+                                </div>
+                            }
+
+
+
+
+                        </div><br>
+
+
+                    </div>
+                    <nav id="navigation">
+                        <button id="prev" onclick="prev()"> &lt; </button>
+                        <button id="next"> &gt; </button>
+                    </nav>
+
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<script src="vendor/global/global.min.js"></script>
+
+<script src="vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js"></script>
+<script src="vendor/jquery-steps/build/jquery.steps.min.js"></script>
+<script src="page-error-404.html"></script>
+<!-- Form validate init -->
+<script src="js/plugins-init/jquery.validate-init.js"></script>
+
+
+<!-- Form Steps -->
+<script src="vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
+<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+
+<script src="js/custom.min.js"></script>
+<script src="js/dlabnav-init.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/styleSwitcher.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // SmartWizard initialize
+        $('#smartwizard').smartWizard();
+    });
+</script>
+
+
+<script>
+    var currentStep = 1;
+    var stepsNum = 5;
+
+    // show default page
+    document.getElementById("stepPage" + currentStep).style.display = "block";
+    document.getElementById("stepLable" + currentStep).classList.add("activeStep");
+
+    // change step from current active step to a new active (next or previous)
+    function changeStep(active, newActive) {
+        // get active step page and hide it
+        document.getElementById("stepPage" + active).style.display = "none";
+
+        // show new step page
+        document.getElementById("stepPage" + newActive).style.display = "block";
+
+        // get active step label and remove class active
+        var activeStepL = document.querySelector(".activeStep");
+        activeStepL.classList.remove("activeStep");
+
+        // get new active step label, add class active
+        var newActiveStepL = document.getElementById("stepLable" + newActive);
+        newActiveStepL.classList.add("activeStep");
+
+        // update progress bar
+        var p = (100 / (stepsNum - 1)) * (newActive - 1);
+        document.getElementById("completedProgress").style.width = p + "%";
+
+        // if user moves to next step, add class completed to previous
+        if (active < newActive) {
+            activeStepL.classList.add("completedStep");
+            activeStepL.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="font-size:40px" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">' + '<path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>' + '</svg>';
+        }
+
+        // avoid overlap, remove class completed from new active
+        if (newActiveStepL.classList.contains("completedStep")) {
+            newActiveStepL.classList.remove("completedStep");
+            newActiveStepL.innerHTML = newActive;
+        }
+
+        // Show or hide submit button based on the current step
+        if (newActive === stepsNum) {
+            // Remove the next button
+            document.getElementById("next").style.display = "none";
+
+            // Create a submit button if it doesn't exist
+            var submitButton = document.getElementById("send");
+            if (!submitButton) {
+               // submitButton = document.createElement("button");
+                submitButton.innerHTML = "Submit";
+                submitButton.type = "submit";
+                submitButton.id = "send"; // Set the ID to "send"
+                //submitButton.onclick = function (event) {
+                //    event.preventDefault();
+                //    document.getElementById("entretienForm").submit();
+                //};
+
+                // Append the submit button to the navigation
+                var nav = document.getElementById("navigation");
+                nav.appendChild(submitButton);
+            }
+        } else {
+            // Change the button text and ID back to default
+            document.getElementById("next").style.display = "inline"; // Make sure the "Next" button is visible
+            document.getElementById("next").innerHTML = "&gt;";
+            document.getElementById("next").id = "next"; // Change ID back to "next"
+
+            // Remove the submit button if it exists
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.parentNode.removeChild(submitButton); // Remove the "Submit" button if present
+            }
+        }
+    }
+
+    // Add event listeners to step labels in the progress bar
+    document.querySelectorAll("#progressbarContainer ul li").forEach(function (stepLabel) {
+        stepLabel.addEventListener("click", function () {
+            // Get the step number from the clicked label
+            var newStep = parseInt(stepLabel.innerHTML);
+
+            // Change the step
+            if (newStep !== currentStep) {
+                changeStep(currentStep, newStep);
+                currentStep = newStep;
+
+                // Update visibility of previous and next buttons based on the current step
+                if (currentStep === 1) {
+                    document.getElementById("prev").style.visibility = "hidden";
+                } else {
+                    document.getElementById("prev").style.visibility = "visible";
+                }
+
+                if (currentStep === stepsNum) {
+                    document.getElementById("next").style.display = "none";
+                } else {
+                    document.getElementById("next").style.display = "inline";
+                }
+            }
+        });
+    });
+
+    document.getElementById("next").addEventListener("click", next);
+    document.getElementById("prev").addEventListener("click", prev);
+
+
+    function next(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        window.scrollTo(0, 0);
+
+        // Check if it's the last step
+        if (currentStep >= stepsNum) {
+            // Submit the form
+            document.getElementById("entretienForm").submit();
+        } else {
+            // Move to the next step
+            changeStep(currentStep, currentStep + 1);
+            currentStep++;
+            document.getElementById("prev").style.visibility = "visible";
+
+            // Check if it's the last step
+            if (currentStep === stepsNum) {
+                // Remove the next button
+                var nextButton = document.getElementById("next");
+                nextButton.style.display = "none";
+
+                // Create a submit button if it doesn't exist
+                var submitButton = document.getElementById("send");
+                if (!submitButton) {
+                    submitButton = document.createElement("button");
+                    submitButton.innerHTML = "Submit";
+                    submitButton.type = "submit";
+                    submitButton.id = "send"; // Set the ID to "send"
+                    submitButton.onclick = function (event) {
+                        event.preventDefault();
+                        document.getElementById("entretienForm").submit();
+                    };
+
+                    // Append the submit button to the desired nav element
+                    var navElement = document.getElementById("navigation"); // Change this to your desired nav element ID
+                    navElement.appendChild(submitButton);
+
+                    // Style the submit button to match the other buttons in the nav element
+                    submitButton.classList.add("btn", "btn-primary", "ml-2");
+                }
+            } else {
+                // Change the button text and ID back to default
+                document.getElementById("next").innerHTML = "&gt;";
+                document.getElementById("next").id = "next"; // Change ID back to "next"
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    function prev(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        window.scrollTo(0, 0);
+
+        // Make sure you're not going back beyond the first step
+        if (currentStep >= 2) {
+            // Move to the previous step
+            changeStep(currentStep, currentStep - 1);
+            currentStep--;
+
+            // Hide the "Previous" button if it's the first step
+            if (currentStep < 2) {
+                document.getElementById("prev").style.visibility = "hidden";
+            }
+
+            // Check if you're on the last step
+            if (currentStep === stepsNum) {
+                // Remove the submit button and restore the "Next" button
+                var submitButton = document.getElementById("send");
+                if (submitButton) {
+                    submitButton.parentNode.removeChild(submitButton); // Remove the "Submit" button if present
+                }
+                document.getElementById("next").style.display = "inline"; // Make sure the "Next" button is visible
+            }
+        }
+
+        // If not on the last step, ensure the submit button is hidden and the next button is visible
+        if (currentStep !== stepsNum) {
+            var submitButton = document.getElementById("send");
+            if (submitButton) {
+                submitButton.parentNode.removeChild(submitButton); // Remove the "Submit" button if present
+            }
+            document.getElementById("next").style.display = "inline"; // Make sure the "Next" button is visible
+        }
+    }
+</script>
+
+
+
+<script>
+    $("#Send").on("click", function () {
+        var id = $("#id").val();
+ // Assurez-vous que l'ID est correctement défini
+        var Nom = $("#Nom").val();
+        var Prenom = $("#Prenom").val();
+var LibelleFonction = $("#LibelleFonction").val();
+var DateEntree = $("#DateEntree").val();
+var DateDerniereRevue = $("#DateDerniereRevue").val();
+var Service = $("#Service").val();
+var NomRespHierarchiqueN_1 = $("#NomRespHierarchiqueN_1").val();
+var NomRespFonctionel = $("#NomRespFonctionel").val();
+var DateEntretien = $("#DateEntretien").val();
+        var autoEvalSal1 = $("#autoEvalSal1").val();
+var competenceCaractUtiles = $("#competenceCaractUtiles").val();
+var competenceCaractAcquerir = $("#competenceCaractAcquerir").val();
+var question1 = $("#question1").val();
+var orientationResulttat = $("#orientationResulttat").val();
+var agilite_Adaptabilite = $("#agilite_Adaptabilite").val();
+var ouvertureEsprit = $("#ouvertureEsprit").val();
+var qualitesRelationnelles = $("#qualitesRelationnelles").val();
+var travailEquipe = $("#travailEquipe").val();
+var ResolutionProbleme = $("#ResolutionProbleme").val();
+var gestionProjet = $("#gestionProjet").val();
+var communication = $("#communication").val();
+var Leadership = $("#Leadership").val();
+var gestionBudget = $("#gestionBudget").val();
+var charisme = $("#charisme").val();
+var maitriseSoi = $("#maitriseSoi").val();
+var ResultatActFormation = $("#ResultatActFormation").val();
+var FormationMesureDev = $("#FormationMesureDev").val();
+var ResourceNecessaire = $("#ResourceNecessaire").val();
+var comntSouhaitEvolution = $("#comntSouhaitEvolution").val();
+var comntSouhaitMobilite = $("#comntSouhaitMobilite").val();
+var comntProchaineEtape = $("#comntProchaineEtape").val();
+var dateProchainEnretien = $("#dateProchainEnretien").val();
+var comntGenereaux = $("#comntGenereaux").val();
+var Signature1RespN_1 = $("#Signature1RespN_1").val();
+var date1 = $("#date1").val();
+var comntSalaire = $("#comntSalaire").val();
+var signature2Salarie = $("#signature2Salarie").val();
+var date2 = $("#date2").val();
+var AvisN_2 = $("#AvisN_2").val();
+var NomSignatureN_2 = $("#NomSignatureN_2").val();
+var date3 = $("#date3").val();
+var AvisRespFonctionel = $("#AvisRespFonctionel").val();
+var NomSignatureResFonct_Depart = $("#NomSignatureResFonct_Depart").val();
+var date4 = $("#date4").val();
+var comOrientationResulttat = $("#comOrientationResulttat").val();
+var ComAgilite = $("#ComAgilite").val();
+var comOuv = $("#comOuv").val();
+var comQualité = $("#comQualité").val();
+var comEquipe = $("#comEquipe").val();
+var comResolP = $("#comResolP").val();
+var comGP = $("#comGP").val();
+var comCommunication = $("#comCommunication").val();
+var comLeadership = $("#comLeadership").val();
+var comGBud = $("#comGBud").val();
+var comMaitriseSoi = $("#comMaitriseSoi").val();
+var comCharisme = $("#comCharisme").val();
+var c1 = $("#c1").val();
+var c2 = $("#c2").val();
+var c3 = $("#c3").val();
+var c4 = $("#c4").val();
+var comC1 = $("#comC1").val();
+var comC2 = $("#comC2").val();
+var comC3 = $("#comC3").val();
+var comC4 = $("#comC4").val();
+
+        var Matricule = $("#Matricule").val();
+        var Note = $("#Note").val();
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit", "EntretienAnnuels")",
+            data: {
+                id: id,
+                Nom: Nom,
+                Prenom: Prenom,
+                LibelleFonction: LibelleFonction,
+                DateEntree: DateEntree,
+                DateDerniereRevue: DateDerniereRevue,
+                Service: Service,
+                NomRespHierarchiqueN_1: NomRespHierarchiqueN_1,
+                NomRespFonctionel: NomRespFonctionel,
+                DateEntretien: DateEntretien,
+                autoEvalSal1: autoEvalSal1,
+                competenceCaractUtiles: competenceCaractUtiles,
+                competenceCaractAcquerir: competenceCaractAcquerir,
+                question1: question1,
+                orientationResulttat: orientationResulttat,
+                agilite_Adaptabilite: agilite_Adaptabilite,
+                ouvertureEsprit: ouvertureEsprit,
+                qualitesRelationnelles: qualitesRelationnelles,
+                travailEquipe: travailEquipe,
+                ResolutionProbleme: ResolutionProbleme,
+                gestionProjet: gestionProjet,
+                communication: communication,
+                Leadership: Leadership,
+                gestionBudget: gestionBudget,
+                charisme: charisme,
+                maitriseSoi: maitriseSoi,
+                ResultatActFormation: ResultatActFormation,
+                FormationMesureDev: FormationMesureDev,
+                ResourceNecessaire: ResourceNecessaire,
+                comntSouhaitEvolution: comntSouhaitEvolution,
+                comntSouhaitMobilite: comntSouhaitMobilite,
+                comntProchaineEtape: comntProchaineEtape,
+                dateProchainEnretien: dateProchainEnretien,
+                comntGenereaux: comntGenereaux,
+                Signature1RespN_1: Signature1RespN_1,
+                date1: date1,
+                comntSalaire: comntSalaire,
+                signature2Salarie: signature2Salarie,
+                date2: date2,
+                AvisN_2: AvisN_2,
+                NomSignatureN_2: NomSignatureN_2,
+                date3: date3,
+                AvisRespFonctionel: AvisRespFonctionel,
+                NomSignatureResFonct_Depart: NomSignatureResFonct_Depart,
+                date4: date4,
+                comOrientationResulttat: comOrientationResulttat,
+                ComAgilite: ComAgilite,
+                comOuv: comOuv,
+                comQualité: comQualité,
+                comEquipe: comEquipe,
+                comResolP: comResolP,
+                comGP: comGP,
+                comCommunication: comCommunication,
+                comLeadership: comLeadership,
+                comGBud: comGBud,
+                comMaitriseSoi: comMaitriseSoi,
+                comCharisme: comCharisme,
+                c1: c1,
+                c2: c2,
+                c3: c3,
+                c4: c4,
+                comC1: comC1,
+                comC2: comC2,
+                comC3: comC3,
+                comC4: comC4,
+                Matricule: Matricule,
+                Note: Note,
+
+            },
+
+            success: function (data) {
+                console.log("Modifications enregistrées avec succès");
+
+                window.location.reload();
+                // Rediriger ou afficher un message de succès si nécessaire
+            },
+            error: function (xhr, status, error) {
+                console.error("Erreur lors de la modification :", error);
+                // Gérer les erreurs si nécessaire
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#objectifForm').submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#myModal').modal('hide');
+                    $('.modal-backdrop').remove();
+
+                    // Create delete link with anti-forgery token using jQuery
+                    var deleteLink = $('<a></a>')
+                        .attr('href', '#') // Set href to '#' to prevent navigation
+                        .attr('class', 'delete-link')
+                        .attr('data-id', data.id)
+                        .text('Delete')
+                        .click(function (event) {
+                            event.preventDefault(); // Prevent default link behavior
+
+                            var id = $(this).data('id');
+
+                            // Send AJAX request to delete the item
+                            $.ajax({
+                                url: '/ObjSpecifiques/Delete/' + id,
+                                type: 'POST',
+                                data: { id: id, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                                success: function () {
+                                    // Remove the row from the table upon successful deletion
+                                    $('#objSpecifiqueTable tr[data-id="' + id + '"]').remove();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                        });
+
+                    // Append delete link to table row
+                    var newRowHtml = $('<tr></tr>')
+                        .append('<td>' + data.ObjectifSpecifique + '</td>')
+                        .append('<td>' + data.Synthese + '</td>')
+                        .append($('<td></td>').append(deleteLink));
+
+                    // Append new row to table
+                    $('#objSpecifiqueTable').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#autoEvaluationForm').submit(function (event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Perform an AJAX request to submit the form data
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Hide the modal
+                    $('#myModal1').modal('hide');
+                    // Remove the modal backdrop
+                    $('.modal-backdrop').remove();
+
+                    // Append the new row to the list
+                    var newRowHtml = '<li>' +
+                        '<span>' + data.theme + '</span>' +
+                        '<span>' + data.lieu + '</span>' +
+                        '<span>' + data.duree + '</span>' +
+                        '</li>';
+                    $('#autoEvaluationList').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors appropriately
+                    console.error(error);
+                }
+            });
+
+            // Reset the form fields
+            $('#autoEvaluationForm')[0].reset();
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        // Variable pour suivre le nombre de soumissions
+        var submissionsCount = 0;
+        // Variable pour suivre si l'alerte pour le nombre minimum a déjà été affichée
+        var minAlertShown = false;
+
+        $('#ObjVForm').submit(function (event) {
+            // Empêcher le comportement par défaut du formulaire
+            event.preventDefault();
+
+            // Récupérer les données du formulaire
+            var formData = $(this).serialize();
+
+            // Vérifier le nombre de soumissions
+            if (submissionsCount < 6) {
+                // Effectuer une requête AJAX pour soumettre le formulaire
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function (data) {
+                        // Actualiser le contenu de la stepPage2
+                        $('#stepPage2').html($(data).find('#stepPage2').html());
+
+                        // Masquer la modal après la soumission réussie
+                        $('#myModal3').modal('hide');
+
+                        // Supprimer le backdrop après la fermeture de la modal
+                        $('.modal-backdrop').remove();
+
+                        // Incrémenter le nombre de soumissions
+                        submissionsCount++;
+
+                        // Vérifier si le nombre maximum de soumissions est atteint après l'incrémentation
+                        if (submissionsCount >= 6) {
+                            // Désactiver le bouton d'ouverture de modal
+                            $('#myModal3Btn').prop('disabled', true);
+                            alert("Vous avez atteint le nombre maximum de soumissions.");
+                        } else if (submissionsCount === 3 && !minAlertShown) {
+                            // Afficher l'alerte pour le nombre minimum uniquement à la 3ème soumission si elle n'a pas déjà été affichée
+                            minAlertShown = true;
+                            alert("Vous avez atteint le nombre minimum de soumissions. Vous pouvez continuer à remplir le formulaire.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Gérer les erreurs en conséquence
+                        console.error(error);
+                    }
+                });
+
+                // Si c'est la 3ème soumission, afficher les données saisies dans le tableau
+                if (submissionsCount === 2) {
+                    // Insérer les données dans le tableau
+                    $('#objectifsTable').append('<tr>' +
+                        '<td>' + formData.get('ObjectifsPrincipeauxSmart') + '</td>' +
+                        '<td>' + formData.get('indicateur') + '</td>' +
+                        '<td>' + formData.get('ARealiserEnT1__T4') + '</td>' +
+                        '</tr>');
+                }
+            } else {
+                // Si le nombre de soumissions est supérieur ou égal à 6, empêcher la soumission
+                alert("Vous avez atteint le nombre maximum de soumissions.");
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#EvalGenForm').submit(function (event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Store a reference to the stepPage2
+            var $stepPage2 = $('#stepPage2');
+
+            // Perform an AJAX request to submit the form
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Update the content of stepPage2 with the received data
+                    $stepPage2.html($(data).find('#stepPage2').html());
+
+                    // Hide the modal after successful submission
+                    $('#myModal2').modal('hide');
+
+                    // Remove the modal backdrop after modal closure
+                    $('.modal-backdrop').remove();
+
+                    // Display a success message or perform any other necessary manipulation
+                    // Construct the new row HTML based on the submitted data
+                    var newRowHtml = '<li>' +
+                        '<span>' + data.Performance + '</span>' +
+                        '<span>' + data.commentaire + '</span>' +
+                        '<span>' + data.tendance + '</span>' +
+                        '</li>';
+
+                    // Append the new row to the autoEvaluationList
+                    $('#autoEvaluationList').append(newRowHtml);
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors accordingly
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#noteForm').submit(function (event) {
+            // Empêcher le comportement par défaut du formulaire
+            console.log("Form submission triggered!");
+            event.preventDefault();
+
+            // Stocker une référence à la stepPage2
+            var $stepPage5 = $('#stepPage5');
+
+            // Effectuer une requête AJAX pour soumettre le formulaire
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    // Actualiser le contenu de la stepPage2
+                    $stepPage5.html($(data).find('#stepPage5').html());
+
+                    // Masquer la modal après la soumission réussie
+                    $('#myModal4').modal('hide');
+
+                    // Supprimer le backdrop après la fermeture de la modal
+                    $('.modal-backdrop').remove();
+
+                    // Afficher un message de succès ou effectuer toute autre manipulation nécessaire
+
+
+                    // Réinitialiser les scripts et les événements associés à la stepPage2
+                    // Cela peut inclure la réinitialisation des plugins jQuery ou la réattribution des événements
+                    // Assurez-vous d'ajuster cette partie en fonction de votre code JavaScript existant
+                    // Par exemple :
+                    // $('.datepicker').datepicker(); // Si vous utilisez un plugin de datepicker
+
+                },
+                error: function (xhr, status, error) {
+                    // Gérer les erreurs en conséquence
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+<script>
+    // Function to store the current step in session storage
+    function setCurrentStep(step) {
+        sessionStorage.setItem('currentStep', step);
+    }
+
+    // Function to retrieve the current step from session storage
+    function getCurrentStep() {
+        return sessionStorage.getItem('currentStep');
+    }
+
+    // Function to initialize the current step on page load
+    window.onload = function () {
+        var currentStep = getCurrentStep();
+        if (currentStep) {
+            // If a current step is stored, show that step
+            showStep(currentStep);
+        }
+    }
+
+    // Function to show the specified step
+    function showStep(step) {
+        // Hide all steps
+        var steps = document.querySelectorAll('.stepPage');
+        steps.forEach(function (step) {
+            step.style.display = 'none';
+        });
+
+        // Show the specified step
+        document.getElementById('stepPage' + step).style.display = 'block';
+
+        // Store the current step
+        setCurrentStep(step);
+    }
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Sélectionnez toutes les étapes
+        var steps = document.querySelectorAll('.page-titles ul li');
+        // Ajoutez un écouteur de clic à chaque étape
+        steps.forEach(function (step, index) {
+            step.addEventListener('click', function () {
+                // Masquez toutes les parties du formulaire
+                var allStepPages = document.querySelectorAll('.stepPage');
+                allStepPages.forEach(function (page) {
+                    page.style.display = 'none';
+                });
+                // Affichez uniquement la partie du formulaire correspondant à l'étape cliquée
+                var selectedStepPage = document.getElementById('stepPage' + (index + 1));
+                if (selectedStepPage) {
+                    selectedStepPage.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

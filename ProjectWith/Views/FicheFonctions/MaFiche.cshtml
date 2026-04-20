@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ProjectWith.Models.FicheFonction>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4" style="  font-size: 35px; font-weight: bold; margin-top: 20px;"> Ma Fiche Fonction</h2>
+            <!-- Informations utilisateur -->
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Informations utilisateur</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- Image de profil -->
+                            @{
+                                var imagePath = ProjectWith.Models.ath_windows.CurrentUser.getImagePath();
+                                if (imagePath == null)
+                                {
+                                    // Affichage de l'image par défaut si aucune image n'est disponible
+                                    <img src="~/Content/user1.jpg" alt="Photo de profil" class="img-fluid rounded-circle mb-3">
+                                }
+                                else
+                                {
+                                    // Affichage de l'image de l'utilisateur s'il y en a une disponible
+                                    <img src="@Url.Content(imagePath)" alt="Photo de profil" class="img-fluid rounded-circle mb-3">
+                                }
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <!-- Informations utilisateur -->
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fas fa-id-card-alt mr-2"></i>Matricule: @ProjectWith.Models.ath_windows.CurrentUser.getMatricule()
+                                </li>
+                                </br>
+
+                                <li>
+                                    <i class="fas fa-user mr-2"></i>Nom et Prenom: @ProjectWith.Models.ath_windows.CurrentUser.getName()  @ProjectWith.Models.ath_windows.CurrentUser.getLastName()
+                                </li>
+                                </br>
+
+
+                                <li>
+                                    <i class="fas fa-envelope mr-2"></i>Email: @ProjectWith.Models.ath_windows.CurrentUser.getEmail()
+                                </li>
+                                </br>
+
+                                <li>
+                                    <i class="fas fa-fw fa-folder"></i> Service: @ProjectWith.Models.ath_windows.CurrentUser.getService()
+                                </li>
+                                </br>
+                                <li>
+                                    <i class="fas fa-calendar mr-2"></i>Date d'entrée: @ProjectWith.Models.ath_windows.CurrentUser.getDateEntree()
+                                </li>
+                                </br>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+                                        <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                        <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                    </svg> Poste: @ProjectWith.Models.ath_windows.CurrentUser.getFonction()
+                                </li>
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,67 @@
+﻿@model ProjectWith.Models.Experience
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Experience</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lieu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lieu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PDF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PDF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FicheFonction.nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FicheFonction.nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

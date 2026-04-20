@@ -1,0 +1,110 @@
+﻿@model ProjectWith.Models.permission
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    input, select {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .form-container {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        padding: 10px 80px;
+        width: 100%; /* Ajustez la largeur selon vos besoins */
+        margin: 0 5px; /* Ajoutez un peu d'espace entre les deux conteneurs */
+    }
+
+    button {
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        background-color: #842E1B;
+        font-size: 16px;
+        width: auto;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        height: 80vh; /* Ajustez la hauteur selon vos besoins */
+    }
+
+    .main {
+        height: 700px; /* Ajustez la hauteur du contenu principal si nécessaire */
+        width: 80%; /* Ajustez la largeur du contenu principal selon vos besoins */
+        max-width: 1200px; /* Définissez une largeur maximale si nécessaire */
+        margin: 0 auto; /* Centrer horizontalement */
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="main">
+        <div class="container">
+            <div class="form-container">
+                <h1>Modifier rôle</h1>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.id)
+
+                <label for="matriculeEmp">Matricule employé :</label>
+                @Html.TextBoxFor(model => model.MatriculeEmp, new { @class = "form-control", placeholder = "Matricule de l'employé" })
+                @Html.ValidationMessageFor(model => model.MatriculeEmp, "", new { @class = "text-danger" })
+
+                <label for="first">Role:</label>
+                @Html.DropDownList("IdRole", null, htmlAttributes: new { @class = "form-control" })
+               
+
+                <input id="role" value="@Model.IdRole" hidden />
+                <div class="wrap">
+                    <button type="submit" id="submitBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-KyZ91Jy7gGgZPnmO5UGNcPV31G2aKg2o2bSJPtk3u9E=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function (event) {
+            var inputValue = document.getElementById('role').value;
+            if (inputValue === "8") {
+                event.preventDefault(); // Prevent form submission
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Vous ne pouvez pas changer le role de cette employé!',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked OK, submit the form
+                        document.getElementById('submitBtn').form.submit();
+                    }
+                });
+            }
+        });
+    </script>
+}

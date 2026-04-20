@@ -1,0 +1,1072 @@
+﻿@model ProjectWith.Models.DeletedFicheViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="~/fonts/js/email.js"></script>
+
+    <style>
+        html, body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Roboto", sans-serif
+        }
+
+        .rouge {
+            color: #da0000;
+        }
+
+        .texte-blanc {
+            color: white;
+        }
+
+        .rougebg {
+            background-color: #842E1B;
+        }
+
+        .blanc {
+            color: white;
+        }
+
+        .input-large {
+            width: 260px;
+        }
+    </style>
+
+    <style>
+
+        body, body::before {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Roboto", sans-serif;
+            z-index: -1;
+        }
+
+            body::before {
+                content: "";
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                transform: translateZ(-100vmin);
+            }
+
+        .slider-container {
+            position: relative;
+            padding: 1rem;
+            border-radius: 100px;
+            background: hsla(0, 0%, 0%, 0);
+            transition: background 0.2s;
+        }
+
+        .control:hover {
+            background: hsla(0, 0%, 0%, 0.5);
+        }
+
+        input[type="range"] {
+            width: 200px;
+            cursor: grab;
+        }
+
+            input[type="range"]:active {
+                cursor: grabbing;
+            }
+
+        .tooltip {
+            position: absolute;
+            left: var(--thumb-pos, 0%);
+            bottom: 80%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            aspect-ratio: 4 / 3;
+            background: hsl(0 0% 0%);
+            border: 0.5px solid hsl(0 0% 50%);
+            border-radius: 6px;
+            color: hsl(0 0% 98%);
+            font-size: 1rem;
+            font-variant: tabular-nums;
+            box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset, 0 5px 10px -5px black;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        input[type="range"]:hover + .tooltip,
+        input[type="range"]:focus + .tooltip {
+            opacity: 1;
+        }
+
+            input[type="range"]:hover + .tooltip::after,
+            input[type="range"]:focus + .tooltip::after {
+                content: attr(value);
+            }
+    </style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: 'lato', sans-serif;
+            background-color: #0069d6;
+        }
+
+        .conteneur {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5%;
+        }
+
+        .bar {
+            width: 100px;
+            height: 2px;
+            background-color: #ffa500;
+            margin-bottom: 20px;
+        }
+
+        .heading {
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 60px;
+            font-size: 30px;
+        }
+
+        .formulaire {
+            font-size: 20px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .section {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .demi {
+            width: 350px;
+        }
+
+        .total {
+            width: 100%;
+        }
+
+        .button {
+            width: 88%;
+            padding: 10px 0;
+            cursor: pointer;
+            background-color: #842E1B;
+            color: #fff;
+            border: 0;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 30px;
+        }
+
+        #textArea {
+            padding-left: 5px;
+            border-radius: 5px;
+        }
+
+        .center > label {
+            font-weight: 600;
+            color: rgba(17, 17, 17, 0.9);
+        }
+
+        .comments {
+            font-size: 12px;
+            color: red;
+        }
+
+        .input {
+            padding-left: 5px;
+            height: 35px;
+            border-radius: 3px;
+            width: 260px;
+            border: 1px solid rgba(17, 17, 17, 0.4);
+            margin-top: 5px;
+        }
+
+
+        .informationRequise {
+            font-size: 16px;
+            color: #0069d6;
+            font-weight: bold;
+        }
+
+        .blue {
+            color: #0069d6;
+        }
+
+
+        #textArea {
+            width: 100%;
+            height: 80px;
+        }
+
+        .button {
+            width: 100%;
+        }
+
+        .input-large {
+            width: 500px; /* Adjust width as needed */
+            height: 40px; /* Adjust height as needed */
+            font-size: 16px; /* Adjust font size as needed */
+        }
+    </style>
+    <style>
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            border-radius: 5px;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            border-radius: 5px;
+        }
+
+        .button-container {
+            border: 1px solid #ccc; /* Couleur et épaisseur de la bordure */
+            border-radius: 5px; /* Rayon des coins du cadre */
+            padding: 10px; /* Espace intérieur du cadre */
+            display: inline-block; /* Permet d'ajuster la taille du cadre en fonction de son contenu */
+        }
+
+        .action-input {
+            margin-right: 10px; /* Ajoute une marge à droite pour créer un espace entre les boutons */
+        }
+    </style>
+    <style>
+        .rouge {
+            color: red;
+        }
+
+        .table-info {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: transparent;
+        }
+
+            .table-info td {
+                padding: 15px; /* Ajuster le padding pour un meilleur espacement */
+                vertical-align: top;
+                width: 400px; /* Ajuster la largeur des cellules de colonne */
+                background-color: transparent;
+            }
+
+            .table-info .icon-text {
+                display: flex;
+                align-items: center;
+            }
+
+                .table-info .icon-text i,
+                .table-info .icon-text svg {
+                    margin-right: 10px;
+                }
+    </style>
+
+</head>
+
+
+<body class="w3-light-grey">
+
+    <!-- Page Container -->
+    <div class="w3-content w3-margin-top" style="max-width: 2000px;">
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom " style="border-radius: 10px;">
+            <div class="w3-container w3-card w3-white w3-margin-top w3-margin-bottom " style="border-radius: 10px;">
+                <div class="w3-container">
+                    <div style="display: inline-block; margin-top: 20px;">
+                        @if (string.IsNullOrEmpty(Model.DeletedFicheFonctions.image))
+                        {
+                            <img src="~/Content/user2.jpg" alt="" class="img-circle img-responsive" style="width: 300px; height: 300px;">
+                        }
+                        else
+                        {
+                            <img src="~/Content/image/@Model.DeletedFicheFonctions.image" style="width: 300px; height: 300px;" alt="Avatar">
+                        }
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; margin-left: 20px; margin-top: 20px;">
+                        <h2>@Model.DeletedFicheFonctions.nom  @Model.DeletedFicheFonctions.prenom</h2><br />
+                        <table class="table-info">
+                            <tr>
+                                <td>
+                                    <div class="icon-text">
+                                        <i class="fas fa-id-card-alt mr-2 rouge"></i>@Model.DeletedFicheFonctions.Matricule
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-person rouge" viewBox="0 0 16 16">
+                                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                        </svg>
+                                        @Model.DeletedFicheFonctions.poste
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <i class="fa fa-envelope fa-fw w3-large rouge"></i>@Model.DeletedFicheFonctions.email
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <i class="fa fa-phone fa-fw w3-large rouge"></i>@Model.DeletedFicheFonctions.numero
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <i class="fa fa-home fa-fw w3-large rouge"></i>@Model.DeletedFicheFonctions.ville
+                                    </div><br />
+
+                                </td>
+                                <td>
+                                    <div class="icon-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-windows rouge" viewBox="0 0 16 16">
+                                            <path d="M6.555 1.375 0 2.237v5.45h6.555zM0 13.795l6.555.933V8.313H0zm7.278-5.4.026 6.378L16 16V8.395zM16 0 7.33 1.244v6.414H16z" />
+                                        </svg>@Model.DeletedFicheFonctions.cmptWindows
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <div class="icon-text">
+                                            <i class="fas fa-calendar mr-2 rouge"></i>
+                                            <span id="dateRecrutement"></span>
+                                        </div>
+
+                                        <script>
+    // Suppose that @Model.DeletedFicheFonctions.dateRecrutement contains the recruitment date in the format "yyyy-mm-dd"
+    var dateRecrutement = "@Model.DeletedFicheFonctions.dateRecrutement"; // Get the recruitment date from your model
+
+    // Convert the date string into a Date object
+    var dateObjRecrutement = new Date(dateRecrutement);
+
+    // Extract the day, month, and year
+    var jourRecrutement = dateObjRecrutement.getDate();
+    var moisRecrutement = dateObjRecrutement.getMonth() + 1; // Months start from 0, so add 1
+    var anneeRecrutement = dateObjRecrutement.getFullYear();
+
+    // Add leading zero to day and month if necessary
+    if (jourRecrutement < 10) {
+        jourRecrutement = '0' + jourRecrutement;
+    }
+    if (moisRecrutement < 10) {
+        moisRecrutement = '0' + moisRecrutement;
+    }
+
+    // Format the date as dd/mm/yyyy
+    var dateFormateeRecrutement = jourRecrutement + '/' + moisRecrutement + '/' + anneeRecrutement;
+
+    // Update the content of the span element with id "dateRecrutement" with the formatted date
+    document.getElementById("dateRecrutement").textContent = dateFormateeRecrutement;
+                                        </script>
+
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-vcard rouge" viewBox="0 0 16 16">
+                                            <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5" />
+                                            <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z" />
+                                        </svg>@Model.DeletedFicheFonctions.numCin
+                                    </div><br />
+                                    <div class="icon-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cake2 rouge" viewBox="0 0 16 16">
+                                            <path d="m3.494.013-.595.79A.747.747 0 0 0 3 1.814v2.683q-.224.051-.432.107c-.702.187-1.305.418-1.745.696C.408 5.56 0 5.954 0 6.5v7c0 .546.408.94.823 1.201.44.278 1.043.51 1.745.696C3.978 15.773 5.898 16 8 16s4.022-.227 5.432-.603c.701-.187 1.305-.418 1.745-.696.415-.261.823-.655.823-1.201v-7c0-.546-.408-.94-.823-1.201-.44-.278-1.043-.51-1.745-.696A12 12 0 0 0 13 4.496v-2.69a.747.747 0 0 0 .092-1.004l-.598-.79-.595.792A.747.747 0 0 0 12 1.813V4.3a22 22 0 0 0-2-.23V1.806a.747.747 0 0 0 .092-1.004l-.598-.79-.595.792A.747.747 0 0 0 9 1.813v2.204a29 29 0 0 0-2 0V1.806A.747.747 0 0 0 7.092.802l-.598-.79-.595.792A.747.747 0 0 0 6 1.813V4.07c-.71.05-1.383.129-2 .23V1.806A.747.747 0 0 0 4.092.802zm-.668 5.556L3 5.524v.967q.468.111 1 .201V5.315a21 21 0 0 1 2-.242v1.855q.488.036 1 .054V5.018a28 28 0 0 1 2 0v1.964q.512-.018 1-.054V5.073c.72.054 1.393.137 2 .242v1.377q.532-.09 1-.201v-.967l.175.045c.655.175 1.15.374 1.469.575.344.217.356.35.356.356s-.012.139-.356.356c-.319.2-.814.4-1.47.575C11.87 7.78 10.041 8 8 8c-2.04 0-3.87-.221-5.174-.569-.656-.175-1.151-.374-1.47-.575C1.012 6.639 1 6.506 1 6.5s.012-.139.356-.356c.319-.2.814-.4 1.47-.575M15 7.806v1.027l-.68.907a.94.94 0 0 1-1.17.276 1.94 1.94 0 0 0-2.236.363l-.348.348a1 1 0 0 1-1.307.092l-.06-.044a2 2 0 0 0-2.399 0l-.06.044a1 1 0 0 1-1.306-.092l-.35-.35a1.935 1.935 0 0 0-2.233-.362.935.935 0 0 1-1.168-.277L1 8.82V7.806c.42.232.956.428 1.568.591C3.978 8.773 5.898 9 8 9s4.022-.227 5.432-.603c.612-.163 1.149-.36 1.568-.591m0 2.679V13.5c0 .006-.012.139-.356.355-.319.202-.814.401-1.47.576C11.87 14.78 10.041 15 8 15c-2.04 0-3.87-.221-5.174-.569-.656-.175-1.151-.374-1.47-.575-.344-.217-.356-.35-.356-.356v-3.02a1.935 1.935 0 0 0 2.298.43.935.935 0 0 1 1.08.175l.348.349a2 2 0 0 0 2.615.185l.059-.044a1 1 0 0 1 1.2 0l.06.044a2 2 0 0 0 2.613-.185l.348-.348a.94.94 0 0 1 1.082-.175c.781.39 1.718.208 2.297-.426" />
+                                        </svg>
+                                        <span id="dateNaissance"></span>
+                                    </div>
+
+                                    <script>
+    // Suppose que @Model.DeletedFicheFonctions.dateNaissance contient la date de naissance sous la forme "yyyy-mm-dd"
+    var dateNaissance = "@Model.DeletedFicheFonctions.dateNaissance"; // Obtenez la date de naissance de votre modèle
+
+    // Convertir la chaîne de date en objet Date
+    var dateObj = new Date(dateNaissance);
+
+    // Extraire le jour, le mois et l'année
+    var jour = dateObj.getDate();
+    var mois = dateObj.getMonth() + 1; // Les mois commencent à partir de 0, donc ajoutez 1
+    var annee = dateObj.getFullYear();
+
+    // Ajouter un zéro devant le jour et le mois si nécessaire
+    if (jour < 10) {
+        jour = '0' + jour;
+    }
+    if (mois < 10) {
+        mois = '0' + mois;
+    }
+
+    // Formater la date sous la forme
+    // Formater la date sous la forme dd/mm/yyyy
+    var dateFormatee = jour + '/' + mois + '/' + annee;
+
+    // Mettre à jour le contenu de l'élément span avec l'id "dateNaissance" avec la date formatée
+    document.getElementById("dateNaissance").textContent = dateFormatee;
+                                    </script>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <br>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- The Grid -->
+
+
+    <div class="w3-full">
+        <!-- Deuxième partie de code -->
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" style="border-radius: 10px;">
+            <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge rouge"></i>Formulaire</h2>
+            <div id="form-outer">
+                <div id="form-outer">
+                    <div id="form-outer">
+                        @using (Html.BeginForm("Edit", "DeletedFicheFonctions", FormMethod.Post, new { @class = "formulaire", id = "Form", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.DeletedFicheFonctions.Id, new { htmlAttributes = new { @class = "form-control input-large", id = "id", @readonly = "readonly" } })
+                            <div class="section" style="display: flex; justify-content: space-between;" hidden>
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="Matricule">Matricule</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.Matricule, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_matricule", @readonly = "readonly" } })
+                                </div>
+
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="name">Nom</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.nom, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_nom" } })
+                                </div>
+                                <div class="section" style="display: flex; justify-content: space-between;">
+                                    <div class="center">
+                                        <label for="firstName">Prénom</label><br>
+                                        @Html.EditorFor(model => model.DeletedFicheFonctions.prenom, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_prenom" } })
+                                    </div>
+                                </div>
+                                <div class="section" style="margin-left: 10px;">
+                                    <div class="center action-input ">
+                                        <label for="email">Email</label><br>
+                                        <input class="form-control input-large " id="FicheFonctions_email" type="email" value="@Model.DeletedFicheFonctions.email">
+                                        <span id="emailError" class="error-message" style="display: none;">Please enter a valid email address.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="numero">Numero de téléphone</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.numero, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_numero", @readonly = "readonly" } })
+                                    <span id="numero-error" style="color: red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="section" style="display: flex; justify-content: space-between;" hidden>
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="numCin">numero de CIN</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.numCin, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_numCin" } })
+                                </div>
+                            </div>
+
+                            <div class="center" style="margin-right: 10px;">
+                                <div class="center">
+                                    <label for="firstName">Ville</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.ville, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_ville", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="center">
+                                    <label for="poste">poste</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.poste, new { htmlAttributes = new { @class = "form-control input-large", id = "FicheFonctions_poste", @readonly = "readonly" } })
+                                </div>
+                            </div>
+
+                            <div class="section" style="display: flex; justify-content: space-between;" hidden>
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="cmptwin">compte  Windows</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.cmptWindows, new { htmlAttributes = new { @class = "form-control input-large", id = "cmptwin" } })
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="center" style="margin-right: 10px;" hidden>
+                                    <label for="dateRecrutement">Date de Recrutements</label><br>
+                                    <input name="dateRecrutement" class="form-control input-large" id="FicheFonctions_dateRecrutement"
+                                           value="@(Model.DeletedFicheFonctions.dateRecrutement.HasValue ? Model.DeletedFicheFonctions.dateRecrutement.Value.ToString("yyyy-MM-dd") : string.Empty)" />
+                                </div>
+                            </div>
+
+                            <div class="section" hidden>
+                                <div class="center" style="margin-right: 10px;">
+                                    <label for="dateNaissance">Date de naissance</label><br>
+                                    <input name="dateNaissance" class="form-control input-large" id="FicheFonctions_dateNaissance"
+                                           value="@(Model.DeletedFicheFonctions.dateNaissance.HasValue ? Model.DeletedFicheFonctions.dateNaissance.Value.ToString("yyyy-MM-dd") : string.Empty)" />
+                                </div>
+                            </div>
+
+                            <div class="section" style="margin-left: 10px;">
+                                <div class="center">
+                                    <label for="etatCivil">État civil</label><br>
+                                    @Html.DropDownListFor(model => model.DeletedFicheFonctions.etatCivil,
+                                                                             new SelectList(new[]
+                                                                             {
+                                                                                 new SelectListItem { Text = "Célibataire", Value = "Célibataire" },
+                                                                                 new SelectListItem { Text = "Marié(e)", Value = "Marié(e)" },
+                                                                                 new SelectListItem { Text = "Divorcé(e)", Value = "Divorcé(e)" },
+                                                                                 new SelectListItem { Text = "Veuf/Veuve", Value = "Veuf/Veuve" }
+                                                                             }, "Value", "Text"),
+                                                                             new { @class = "form-control input-large", id = "FicheFonctions_etatCivil", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="section">
+                                <div class="center">
+                                    <label for="roleChef">Matricule du Responsable Hiérarchique</label><br>
+                                    @Html.EditorFor(model => model.DeletedFicheFonctions.Responsable, new { htmlAttributes = new { @class = "form-control input-large", id = "cmptwin", @readonly = "readonly" } })
+
+                                </div>
+                            </div>
+
+
+                        }
+
+
+                        <script>
+    function validateImage() {
+        var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+        var fileInput = document.getElementById('imageFile');
+        var errorDiv = document.getElementById('error-msg');
+
+        if (!allowedExtensions.exec(fileInput.value)) {
+            errorDiv.style.display = 'block';
+            fileInput.value = '';
+        } else {
+            errorDiv.style.display = 'none';
+        }
+    }
+
+    $(document).ready(function () {
+        var initialInputValue = $('#FicheFonctions_numero').val();
+        var inputModified = false;
+
+        $('#FicheFonctions_numero').on('input', function () {
+            inputModified = $(this).val() !== initialInputValue;
+        });
+
+        $('#FicheFonctions_numero').on('blur', function () {
+            var numero = $(this).val();
+            var regex = /^(?:\+216)?\d{8}$/;
+
+            if (inputModified) {
+                if (!regex.test(numero)) {
+                    $('#numero-error').text('choisir un numéro de telephone valide.');
+                    $("#Send").prop("disabled", true);
+                } else {
+                    $.ajax({
+                        url: '@Url.Action("CheckNumero", "FicheFonctions")',
+                        type: 'GET',
+                        data: { numero: numero },
+                        success: function (response) {
+                            if (response.exists) {
+                                $("#Send").prop("disabled", true);
+                                $('#numero-error').text('Ce numéro de téléphone existe déjà.');
+                            } else {
+                                $("#Send").prop("disabled", false);
+                                $('#numero-error').text('');
+                            }
+                        }
+                    });
+                }
+            } else if (!numero) {
+                $('#numero-error').text('Le champ ne peut pas être vide.');
+                $("#Send").prop("disabled", true);
+            } else {
+                $("#Send").prop("disabled", false);
+                $('#numero-error').text('');
+            }
+        });
+
+        $("#Send").prop("disabled", false);
+    });
+                        </script>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+</div>
+            <!-- Assurez-vous d'inclure les bibliothèques d'icônes Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+            <!-- Deuxième container pour "diplome" -->
+            <div class="w3-container w3-card w3-white w3-margin-bottom" style="border-radius: 10px;">
+                <div class="container">
+                    <h2 class="w3-text-grey w3-padding-16 toggle-modal2" data-toggle="modal" data-target="#diplomeModal">
+                        Diplôme(s)
+                    </h2>
+
+                    <ul class="">
+                        @foreach (var diplome in Model.DeletedFicheFonctions.DeletedDiplome)
+                        {
+                            <li class="">
+                                <div class="diplome-details">
+                                    <div class="d-flex justify-content-between">
+                                        <span><strong>Nom De Diplome:</strong> @diplome.NomDiplome</span>
+                                        <span><strong>Date Debut:</strong> @diplome.DateDebut.ToString("d")</span>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span><strong>Lieu:</strong> @diplome.lieu</span>
+                                        <span><strong>Date Fin:</strong> @diplome.DateDebut.ToString("d")</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <strong>Diplome Pdf:</strong>
+                                        @if (!string.IsNullOrEmpty(diplome.PDF))
+                                        {
+                                            <a href="@Url.Content("~/Content/diplomes/" + diplome.PDF)" target="_blank" class="btn btn-sm btn-info">
+                                                <i class="fa fa-file-pdf-o"></i> Open PDF
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <!-- Modal -->
+
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="w3-container w3-card w3-white w3-margin-bottom" style="border-radius: 10px;">
+                <div class="container">
+                    <h2 class="w3-text-grey w3-padding-16 toggle-modal3" data-toggle="modal" data-target="#formationModal">
+                        Formation(s)
+                    </h2>
+                    <ul>
+                        @foreach (var formation in Model.DeletedFicheFonctions.DeletedFormation)
+                        {
+
+                            <li class="">
+                                <div class="formation-details">
+                                    <div class="d-flex justify-content-between">
+                                        <span><strong>Nom De Formation:</strong> @formation.nom</span>
+                                        <span><strong>Date Debut:</strong> @formation.dateDebut.ToString("d")</span>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span><strong>Lieu:</strong> @formation.lieu</span>
+                                        <span><strong>Date Fin:</strong> @formation.dateFin.ToString("d")</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <strong>Formation Pdf:</strong>
+
+                                        @if (!string.IsNullOrEmpty(formation.PDF))
+                                        {
+                                            <a href="@Url.Content("~/Content/formations/" + formation.PDF)" target="_blank" class="btn btn-sm btn-info">
+                                                <i class="fa fa-file-pdf-o"></i> Open PDF
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <hr>
+
+
+
+
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+
+            </div>
+            <div class="w3-container w3-card w3-white w3-margin-bottom" style="border-radius: 10px;">
+                <div class="container">
+                    <h2 class="w3-text-grey w3-padding-16 toggle-modal4" data-toggle="modal" data-target="#experienceModal">
+                        Experience(s)
+                    </h2>
+                    <ul>
+                        @foreach (var experience in Model.DeletedFicheFonctions.DeletedExperience)
+                        {
+                            <li class="">
+                                <div class="experience-details">
+                                    <div class="d-flex justify-content-between">
+                                        <span><strong>Nom D'Experience:</strong> @experience.Titre</span>
+                                        <span><strong>Date Debut:</strong> @experience.dateDebut.ToString("d")</span>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span><strong>Lieu:</strong> @experience.lieu</span>
+                                        <span><strong>Date Fin:</strong> @experience.dateFin.ToString("d")</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <strong>Experience Pdf:</strong>
+
+                                        @if (!string.IsNullOrEmpty(experience.PDF))
+                                        {
+                                            <a href="@Url.Content("~/Content/experiences/" + experience.PDF)" target="_blank" class="btn btn-sm btn-info">
+                                                <i class="fa fa-file-pdf-o"></i> Open PDF
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <hr>
+
+
+
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+
+            </div>
+            <div class="w3-container w3-card w3-white w3-margin-bottom" style="border-radius: 10px;">
+                <div class="container">
+                    <h2 class="w3-text-grey w3-padding-16 toggle-modal4" data-toggle="modal" data-target="#competenceModal">
+                        Competence(s)
+                    </h2>
+
+                    <ul>
+                        @foreach (var competence in Model.DeletedFicheFonctions.DeletedCompetence)
+                        {
+                            <li class="">
+                                <div class="competence-details">
+                                    <div class="d-flex justify-content-between">
+                                        <span><strong>Nom De competence:</strong> @competence.nom</span>
+
+
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span><strong>Type:</strong> @competence.type</span>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span><strong>Niveau de Competence:</strong> @competence.niveau</span>
+
+                                    </div>
+                                    <div class="mt-2">
+                                        <strong>Competence Pdf:</strong>
+
+                                        @if (!string.IsNullOrEmpty(competence.PDF))
+                                        {
+                                            <a href="@Url.Content("~/Content/competences/" + competence.PDF)" target="_blank" class="btn btn-sm btn-info">
+                                                <i class="fa fa-file-pdf-o"></i> Open PDF
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <hr>
+
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+            <!-- Assurez-vous d'inclure les bibliothèques d'icônes Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('.toggle-modal').click(function () {
+                    $('#educationModal').modal('show');
+                });
+
+
+            });
+            document.getElementById('slider-input').addEventListener('input', function (e) {
+                const val = e.target.value;
+                e.target.style.setProperty('--value', val);
+                document.documentElement.style.setProperty('--thumb-pos', `${val}%`);
+                const tooltip = e.target.nextElementSibling;
+                tooltip.setAttribute('value', val);
+                tooltip.style.setProperty('--thumb-pos', `${val}%`);
+            });
+
+
+        </script>
+
+
+        <script>
+    $("#Send").on("click", function () {
+        var id = $("#FicheFonctions_id").val();
+        var nom = $("#FicheFonctions_nom").val();
+        var prenom = $("#FicheFonctions_prenom").val();
+        var email = $("#FicheFonctions_email").val();
+        var ville = $("#FicheFonctions_ville").val();
+        var etatCivil = $("#FicheFonctions_etatCivil").val();
+        var numRib = $("#FicheFonctions_numRib").val();
+        var numero = $("#FicheFonctions_numero").val();
+        var dateNaissance = $("#FicheFonctions_dateNaissance").val();
+        var numCin = $("#FicheFonctions_numCin").val();
+        var poste = $("#FicheFonctions_poste").val();
+        var dateRecrutement = $("#FicheFonctions_dateRecrutement").val();
+        var Matricule = $("#FicheFonctions_matricule").val();
+
+        // Create FormData object
+        var formData = new FormData();
+        formData.append("id", id);
+        formData.append("nom", nom);
+        formData.append("prenom", prenom);
+        formData.append("email", email);
+        formData.append("ville", ville);
+        formData.append("etatCivil", etatCivil);
+        formData.append("numRib", numRib);
+        formData.append("numero", numero);
+        formData.append("dateNaissance", dateNaissance);
+        formData.append("numCin", numCin);
+        formData.append("poste", poste);
+        formData.append("dateRecrutement", dateRecrutement);
+        formData.append("Matricule", Matricule);
+
+        // Append image file to FormData if it exists
+        var imageFile = $("#imageFile").prop("files")[0];
+        if (imageFile) {
+            formData.append("imageFile", imageFile);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit", "DeletedFicheFonctions")",
+            data: formData, // Use formData instead of data
+            contentType: false, // Set content type to false for FormData
+            processData: false, // Set processData to false for FormData
+            success: function (data) {
+                console.log("Modifications enregistrées avec succès");
+                window.location.reload();
+                // Rediriger ou afficher un message de succès si nécessaire
+            },
+            error: function (xhr, status, error) {
+                console.error("Erreur lors de la modification :", error);
+                // Gérer les erreurs si nécessaire
+            }
+        });
+    });
+        </script>
+
+
+
+
+
+        @section scripts {
+            <script>
+                $(document).ready(function () {
+                    // Function to set min attribute of end date input based on start date input value
+                    function setMinEndDate() {
+                        var startDate = $('#dateDebut').val();
+                        $('#dateFin').attr('min', startDate);
+                    }
+
+                    // Function to validate date input
+                    function validateDates() {
+                        var startDate = $('#dateDebut').val();
+                        var endDate = $('#dateFin').val();
+                        var currentDate = new Date().toISOString().split('T')[0]; // Get current date in 'yyyy-mm-dd' format
+
+                        // Check if start date is in the future
+                        if (startDate > currentDate) {
+                            alert('La date de début ne peut pas être dans le futur.');
+                            $('#dateDebut').val(''); // Clear the start date field
+                            return false;
+                        }
+
+                        // Check if end date is before start date
+                        if (startDate && endDate && endDate < startDate) {
+                            alert('La date de fin doit être après la date de début.');
+                            $('#dateFin').val('');
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    // Set min attribute of end date input when start date changes
+                    $('#dateDebut').change(function () {
+                        setMinEndDate();
+                    });
+
+                    // Validate dates on form submission
+                    $('#formationForm').submit(function () {
+                        return validateDates();
+                    });
+
+
+                });
+            </script>
+
+
+            <script>
+                $(document).ready(function () {
+                    // Function to set min attribute of end date input based on start date input value
+                    function setMinEndDate() {
+                        var startDate = $('input[name="DateDebut"]').val();
+                        $('input[name="DateFin"]').attr('min', startDate);
+                    }
+
+                    // Function to validate date input
+                    function validateDates() {
+                        var startDate = $('input[name="DateDebut"]').val();
+                        var endDate = $('input[name="DateFin"]').val();
+                        var currentDate = new Date().toISOString().split('T')[0]; // Get current date in 'yyyy-mm-dd' format
+
+                        // Check if start date is in the future
+                        if (startDate > currentDate) {
+                            alert('La date de début ne peut pas être dans le futur.');
+                            $('input[name="DateDebut"]').val(''); // Clear the start date field
+                            return false;
+                        }
+
+                        // Check if end date is before start date
+                        if (startDate && endDate && endDate < startDate) {
+                            alert('La date de fin doit être après la date de début.');
+                            $('input[name="DateFin"]').val('');
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    // Set min attribute of end date input when start date changes
+                    $('input[name="DateDebut"]').change(function () {
+                        setMinEndDate();
+                    });
+
+                    // Validate dates on form submission
+                    $('.diplome-form').submit(function () {
+                        return validateDates();
+                    });
+
+
+
+                });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    // Function to validate file types
+                    function validateFileType(input, allowedTypes) {
+                        var fileName = input.value;
+                        var idxDot = fileName.lastIndexOf(".") + 1;
+                        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+                        if (allowedTypes.indexOf(extFile) == -1) {
+                            alert("Choose a PDF, PNG, JPG, or JPEG file.");
+                            input.value = "";
+                        }
+                    }
+
+                    // Event listener for file input change
+                    $(".form-control-file").change(function () {
+                        var allowedTypes = ["pdf", "png", "jpg", "jpeg"];
+                        validateFileType(this, allowedTypes);
+                    });
+                });
+            </script>
+
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        }
+
+</html>
+

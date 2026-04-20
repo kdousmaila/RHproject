@@ -1,0 +1,930 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="baseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="baseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AutoEvaluation" EntityType="baseModel.AutoEvaluation" />
+    <EntitySet Name="competence" EntityType="baseModel.competence" />
+    <EntitySet Name="deletedAutoEvaluation" EntityType="baseModel.deletedAutoEvaluation" />
+    <EntitySet Name="DeletedCompetence" EntityType="baseModel.DeletedCompetence" />
+    <EntitySet Name="DeletedDiplome" EntityType="baseModel.DeletedDiplome" />
+    <EntitySet Name="DeletedEmployees" EntityType="baseModel.DeletedEmployees" />
+    <EntitySet Name="DeletedEntretienAnnuel" EntityType="baseModel.DeletedEntretienAnnuel" />
+    <EntitySet Name="deletedEvalGen" EntityType="baseModel.deletedEvalGen" />
+    <EntitySet Name="DeletedExperience" EntityType="baseModel.DeletedExperience" />
+    <EntitySet Name="DeletedFicheFonctions" EntityType="baseModel.DeletedFicheFonctions" />
+    <EntitySet Name="DeletedFormation" EntityType="baseModel.DeletedFormation" />
+    <EntitySet Name="deletedObjSpecifique" EntityType="baseModel.deletedObjSpecifique" />
+    <EntitySet Name="deletedObjV" EntityType="baseModel.deletedObjV" />
+    <EntitySet Name="Departement" EntityType="baseModel.Departement" />
+    <EntitySet Name="Diplome" EntityType="baseModel.Diplome" />
+    <EntitySet Name="Education" EntityType="baseModel.Education" />
+    <EntitySet Name="Employee" EntityType="baseModel.Employee" />
+    <EntitySet Name="EntretienAnnuel" EntityType="baseModel.EntretienAnnuel" />
+    <EntitySet Name="EvaluatinGenN_1" EntityType="baseModel.EvaluatinGenN_1" />
+    <EntitySet Name="Experience" EntityType="baseModel.Experience" />
+    <EntitySet Name="FicheFonction" EntityType="baseModel.FicheFonction" />
+    <EntitySet Name="Formation" EntityType="baseModel.Formation" />
+    <EntitySet Name="ObjectifsAVenir" EntityType="baseModel.ObjectifsAVenir" />
+    <EntitySet Name="ObjSpecifique" EntityType="baseModel.ObjSpecifique" />
+    <EntitySet Name="permission" EntityType="baseModel.permission" />
+    <EntitySet Name="Role" EntityType="baseModel.Role" />
+    <AssociationSet Name="FK_AutoEvaluation_EntretienAnnuel" Association="baseModel.FK_AutoEvaluation_EntretienAnnuel">
+      <End Role="EntretienAnnuel" EntitySet="EntretienAnnuel" />
+      <End Role="AutoEvaluation" EntitySet="AutoEvaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_competence_FicheFonction" Association="baseModel.FK_competence_FicheFonction">
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+      <End Role="competence" EntitySet="competence" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deletedAutoEvaluation_DeletedEntretienAnnuel" Association="baseModel.FK_deletedAutoEvaluation_DeletedEntretienAnnuel">
+      <End Role="DeletedEntretienAnnuel" EntitySet="DeletedEntretienAnnuel" />
+      <End Role="deletedAutoEvaluation" EntitySet="deletedAutoEvaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeletedCompetence_DeletedFicheFonctions" Association="baseModel.FK_DeletedCompetence_DeletedFicheFonctions">
+      <End Role="DeletedFicheFonctions" EntitySet="DeletedFicheFonctions" />
+      <End Role="DeletedCompetence" EntitySet="DeletedCompetence" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeletedDiplome_DeletedFicheFonctions" Association="baseModel.FK_DeletedDiplome_DeletedFicheFonctions">
+      <End Role="DeletedFicheFonctions" EntitySet="DeletedFicheFonctions" />
+      <End Role="DeletedDiplome" EntitySet="DeletedDiplome" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deletedEvalGen_DeletedEntretienAnnuel" Association="baseModel.FK_deletedEvalGen_DeletedEntretienAnnuel">
+      <End Role="DeletedEntretienAnnuel" EntitySet="DeletedEntretienAnnuel" />
+      <End Role="deletedEvalGen" EntitySet="deletedEvalGen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deletedObjSpecifique_DeletedEntretienAnnuel" Association="baseModel.FK_deletedObjSpecifique_DeletedEntretienAnnuel">
+      <End Role="DeletedEntretienAnnuel" EntitySet="DeletedEntretienAnnuel" />
+      <End Role="deletedObjSpecifique" EntitySet="deletedObjSpecifique" />
+    </AssociationSet>
+    <AssociationSet Name="FK_deletedObjV_DeletedEntretienAnnuel" Association="baseModel.FK_deletedObjV_DeletedEntretienAnnuel">
+      <End Role="DeletedEntretienAnnuel" EntitySet="DeletedEntretienAnnuel" />
+      <End Role="deletedObjV" EntitySet="deletedObjV" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeletedExperience_DeletedFicheFonctions" Association="baseModel.FK_DeletedExperience_DeletedFicheFonctions">
+      <End Role="DeletedFicheFonctions" EntitySet="DeletedFicheFonctions" />
+      <End Role="DeletedExperience" EntitySet="DeletedExperience" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeletedFormation_DeletedFicheFonctions" Association="baseModel.FK_DeletedFormation_DeletedFicheFonctions">
+      <End Role="DeletedFicheFonctions" EntitySet="DeletedFicheFonctions" />
+      <End Role="DeletedFormation" EntitySet="DeletedFormation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FicheFonction_Departement" Association="baseModel.FK_FicheFonction_Departement">
+      <End Role="Departement" EntitySet="Departement" />
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Diplome_FicheFonction" Association="baseModel.FK_Diplome_FicheFonction">
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+      <End Role="Diplome" EntitySet="Diplome" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Education_FicheFonction" Association="baseModel.FK_Education_FicheFonction">
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+      <End Role="Education" EntitySet="Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Employee" Association="baseModel.FK_Employee_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Employee1" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FicheFonction_Employee" Association="baseModel.FK_FicheFonction_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_permission_Employee" Association="baseModel.FK_permission_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="permission" EntitySet="permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EvaluatinGenN_1_EntretienAnnuel" Association="baseModel.FK_EvaluatinGenN_1_EntretienAnnuel">
+      <End Role="EntretienAnnuel" EntitySet="EntretienAnnuel" />
+      <End Role="EvaluatinGenN_1" EntitySet="EvaluatinGenN_1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ObjectifsAVenir_EntretienAnnuel" Association="baseModel.FK_ObjectifsAVenir_EntretienAnnuel">
+      <End Role="EntretienAnnuel" EntitySet="EntretienAnnuel" />
+      <End Role="ObjectifsAVenir" EntitySet="ObjectifsAVenir" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ObjSpecifique_EntretienAnnuel" Association="baseModel.FK_ObjSpecifique_EntretienAnnuel">
+      <End Role="EntretienAnnuel" EntitySet="EntretienAnnuel" />
+      <End Role="ObjSpecifique" EntitySet="ObjSpecifique" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Experience_FicheFonction" Association="baseModel.FK_Experience_FicheFonction">
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+      <End Role="Experience" EntitySet="Experience" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Formation_FicheFonction" Association="baseModel.FK_Formation_FicheFonction">
+      <End Role="FicheFonction" EntitySet="FicheFonction" />
+      <End Role="Formation" EntitySet="Formation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_permission_Role" Association="baseModel.FK_permission_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="permission" EntitySet="permission" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AutoEvaluation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="theme" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="lieu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="duree" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EntretienAnnuel" Relationship="baseModel.FK_AutoEvaluation_EntretienAnnuel" FromRole="AutoEvaluation" ToRole="EntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="competence">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="niveau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_competence_FicheFonction" FromRole="competence" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="deletedAutoEvaluation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="theme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="duree" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" />
+    <Property Name="idDeletedEntretien" Type="Int32" />
+    <NavigationProperty Name="DeletedEntretienAnnuel" Relationship="baseModel.FK_deletedAutoEvaluation_DeletedEntretienAnnuel" FromRole="deletedAutoEvaluation" ToRole="DeletedEntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="DeletedCompetence">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompetenceId" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="niveau" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="PDF" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="idDeletedFiche" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DeletedFicheFonctions" Relationship="baseModel.FK_DeletedCompetence_DeletedFicheFonctions" FromRole="DeletedCompetence" ToRole="DeletedFicheFonctions" />
+  </EntityType>
+  <EntityType Name="DeletedDiplome">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DiplomeId" Type="Int32" Nullable="false" />
+    <Property Name="NomDiplome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="idDeletedFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DeletedFicheFonctions" Relationship="baseModel.FK_DeletedDiplome_DeletedFicheFonctions" FromRole="DeletedDiplome" ToRole="DeletedFicheFonctions" />
+  </EntityType>
+  <EntityType Name="DeletedEmployees">
+    <Key>
+      <PropertyRef Name="Matricule" />
+    </Key>
+    <Property Name="Matricule" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="fonction" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Responsable" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CmptWin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateEntree" Type="DateTime" Precision="0" />
+    <Property Name="Service" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResponsableFonctionnel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="DeletedEntretienAnnuel">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LibelleFonction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateEntree" Type="DateTime" Precision="0" />
+    <Property Name="DateDerniereRevue" Type="DateTime" Precision="0" />
+    <Property Name="Service" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomRespHierarchiqueN_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomRespFonctionel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateEntretien" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="autoEvalSal1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="competenceCaractUtiles" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="competenceCaractAcquerir" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="question1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="orientationResulttat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="agilite_Adaptabilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ouvertureEsprit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="qualitesRelationnelles" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="travailEquipe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResolutionProbleme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gestionProjet" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="communication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Leadership" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gestionBudget" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="charisme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="maitriseSoi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResultatActFormation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FormationMesureDev" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResourceNecessaire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntSouhaitEvolution" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntSouhaitMobilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntProchaineEtape" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateProchainEnretien" Type="DateTime" Precision="0" />
+    <Property Name="comntGenereaux" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Signature1RespN_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date1" Type="DateTime" Precision="0" />
+    <Property Name="comntSalaire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="signature2Salarie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date2" Type="DateTime" Precision="0" />
+    <Property Name="AvisN_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomSignatureN_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date3" Type="DateTime" Precision="0" />
+    <Property Name="AvisRespFonctionel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomSignatureResFonct_Depart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date4" Type="DateTime" Precision="0" />
+    <Property Name="comOrientationResulttat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ComAgilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comOuv" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comQualité" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comEquipe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comResolP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comGP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comCommunication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comLeadership" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comGBud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comMaitriseSoi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comCharisme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Matricule" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Note" Type="Int32" />
+    <Property Name="deletedId" Type="Int32" />
+    <Property Name="checkC1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateCreation" Type="DateTime" Precision="0" />
+    <Property Name="dateEnvoi" Type="DateTime" Precision="0" />
+    <Property Name="dateValidation" Type="DateTime" Precision="0" />
+    <Property Name="status1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="status2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="status3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="deletedAutoEvaluation" Relationship="baseModel.FK_deletedAutoEvaluation_DeletedEntretienAnnuel" FromRole="DeletedEntretienAnnuel" ToRole="deletedAutoEvaluation" />
+    <NavigationProperty Name="deletedEvalGen" Relationship="baseModel.FK_deletedEvalGen_DeletedEntretienAnnuel" FromRole="DeletedEntretienAnnuel" ToRole="deletedEvalGen" />
+    <NavigationProperty Name="deletedObjSpecifique" Relationship="baseModel.FK_deletedObjSpecifique_DeletedEntretienAnnuel" FromRole="DeletedEntretienAnnuel" ToRole="deletedObjSpecifique" />
+    <NavigationProperty Name="deletedObjV" Relationship="baseModel.FK_deletedObjV_DeletedEntretienAnnuel" FromRole="DeletedEntretienAnnuel" ToRole="deletedObjV" />
+  </EntityType>
+  <EntityType Name="deletedEvalGen">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="performance" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="commentaire" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tendance" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" />
+    <Property Name="idDeletedEntretien" Type="Int32" />
+    <NavigationProperty Name="DeletedEntretienAnnuel" Relationship="baseModel.FK_deletedEvalGen_DeletedEntretienAnnuel" FromRole="deletedEvalGen" ToRole="DeletedEntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="DeletedExperience">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ExperienceId" Type="Int32" Nullable="false" />
+    <Property Name="Titre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="dateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="dateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="idDeletedFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DeletedFicheFonctions" Relationship="baseModel.FK_DeletedExperience_DeletedFicheFonctions" FromRole="DeletedExperience" ToRole="DeletedFicheFonctions" />
+  </EntityType>
+  <EntityType Name="DeletedFicheFonctions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FicheFonctionId" Type="Int32" Nullable="false" />
+    <Property Name="DeletedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ville" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="numero" Type="Int32" />
+    <Property Name="etatCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="numCin" Type="Int32" />
+    <Property Name="dateNaissance" Type="DateTime" Precision="0" />
+    <Property Name="poste" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateRecrutement" Type="DateTime" Precision="0" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Matricule" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idDepartement" Type="Int32" Nullable="false" />
+    <Property Name="DeletionReason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cmptWindows" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DeletedCompetence" Relationship="baseModel.FK_DeletedCompetence_DeletedFicheFonctions" FromRole="DeletedFicheFonctions" ToRole="DeletedCompetence" />
+    <NavigationProperty Name="DeletedDiplome" Relationship="baseModel.FK_DeletedDiplome_DeletedFicheFonctions" FromRole="DeletedFicheFonctions" ToRole="DeletedDiplome" />
+    <NavigationProperty Name="DeletedExperience" Relationship="baseModel.FK_DeletedExperience_DeletedFicheFonctions" FromRole="DeletedFicheFonctions" ToRole="DeletedExperience" />
+    <NavigationProperty Name="DeletedFormation" Relationship="baseModel.FK_DeletedFormation_DeletedFicheFonctions" FromRole="DeletedFicheFonctions" ToRole="DeletedFormation" />
+  </EntityType>
+  <EntityType Name="DeletedFormation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FormationId" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="dateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="dateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="idDeletedFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DeletedFicheFonctions" Relationship="baseModel.FK_DeletedFormation_DeletedFicheFonctions" FromRole="DeletedFormation" ToRole="DeletedFicheFonctions" />
+  </EntityType>
+  <EntityType Name="deletedObjSpecifique">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ObjSpecifique" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Synthese" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" />
+    <Property Name="idDeletedEntretien" Type="Int32" />
+    <NavigationProperty Name="DeletedEntretienAnnuel" Relationship="baseModel.FK_deletedObjSpecifique_DeletedEntretienAnnuel" FromRole="deletedObjSpecifique" ToRole="DeletedEntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="deletedObjV">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ObjectifsPrincipeauxSmart" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="indicateur" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ARealiserEnT1__T4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" />
+    <Property Name="idDeletedEntretien" Type="Int32" />
+    <NavigationProperty Name="DeletedEntretienAnnuel" Relationship="baseModel.FK_deletedObjV_DeletedEntretienAnnuel" FromRole="deletedObjV" ToRole="DeletedEntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="Departement">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nomDepartement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_FicheFonction_Departement" FromRole="Departement" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="Diplome">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NomDimplome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_Diplome_FicheFonction" FromRole="Diplome" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="Education">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nomNiveau" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_Education_FicheFonction" FromRole="Education" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Matricule" />
+    </Key>
+    <Property Name="Matricule" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="fonction" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Responsable" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CmptWin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateEntree" Type="DateTime" Precision="0" />
+    <Property Name="Service" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResponsableFonctionnel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee1" Relationship="baseModel.FK_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
+    <NavigationProperty Name="Employee2" Relationship="baseModel.FK_Employee_Employee" FromRole="Employee1" ToRole="Employee" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_FicheFonction_Employee" FromRole="Employee" ToRole="FicheFonction" />
+    <NavigationProperty Name="permission" Relationship="baseModel.FK_permission_Employee" FromRole="Employee" ToRole="permission" />
+  </EntityType>
+  <EntityType Name="EntretienAnnuel">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="LibelleFonction" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DateEntree" Type="DateTime" Precision="0" />
+    <Property Name="DateDerniereRevue" Type="DateTime" Precision="0" />
+    <Property Name="Service" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NomRespHierarchiqueN_1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NomRespFonctionel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DateEntretien" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="autoEvalSal1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="competenceCaractUtiles" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="competenceCaractAcquerir" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="question1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="orientationResulttat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="agilite_Adaptabilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ouvertureEsprit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="qualitesRelationnelles" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="travailEquipe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResolutionProbleme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gestionProjet" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="communication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Leadership" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gestionBudget" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="charisme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="maitriseSoi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResultatActFormation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FormationMesureDev" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResourceNecessaire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntSouhaitEvolution" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntSouhaitMobilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comntProchaineEtape" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateProchainEnretien" Type="DateTime" Precision="0" />
+    <Property Name="comntGenereaux" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Signature1RespN_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date1" Type="DateTime" Precision="0" />
+    <Property Name="comntSalaire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="signature2Salarie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date2" Type="DateTime" Precision="0" />
+    <Property Name="AvisN_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomSignatureN_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date3" Type="DateTime" Precision="0" />
+    <Property Name="AvisRespFonctionel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NomSignatureResFonct_Depart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date4" Type="DateTime" Precision="0" />
+    <Property Name="comOrientationResulttat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ComAgilite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comOuv" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comQualité" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comEquipe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comResolP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comGP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comCommunication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comLeadership" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comGBud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comMaitriseSoi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comCharisme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="c4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="comC4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Matricule" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Note" Type="Int32" />
+    <Property Name="checkC1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="checkC4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="status1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="status2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="status3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateCreation" Type="DateTime" Precision="0" />
+    <Property Name="dateEnvoi" Type="DateTime" Precision="0" />
+    <Property Name="dateValidation" Type="DateTime" Precision="0" />
+    <Property Name="matriculeResp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AutoEvaluation" Relationship="baseModel.FK_AutoEvaluation_EntretienAnnuel" FromRole="EntretienAnnuel" ToRole="AutoEvaluation" />
+    <NavigationProperty Name="EvaluatinGenN_1" Relationship="baseModel.FK_EvaluatinGenN_1_EntretienAnnuel" FromRole="EntretienAnnuel" ToRole="EvaluatinGenN_1" />
+    <NavigationProperty Name="ObjectifsAVenir" Relationship="baseModel.FK_ObjectifsAVenir_EntretienAnnuel" FromRole="EntretienAnnuel" ToRole="ObjectifsAVenir" />
+    <NavigationProperty Name="ObjSpecifique" Relationship="baseModel.FK_ObjSpecifique_EntretienAnnuel" FromRole="EntretienAnnuel" ToRole="ObjSpecifique" />
+  </EntityType>
+  <EntityType Name="EvaluatinGenN_1">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="performance" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="commentaire" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tendance" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EntretienAnnuel" Relationship="baseModel.FK_EvaluatinGenN_1_EntretienAnnuel" FromRole="EvaluatinGenN_1" ToRole="EntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="Experience">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Titre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="dateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="dateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_Experience_FicheFonction" FromRole="Experience" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="FicheFonction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ville" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="numero" Type="Int32" />
+    <Property Name="etatCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="numCin" Type="Int32" />
+    <Property Name="dateNaissance" Type="DateTime" Precision="0" />
+    <Property Name="poste" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateRecrutement" Type="DateTime" Precision="0" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Matricule" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idDepartement" Type="Int32" Nullable="false" />
+    <Property Name="ResponsableFonctionnel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cmptWindows" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="competence" Relationship="baseModel.FK_competence_FicheFonction" FromRole="FicheFonction" ToRole="competence" />
+    <NavigationProperty Name="Departement" Relationship="baseModel.FK_FicheFonction_Departement" FromRole="FicheFonction" ToRole="Departement" />
+    <NavigationProperty Name="Diplome" Relationship="baseModel.FK_Diplome_FicheFonction" FromRole="FicheFonction" ToRole="Diplome" />
+    <NavigationProperty Name="Education" Relationship="baseModel.FK_Education_FicheFonction" FromRole="FicheFonction" ToRole="Education" />
+    <NavigationProperty Name="Employee" Relationship="baseModel.FK_FicheFonction_Employee" FromRole="FicheFonction" ToRole="Employee" />
+    <NavigationProperty Name="Experience" Relationship="baseModel.FK_Experience_FicheFonction" FromRole="FicheFonction" ToRole="Experience" />
+    <NavigationProperty Name="Formation" Relationship="baseModel.FK_Formation_FicheFonction" FromRole="FicheFonction" ToRole="Formation" />
+  </EntityType>
+  <EntityType Name="Formation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="dateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="dateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idFiche" Type="Int32" Nullable="false" />
+    <Property Name="lieu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PDF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FicheFonction" Relationship="baseModel.FK_Formation_FicheFonction" FromRole="Formation" ToRole="FicheFonction" />
+  </EntityType>
+  <EntityType Name="ObjectifsAVenir">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ObjectifsPrincipeauxSmart" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="indicateur" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ARealiserEnT1__T4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EntretienAnnuel" Relationship="baseModel.FK_ObjectifsAVenir_EntretienAnnuel" FromRole="ObjectifsAVenir" ToRole="EntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="ObjSpecifique">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ObjSpecifique1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Synthese" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="idEntretien" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EntretienAnnuel" Relationship="baseModel.FK_ObjSpecifique_EntretienAnnuel" FromRole="ObjSpecifique" ToRole="EntretienAnnuel" />
+  </EntityType>
+  <EntityType Name="permission">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdRole" Type="Int32" />
+    <Property Name="MatriculeEmp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="num" Type="Int32" />
+    <Property Name="CanAccessEntretien" Type="Boolean" />
+    <NavigationProperty Name="Employee" Relationship="baseModel.FK_permission_Employee" FromRole="permission" ToRole="Employee" />
+    <NavigationProperty Name="Role" Relationship="baseModel.FK_permission_Role" FromRole="permission" ToRole="Role" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="libelle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="permission" Relationship="baseModel.FK_permission_Role" FromRole="Role" ToRole="permission" />
+  </EntityType>
+  <Association Name="FK_AutoEvaluation_EntretienAnnuel">
+    <End Type="baseModel.EntretienAnnuel" Role="EntretienAnnuel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.AutoEvaluation" Role="AutoEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AutoEvaluation">
+        <PropertyRef Name="idEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_competence_FicheFonction">
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.competence" Role="competence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FicheFonction">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="competence">
+        <PropertyRef Name="idFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deletedAutoEvaluation_DeletedEntretienAnnuel">
+    <End Type="baseModel.DeletedEntretienAnnuel" Role="DeletedEntretienAnnuel" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.deletedAutoEvaluation" Role="deletedAutoEvaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedEntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="deletedAutoEvaluation">
+        <PropertyRef Name="idDeletedEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeletedCompetence_DeletedFicheFonctions">
+    <End Type="baseModel.DeletedFicheFonctions" Role="DeletedFicheFonctions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.DeletedCompetence" Role="DeletedCompetence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedFicheFonctions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeletedCompetence">
+        <PropertyRef Name="idDeletedFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeletedDiplome_DeletedFicheFonctions">
+    <End Type="baseModel.DeletedFicheFonctions" Role="DeletedFicheFonctions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.DeletedDiplome" Role="DeletedDiplome" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedFicheFonctions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeletedDiplome">
+        <PropertyRef Name="idDeletedFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deletedEvalGen_DeletedEntretienAnnuel">
+    <End Type="baseModel.DeletedEntretienAnnuel" Role="DeletedEntretienAnnuel" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.deletedEvalGen" Role="deletedEvalGen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedEntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="deletedEvalGen">
+        <PropertyRef Name="idDeletedEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deletedObjSpecifique_DeletedEntretienAnnuel">
+    <End Type="baseModel.DeletedEntretienAnnuel" Role="DeletedEntretienAnnuel" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.deletedObjSpecifique" Role="deletedObjSpecifique" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedEntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="deletedObjSpecifique">
+        <PropertyRef Name="idDeletedEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_deletedObjV_DeletedEntretienAnnuel">
+    <End Type="baseModel.DeletedEntretienAnnuel" Role="DeletedEntretienAnnuel" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.deletedObjV" Role="deletedObjV" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedEntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="deletedObjV">
+        <PropertyRef Name="idDeletedEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeletedExperience_DeletedFicheFonctions">
+    <End Type="baseModel.DeletedFicheFonctions" Role="DeletedFicheFonctions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.DeletedExperience" Role="DeletedExperience" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedFicheFonctions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeletedExperience">
+        <PropertyRef Name="idDeletedFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeletedFormation_DeletedFicheFonctions">
+    <End Type="baseModel.DeletedFicheFonctions" Role="DeletedFicheFonctions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.DeletedFormation" Role="DeletedFormation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeletedFicheFonctions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeletedFormation">
+        <PropertyRef Name="idDeletedFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FicheFonction_Departement">
+    <End Type="baseModel.Departement" Role="Departement" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departement">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FicheFonction">
+        <PropertyRef Name="idDepartement" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Diplome_FicheFonction">
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.Diplome" Role="Diplome" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FicheFonction">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Diplome">
+        <PropertyRef Name="idFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Education_FicheFonction">
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.Education" Role="Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FicheFonction">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Education">
+        <PropertyRef Name="idFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Employee">
+    <End Type="baseModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="baseModel.Employee" Role="Employee1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Matricule" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="ResponsableFonctionnel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FicheFonction_Employee">
+    <End Type="baseModel.Employee" Role="Employee" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Matricule" />
+      </Principal>
+      <Dependent Role="FicheFonction">
+        <PropertyRef Name="Matricule" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_permission_Employee">
+    <End Type="baseModel.Employee" Role="Employee" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.permission" Role="permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Matricule" />
+      </Principal>
+      <Dependent Role="permission">
+        <PropertyRef Name="MatriculeEmp" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EvaluatinGenN_1_EntretienAnnuel">
+    <End Type="baseModel.EntretienAnnuel" Role="EntretienAnnuel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.EvaluatinGenN_1" Role="EvaluatinGenN_1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EvaluatinGenN_1">
+        <PropertyRef Name="idEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ObjectifsAVenir_EntretienAnnuel">
+    <End Type="baseModel.EntretienAnnuel" Role="EntretienAnnuel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.ObjectifsAVenir" Role="ObjectifsAVenir" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ObjectifsAVenir">
+        <PropertyRef Name="idEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ObjSpecifique_EntretienAnnuel">
+    <End Type="baseModel.EntretienAnnuel" Role="EntretienAnnuel" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.ObjSpecifique" Role="ObjSpecifique" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntretienAnnuel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ObjSpecifique">
+        <PropertyRef Name="idEntretien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Experience_FicheFonction">
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.Experience" Role="Experience" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FicheFonction">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Experience">
+        <PropertyRef Name="idFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Formation_FicheFonction">
+    <End Type="baseModel.FicheFonction" Role="FicheFonction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.Formation" Role="Formation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FicheFonction">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Formation">
+        <PropertyRef Name="idFiche" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_permission_Role">
+    <End Type="baseModel.Role" Role="Role" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="baseModel.permission" Role="permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="permission">
+        <PropertyRef Name="IdRole" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,426 @@
+﻿@model IEnumerable<ProjectWith.Models.FicheFonction>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    /* Styles pour la carte */
+    .profile_view {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #ffffff; /* Couleur de fond blanche */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 200px;
+        position: relative;
+        background: linear-gradient(to bottom, #ffffff 70%, #f0f0f0 70%); /* Dégradé de fond avec 70% pour la partie blanche */
+    }
+
+
+
+
+
+        /* Style pour l'image */
+        .profile_view .right-top {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+            .profile_view .right-top img {
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+            }
+
+        /* Styles pour les boutons */
+        .profile_view .bottom-right {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+            .profile_view .bottom-right .btn {
+                margin-top: 5px;
+                width: auto;
+                padding: 2px 8px;
+                font-size: 12px;
+            }
+
+        /* Ajustements de l'espace */
+        .profile_view .profile_content p {
+            margin-bottom: 5px; /* Réduire l'espace entre les paragraphes */
+        }
+
+
+
+    /* Style pour la taille de police plus petite */
+    .btn-small {
+        font-size: 10px;
+    }
+
+    .ratings a {
+        font-size: 14px; /* Définir une taille de police plus petite */
+    }
+</style>
+
+<style>
+    .inf-content {
+        border: 1px solid #DDDDDD;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+    }
+
+    .create-new-button {
+        display: inline-block;
+        padding: 6px 7px;
+        font-size: 16px;
+        color: #fff; /* Changement de la couleur du texte en blanc */
+        background-color: #ba2d2d; /* Changement de la couleur de fond en rouge */
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+        .create-new-button:hover {
+            background-color: #801f1f; /* Changement de la couleur de fond au survol */
+        }
+
+    .container-box {
+        border: 0px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .action-buttons .btn {
+        margin-right: 5px; /* Ajoute une marge à droite pour créer un espace entre les boutons */
+    }
+
+    .input-group {
+        max-width: 270px; /* Ajustez cette valeur selon vos besoins */
+    }
+</style>
+
+<h5 style="padding-left: 100px; color: #c21c1c; font-size: 24px; font-weight: bold; margin-top: 20px;">Departement @ViewBag.CurrentDepartmentName</h5>
+
+
+
+
+
+@if (@ProjectWith.Models.ath_windows.CurrentUser.getRole() == "RH" || @ProjectWith.Models.ath_windows.CurrentUser.getRole() == "DS" || @ProjectWith.Models.ath_windows.CurrentUser.getRole() == "EmployeRh")
+{
+
+
+    <div class="row mb-5">
+        <div class="col-8" style="padding-left: 110px; margin-top: 30px;">
+            @using (Html.BeginForm("Index", "FicheFonctions", FormMethod.Get))
+            {
+                <div class="input-group">
+                    <input type="hidden" name="idDepartement" value="@ViewBag.CurrentDepartment" />
+                    <input type="text" id="letter" name="letter" class="form-control input-primary text-black small" placeholder="Rechercher..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div class="container">
+        <div class="col-md-12 bootstrap snippets bootdeys">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="well profile_view">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-8">
+                                                <!-- Contenu à gauche -->
+                                                <div class="left col-xs-7 profile_content" style="padding-left: 10px;">
+                                                    <h4 class="brief">
+                                                        @Html.DisplayFor(modelItem => item.nom) @Html.DisplayFor(modelItem => item.prenom)
+                                                    </h4>
+                                                    <p><strong>Email: </strong>@Html.DisplayFor(modelItem => item.email)</p>
+                                                    <p><strong>Poste: </strong>@Html.DisplayFor(modelItem => item.poste)</p>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <!-- Conteneur de l'image avec un padding-top pour déplacer l'image vers le bas -->
+                                                <div class="right-top text-right" style="padding-top: 40px;">
+                                                    <!-- Image -->
+                                                    @if (string.IsNullOrEmpty(item.image))
+                                                    {
+                                                        <img src="https://st4.depositphotos.com/4177785/21080/v/600/depositphotos_210801942-stock-illustration-user-account-circle-flat-design.jpg" alt="" class="img-circle img-responsive" style="max-width: 80px; max-height: 80px;">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Content/image/@item.image" class="img-circle img-responsive" alt="Avatar" style="max-width: 80px; max-height: 80px;">
+                                                    }
+                                                </div>
+                                                <!-- Lien avec icône d'information -->
+                                                <div class="right-top text-right" style="padding-top: 10px; margin-right: 10px;">
+                                                    <a href="@Url.Action("Details", "FicheFonctions", new { id = item.id })">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle pull-right" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="background-gray">
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 emphasis bottom-content">
+                                                    <!-- Note et étoiles à gauche -->
+                                                    <div class="background-gray">
+
+                                                        <p class="ratings" style="padding-bottom: 0px;">
+                                                            @{
+                                                                if (ViewBag.EntretienAnnuelNotes.ContainsKey(item.Matricule))
+                                                                {
+                                                                    var note = Convert.ToDouble(ViewBag.EntretienAnnuelNotes[item.Matricule]);
+                                                                    <a> @note</a>
+                                                                    var roundedNote = Math.Round(note); // Round the note to the nearest integer
+                                                                    var filledStars = (int)Math.Floor(roundedNote / 4.0); // Calculate full stars
+                                                                    var remainder = roundedNote % 4.0; // Calculate remainder for partial star
+                                                                    var emptyStars = 5 - filledStars - (remainder > 0 ? 1 : 0); // Calculate empty stars
+
+                                                                    for (var i = 0; i < filledStars; i++)
+                                                                    {
+                                                                        <a href="#"><span class="fa fa-star"></span></a>
+                                                                    }
+                                                                    if (remainder > 0) // Include a star if there is a remainder
+                                                                    {
+                                                                        string partialClass = remainder >= 0.5 ? "fa-star" : "fa-star-o";
+                                                                        <a href="#"><span class="fa @partialClass"></span></a> <!-- Display either full or empty star -->
+                                                                    }
+                                                                    for (var i = 0; i < emptyStars; i++)
+                                                                    {
+                                                                        <a href="#"><span class="fa fa-star-o"></span></a>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    // No rating available, display a message
+                                                                    <span>non disponible</span>
+                                                                }
+                                                            }
+                                                        </p>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6 emphasis bottom-content text-right fixed-buttons">
+                                                    <!-- Boutons à droite -->
+                                                    <div class="right-bottom btn-group">
+                                                        <button type="button" class="btn btn-primary btn-xs btn-small" style="width: 120px; height: 30px; margin-right: 5px;" onclick="redirectToEntretienAnnuel('@item.Matricule')">
+                                                            <i class="fa fa-user"></i> Entretien Annuel
+                                                        </button>
+                                                        <button type="button" class="btn btn-success btn-xs btn-small hre" style="width: 30px; height: 30px;" onclick="confirmDelete('@item.id', '@item.Matricule')">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                                <script>
+                                                    function redirectToEntretienAnnuel(matricule) {
+                                                        window.location.href = '../EntretienAnnuels/index?matricule=' + encodeURIComponent(matricule);
+                                                    }
+                                                </script>
+
+
+
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+                                                <script>
+    function confirmDelete(id, matricule) {
+        var currentUserMatricule = '@ProjectWith.Models.ath_windows.CurrentUser.getMatricule()';
+
+        console.log('currentUserMatricule:', currentUserMatricule);
+        console.log('matricule:', matricule);
+
+        if (currentUserMatricule === matricule) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Action Non Autorisée',
+                text: 'Vous ne pouvez pas supprimer votre propre ficheFonction.',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Fermer'
+            });
+            return;
+        }
+
+        // Call the action to check if the user is a responsible functionary
+        $.ajax({
+            url: '@Url.Action("GetIsResponsableFonctionnel", "FicheFonctions")', // Replace "ControllerName" with the actual name of your controller
+            type: 'GET',
+            data: { id: id },
+            success: function (data) {
+                if (data.isResponsableFonctionnel) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Action Non Autorisée',
+                        text: 'Vous ne pouvez pas supprimer cette fiche car elle est associée à un responsable fonctionnel.',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Fermer'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Veuillez saisir la raison de la suppression:',
+                        input: 'text',
+                        inputAttributes: {
+                            autocapitalize: 'off'
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: 'Supprimer',
+                        confirmButtonColor: '#d33',
+                        cancelButtonText: 'Annuler',
+                        cancelButtonColor: '#3085d6',
+                        showLoaderOnConfirm: true,
+                        preConfirm: (reason) => {
+                            if (!reason || reason.trim() === "") {
+                                Swal.showValidationMessage(
+                                    'Vous devez entrer une raison pour la suppression.'
+                                );
+                            }
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var reason = result.value;
+                            var url = '@Url.Action("Delete", "FicheFonctions")' + '/' + id + '?reason=' + encodeURIComponent(reason);
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Fiche supprimée avec succès',
+                                showConfirmButton: true, // Show the "OK" button
+                                confirmButtonText: 'OK',
+                                allowOutsideClick: true
+                            }).then(() => {
+                                window.location.href = url; // Redirect after clicking "OK"
+                            });
+                        }
+                    });
+                }
+            },
+            error: function () {
+                // Handle error
+            }
+        });
+    }
+                                                </script>
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            @{
+                int PrevPageNo = ViewBag.PageNo - 1;
+                if (PrevPageNo <= 0)
+                {
+                    PrevPageNo = 1;
+                }
+
+                int NextPageNo = ViewBag.PageNo + 1;
+                if (NextPageNo > ViewBag.NoOfPages)
+                {
+                    NextPageNo = ViewBag.NoOfPages;
+                }
+            }
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="/FicheFonctions/Index?idDepartement=@ViewBag.CurrentDepartment&letter=@Request.QueryString["letter"]&PageNo=@PrevPageNo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                        </svg>
+                    </a>
+                </li>
+                @for (int i = 1; i <= ViewBag.NoOfPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.PageNo ? "active" : "")">
+                        <a class="page-link" href="/FicheFonctions/Index?idDepartement=@ViewBag.CurrentDepartment&letter=@Request.QueryString["letter"]&PageNo=@i">@i</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/FicheFonctions/Index?idDepartement=@ViewBag.CurrentDepartment&letter=@Request.QueryString["letter"]&PageNo=@NextPageNo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+    function searchByLetter() {
+        var letter = document.getElementById('letter').value;
+        window.location.href = '@Url.Action("Index", "FicheFonctions")' + '?letter=' + encodeURIComponent(letter);
+    }
+    </script>
+}
+
+
+
+
+
+
+<script>
+function searchByLetter() {
+    var letter = document.getElementById('letter').value;
+    window.location.href = '@Url.Action("Index", "FicheFonctions")' + '?letter=' + encodeURIComponent(letter);
+}
+</script>
+

@@ -1,0 +1,10 @@
+﻿
+
+@*methode eli tjibhom f departementcontroller w taamel appel f navbar*@
+@model IEnumerable<ProjectWith.Models.Departement>
+
+@foreach (var departement in Model)
+{
+    <a href="/FicheFonctions?idDepartement=@departement.id">@departement.nomDepartement</a>
+    <br />
+}

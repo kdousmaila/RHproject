@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "BadRequest";
+    // Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    a {
+        color: #000; /* Changed color to black */
+        border-bottom: 3px dashed #000;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    body {
+        background: #eee;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: #333;
+    }
+
+    h1 {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-family: sans-serif;
+        font-weight: bolder;
+        font-size: 5em;
+    }
+
+    body > div {
+        min-width: 25vw;
+        color: #a81831;
+    }
+
+    #box2 {
+        color: #333;
+        text-align: center;
+    }
+
+    h2 {
+        font-family: sans-serif;
+        font-weight: bolder;
+    }
+
+    .notFound {
+        fill: #a81831;
+        stroke: #a81831;
+    }
+
+        .notFound rect {
+            stroke: none;
+        }
+</style>
+
+
+<div id="box">
+    <svg class="notFound" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="100px" viewBox="0 0 24 24" width="100px">
+        <g transform="translate(2, 1)">
+            <!-- Translating 2 units to the left -->
+            <rect fill="none" height="24" width="24" />
+            <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0" />
+        </g>
+    </svg>
+
+
+
+    <h1>401</h1>
+    <h2>Vous n'etes pas authorisé!!</h2>
+    <div id="box2">
+        <br><br>
+        <a href="/home/index">back to home</a>
+    </div>
+</div>
+
+

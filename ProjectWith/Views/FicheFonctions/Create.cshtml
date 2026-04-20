@@ -1,0 +1,908 @@
+﻿@model ProjectWith.Models.EmployeeFicheFonctionViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+
+
+    body {
+        background-color: #eee;
+    }
+
+    .job-detail {
+        border: 1px solid #ececec;
+        border-radius: 6px;
+        background-color: #fff;
+    }
+
+    .form-button .nice-select {
+        width: 100%;
+        height: 39px;
+        line-height: 37px;
+        color: #6b757d;
+        margin-bottom: 1rem;
+        border: solid 1px #e9e9e9;
+    }
+
+    .resume-user {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 66px;
+        border-radius: 50px;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background-color: #e9e9e9;
+        color: #ff4f6c;
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        text-align: center;
+    }
+
+    .upload-btn-wide {
+        width: 200px; /* Vous pouvez ajuster la largeur selon vos besoins */
+    }
+
+    .square-btn {
+        width: 80px; /* Ajustez la largeur selon vos besoins */
+        height: 50px; /* Ajustez la hauteur selon vos besoins */
+        border: none;
+        background-color: #c72727;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 10px; /* Utilisez le même rayon pour arrondir les coins */
+        cursor: pointer;
+        transition: background-color 0.3s; /* Transition sur la couleur de fond */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center; /* Centre le contenu horizontalement */
+        margin-top: 20px; /* Ajoute de l'espace au-dessus du bouton */
+    }
+</style>
+
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.9.95/css/materialdesignicons.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="text-dark">Informations générales</h3>
+        </div>
+    </div>
+
+
+    @using (Html.BeginForm("Create", "FicheFonctions", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="job-detail mt-2 p-4">
+                    <div class="row justify-content-center">
+                        <div class="card mb-4 mb-xl-0">
+                            <div class="card-body text-center">
+                                <img class="img-account-profile rounded-circle mb-2" id="profileImage" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" alt="" style="width: 100px; height: 100px;">
+                                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                                <button class="btn" id="uploadBtn" type="button">Upload new image</button>
+                                <input type="file" name="imageFile" id="imageFile" style="display: none;" />
+                                <p id="fileUploadedText" style="display: none;">Image Uploaded</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        var defaultImageSrc = document.getElementById('profileImage').src;
+
+                        document.getElementById('uploadBtn').addEventListener('click', function () {
+                            document.getElementById('imageFile').click();
+                        });
+
+                        document.getElementById('imageFile').addEventListener('change', function () {
+                            var fileInput = this;
+                            if (fileInput.files && fileInput.files[0]) {
+                                var fileName = fileInput.files[0].name;
+                                var fileType = fileName.split('.').pop().toLowerCase();
+
+                                /*Vérifier si le type de fichier est JPEG ou PNG*/
+                                if (fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png') {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function (e) {
+                                        document.getElementById('profileImage').src = e.target.result;
+                                        document.getElementById('fileUploadedText').style.display = 'block';
+                                    }
+
+                                    reader.readAsDataURL(fileInput.files[0]);
+                                } else {
+                                    alert('Veuillez choisir une image au format JPG ou PNG.');
+                                    fileInput.value = ''; // Réinitialiser la valeur de l'entrée de fichier pour effacer la sélection invalide
+                                    document.getElementById('profileImage').src = defaultImageSrc; // Réaffecter l'URL de l'image par défaut
+                                }
+                            }
+                        });
+                    </script>
+
+                    <div class="custom-form" style="margin-top: 40px;">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="Matricule">Matricule:</label>
+                                    @Html.TextBoxFor(model => model.Employee.Matricule, new { @class = "form-control", @id = "MatriculeInput", type = "number" })
+
+                                    <p id="matriculeErrorMessage2" style="color: red; display: none;">Matricule already exists. Please choose a different one.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="frist-name" class="text-muted">Nom</label>
+                                    @Html.TextBoxFor(model => model.FicheFonction.nom, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="middle-name" class="text-muted">Prenom</label>
+                                    @Html.TextBoxFor(model => model.FicheFonction.prenom, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="General" class="text-muted">Numéro CIN</label>
+                                    @Html.TextBoxFor(model => model.FicheFonction.numCin, new { @class = "form-control", type = "number", @id = "FicheFonction_numCin" })
+                                    <p id="numCinErrorMessage" style="color: red; display: none;">La date de recrutement ne peut pas être dans le futur.</p>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="date-of-birth" class="text-muted">Date de Naissance</label>
+                                    @Html.EditorFor(model => model.FicheFonction.dateNaissance, new { htmlAttributes = new { @class = "form-control", @id = "dateNaissanceInput", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.FicheFonction.dateNaissance, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+
+                                    <label for="citys" class="text-muted">Ville</label>
+                                    <div class="form-button">
+                                        @Html.EditorFor(model => model.FicheFonction.ville, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FicheFonction.ville, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="country" class="text-muted">Poste</label>
+                                    <div class="form-button">
+                                        @Html.TextBoxFor(model => model.Employee.fonction, new { @class = "form-control", id = "fonctionInput" })
+                                        @Html.ValidationMessageFor(model => model.Employee.fonction, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="dateRecrutementInput" class="text-muted">Date de Recrutement</label>
+                                    @Html.EditorFor(model => model.FicheFonction.dateRecrutement, new { htmlAttributes = new { @class = "form-control", @id = "dateRecrutementInput", type = "date" } })
+
+
+                                    <p id="dateValidationMessage" style="color: red; display: none;"></p>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group app-label">
+                                    <label for="marital-status" class="text-muted">Etat Civil</label>
+                                    <div class="form-button">
+                                        @Html.DropDownListFor(model => model.FicheFonction.etatCivil,
+      new SelectList(new[]
+      {
+                                         new SelectListItem { Text = "Célibataire", Value = "Célibataire" },
+                                         new SelectListItem { Text = "Marié(e)", Value = "Marié(e)" },
+                                         new SelectListItem { Text = "Divorcé(e)", Value = "Divorcé(e)" },
+                                         new SelectListItem { Text = "Veuf/Veuve", Value = "Veuf/Veuve" }
+      }, "Value", "Text"),
+
+      new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.FicheFonction.etatCivil, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="text-dark mt-5">Autres</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="job-detail mt-2 p-4">
+                    <div class="custom-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <label for="phone" class="text-muted">Numero de Telephone</label>
+                                        @Html.EditorFor(model => model.FicheFonction.numero, new { htmlAttributes = new { @class = "form-control", @id = "telephoneInput" } })
+                                        @Html.ValidationMessageFor(model => model.FicheFonction.numero, "", new { @class = "text-danger" })
+                                        <span id="validationMessageTel" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <label for="e-mail" class="text-muted">E-mail</label>
+                                        @Html.TextBoxFor(model => model.FicheFonction.email, new { @class = "form-control", type = "email", required = "required", id = "EmailInput" })
+                                        @Html.ValidationMessageFor(model => model.FicheFonction.email, "", new { @class = "text-danger" })
+                                        <p id="EmailErrorMessage2" style="color: red; display: none;">Email already exists. Please choose a different one.</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <label for="state" class="text-muted">Compte Windows</label>
+                                        @Html.TextBoxFor(model => model.FicheFonction.cmptWindows, new { @class = "form-control", id = "CmptWinInput" })
+                                        <p id="cmptWinErrorMessage" style="color: red; display: none;">Compte Windows déjà existant. Veuillez en choisir un autre.</p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <label for="marital-status" class="text-muted">Responsable hierarchique</label>
+                                        <div class="form-button">
+                                            @Html.DropDownListFor(model => model.SelectedEmployeeChef, (SelectList)ViewBag.EmployeesWithRoleChef, "Select an employee", new { @class = "form-control" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <div class="form-button">
+                                            <label for="state" class="text-muted">Departement</label>
+
+                                            @Html.DropDownListFor(model => model.FicheFonction.idDepartement, new SelectList(Model.Departements, "id", "nomDepartement"), htmlAttributes: new { @class = "form-control" })
+
+                                            @Html.ValidationMessageFor(model => model.FicheFonction.idDepartement, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Employee.Service)
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group app-label">
+                                        <label for="marital-status" class="text-muted">Responsable Fonctionnel</label>
+                                        <div class="form-button">
+                                            @Html.TextBoxFor(model => model.EmployeeDS, new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="button-container">
+            <div class="square-btn" id="submitBtn">Submit</div>
+        </div>
+
+
+
+
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // Check if a FicheFonction with a DS as functional manager already exists for the department
+            var existingFicheFonction = db.FicheFonction
+                .FirstOrDefault(ff => ff.idDepartement == viewModel.FicheFonction.idDepartement && ff.ResponsableFonctionnel == "DS");
+            if (existingFicheFonction != null) {
+                // Display an alert with the error message
+                alert("A FicheFonction with a DS as functional manager already exists for this department.");
+                return; // Exit the function to prevent form submission
+            }
+
+            // Your existing code for form submission...
+        });
+
+    </script>
+
+
+
+
+    <script>
+        (function ($) {
+
+
+            // Nice Select
+            $('.nice-select').niceSelect();
+
+
+        })(jQuery)
+    </script>
+
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        var matriculeInput = $('#MatriculeInput');
+        var telephoneInput = $('#telephoneInput');
+        var dateNaissanceInput = $('#dateNaissanceInput');
+        var matriculeErrorMessage2 = $('#matriculeErrorMessage2');
+
+        function validateCIN() {
+            var cinRegex = /^(0|1)\d{7}$/;
+            var cinNumber = $('#FicheFonction_numCin').val().trim();
+            if (cinNumber !== '' && !cinRegex.test(cinNumber)) {
+                showCINError("Veuillez saisir un numéro CIN tunisien valide.");
+                return false;
+            }
+            removeCINError();
+            return true;
+        }
+
+        // Function to show CIN error
+        function showCINError(message) {
+            removeCINError();
+            var errorMessage = $('<div class="text-danger cin-error">' + message + '</div>');
+            $('#FicheFonction_numCin').parent().append(errorMessage);
+            $('#FicheFonction_numCin').addClass('is-invalid');
+        }
+
+        // Function to remove CIN error
+        function removeCINError() {
+            $('#FicheFonction_numCin').parent().find('.cin-error').remove();
+            $('#FicheFonction_numCin').removeClass('is-invalid');
+        }
+
+        // Bind blur event to CIN input field
+        $('#FicheFonction_numCin').blur(function () {
+            validateCIN();
+        });
+
+
+        function validateMatriculeEmail() {
+            return new Promise(function (resolve, reject) {
+                var matricule = matriculeInput.val().trim();
+                var email = $("input[name='FicheFonction.email']").val().trim();
+
+                if (matricule === '' && email === '') {
+                    matriculeInput.addClass('is-invalid');
+                    $("input[name='FicheFonction.email']").addClass('is-invalid');
+                    return reject();
+                }
+
+                if (email !== '') {
+                    $.ajax({
+                        url: '/FicheFonctions/CheckEmail',
+                        type: 'GET',
+                        data: { email: email },
+                        success: function (result) {
+                            if (result.exists) {
+                                $("input[name='FicheFonction.email']").addClass('is-invalid');
+                                $("input[name='FicheFonction.email']").siblings('.email-error').remove();
+                                $("input[name='FicheFonction.email']").after('<div class="text-danger email-error">email existe déjà.Veuillez en utiliser un autre.</div>');
+                                return reject();
+                            } else {
+                                $("input[name='FicheFonction.email']").removeClass('is-invalid');
+                                $("input[name='FicheFonction.email']").siblings('.email-error').remove();
+                                return resolve();
+                            }
+                        },
+                        error: function () {
+                            swal({
+                                text: "Error checking email existence.",
+                                icon: "error",
+                                buttons: {
+                                    confirm: {
+                                        text: "OK",
+                                        value: true,
+                                        visible: true,
+                                        className: "btn-primary",
+                                        closeModal: true
+                                    }
+                                }
+                            });
+                            return reject();
+                        }
+                    });
+                } else {
+                    $("input[name='FicheFonction.email']").removeClass('is-invalid');
+                    $("input[name='FicheFonction.email']").siblings('.email-error').remove();
+                    return resolve();
+                }
+            });
+        }
+
+        function validateDateOfBirth() {
+            var dateNaissance = dateNaissanceInput.val();
+            if (dateNaissance) {
+                var age = calculateAge(dateNaissance);
+                if (age < 18) {
+                    showDateNaissanceError("L'employé doit avoir au moins 18 ans.");
+                    return false;
+                } else {
+                    removeDateNaissanceError();
+                }
+            }
+            return true;
+        }
+
+        function showDateNaissanceError(message) {
+            removeDateNaissanceError();
+            var errorMessage = $('<div class="text-danger date-naissance-error">' + message + '</div>');
+            dateNaissanceInput.parent().append(errorMessage);
+            dateNaissanceInput.addClass('is-invalid');
+        }
+
+        function removeDateNaissanceError() {
+            dateNaissanceInput.parent().find('.date-naissance-error').remove();
+            dateNaissanceInput.removeClass('is-invalid');
+        }
+
+        function calculateAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        function validatePhoneNumber() {
+            var phoneRegex = /^(?:\+?216)?(?:\s?\d{2}){4}$/;
+            var phoneNumber = telephoneInput.val().trim();
+            if (phoneNumber !== '' && !phoneRegex.test(phoneNumber)) {
+                showPhoneNumberError("Veuillez saisir un numéro de téléphone tunisien valide.");
+                return false;
+            }
+            removePhoneNumberError();
+            return true;
+        }
+
+        function showPhoneNumberError(message) {
+            removePhoneNumberError();
+            var errorMessage = $('<div class="text-danger phone-number-error">' + message + '</div>');
+            telephoneInput.parent().append(errorMessage);
+            telephoneInput.addClass('is-invalid');
+        }
+
+        function removePhoneNumberError() {
+            telephoneInput.parent().find('.phone-number-error').remove();
+            telephoneInput.removeClass('is-invalid');
+        }
+
+        telephoneInput.blur(function () {
+            var phoneNumber = telephoneInput.val().trim();
+            if (phoneNumber !== '' && !validatePhoneNumber(phoneNumber)) {
+                showPhoneNumberError("Veuillez saisir un numéro de téléphone tunisien valide..");
+            } else {
+                removePhoneNumberError();
+            }
+        });
+
+        dateNaissanceInput.blur(function () {
+            validateDateOfBirth();
+        });
+
+        function validateForm() {
+            return new Promise(function (resolve, reject) {
+                var isFormValid = true;
+
+                $('input[type="text"], input[type="email"], input[type="date"], select').each(function () {
+                    if (!$(this).val().trim() && !$(this).is(':disabled') && $(this).is(":visible")) {
+                        swal({
+                            text: "Please fill in all fields.",
+                            icon: "error",
+                            buttons: {
+                                confirm: {
+                                    text: "OK",
+                                    value: true,
+                                    visible: true,
+                                    className: "btn-primary",
+                                    closeModal: true
+                                }
+                            }
+                        });
+                        isFormValid = false;
+                        return false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    return reject();
+                }
+
+                validateMatriculeEmail().then(function () {
+                    if (!validateDateOfBirth()) {
+                        isFormValid = false;
+                    }
+                    if (!validateCIN()) {
+                        isFormValid = false;
+                    }
+                    if (!validatePhoneNumber()) {
+                        isFormValid = false;
+                    }
+
+                    if (isFormValid) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }).catch(function () {
+                    isFormValid = false;
+                    reject();
+                });
+            });
+        }
+
+        var submitBtn = $('#submitBtn');
+
+        matriculeInput.on('blur', function () {
+            var matricule = $(this).val();
+            if (matricule !== '') {
+                $.ajax({
+                    url: '/FicheFonctions/CheckMatricule',
+                    type: 'GET',
+                    data: { matricule: matricule },
+                    success: function (result) {
+                        if (result.exists) {
+                            matriculeErrorMessage2.text('Le matricule existe déjà. Veuillez en choisir un autre').show();
+                            submitBtn.prop('disabled', true);
+                        } else {
+                            matriculeErrorMessage2.hide();
+                            submitBtn.prop('disabled', false);
+
+                            $("#submitBtn").click(function (e) {
+                                e.preventDefault();
+                                validateForm().then(function () {
+                                    $("form").submit();
+                                }).catch(function () {
+                                    // Handle form validation failure
+                                });
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        // Event listener for email input blur
+        $("input[name='FicheFonction.email']").blur(function () {
+            var email = $(this).val().trim();
+            if (email !== '') {
+                $.ajax({
+                    url: '/FicheFonctions/CheckEmail',
+                    type: 'GET',
+                    data: { email: email },
+                    success: function (result) {
+                        if (result.exists) {
+                            // Email already exists, show error message
+                            $("input[name='FicheFonction.email']").addClass('is-invalid');
+                            $("input[name='FicheFonction.email']").siblings('.email-error').remove(); // Remove previous error message if any
+                            $("input[name='FicheFonction.email']").after('<div class="text-danger email-error">email existe déjà.Veuillez en utiliser un autre.</div>');
+                        } else {
+                            // Email doesn't exist, remove any existing error message
+                            $("input[name='FicheFonction.email']").removeClass('is-invalid');
+                            $("input[name='FicheFonction.email']").siblings('.email-error').remove();
+                        }
+                    },
+                    error: function () {
+                        // Error occurred, reject the promise
+                        swal({
+                            text: "Error checking email existence.",
+                            icon: "error",
+                            buttons: {
+                                confirm: {
+                                    text: "OK",
+                                    value: true,
+                                    visible: true,
+                                    className: "btn-primary",
+                                    closeModal: true
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If email is empty, remove any existing error message
+                $("input[name='FicheFonction.email']").removeClass('is-invalid');
+                $("input[name='FicheFonction.email']").siblings('.email-error').remove();
+            }
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        var cmptWinInput = $('#CmptWinInput');
+        var cmptWinErrorMessage = $('#cmptWinErrorMessage');
+        var cmptWinExists = false;
+        var submitBtn = $('#submitBtn'); // Reference to the submit button
+
+        // Vérifie l'existence du compte Windows à chaque frappe de touche
+        cmptWinInput.on('keyup', function () {
+            var cmptWin = cmptWinInput.val();
+            $.ajax({
+                url: '/FicheFonctions/CheckWin', // Assurez-vous que l'URL correspond à votre route réelle
+                type: 'GET',
+                data: { win: cmptWin },
+                success: function (result) {
+                    if (result.exists) {
+                        // Affiche un message d'erreur si le compte Windows existe déjà
+                        cmptWinErrorMessage.text('Compte Windows déjà existant. Veuillez en choisir un autre.').show();
+                        cmptWinExists = true;
+                        submitBtn.prop('disabled', true); // Disable the submit button
+                    } else {
+                        // Cache le message d'erreur si le compte Windows est unique
+                        cmptWinErrorMessage.hide();
+                        cmptWinExists = false;
+                        submitBtn.prop('disabled', false); // Enable the submit button
+                    }
+                }
+            });
+        });
+
+        // Empêche la soumission du formulaire si le compte Windows existe déjà
+        $('form').on('submit', function (event) {
+            if (cmptWinExists) {
+                event.preventDefault(); // Empêche le formulaire de se soumettre
+                //submitBtn.prop('disabled', true); // Ensure submit button is disabled
+            }
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        var numCinInput = $('#FicheFonction_numCin');
+        var numCinErrorMessage = $('#numCinErrorMessage');
+        var numCinExists = false;
+
+        numCinInput.on('blur', function () {
+            var numCin = numCinInput.val();
+            $.ajax({
+                url: '/FicheFonctions/CheckNumCin',
+                type: 'GET',
+                data: { numCin: numCin },
+                success: function (result) {
+                    if (result.exists) {
+                        numCinErrorMessage.text('Le numéro de CIN existe déjà. Veuillez en choisir un autre.').show();
+                        numCinExists = true;
+                    } else {
+                        numCinErrorMessage.hide();
+                        numCinExists = false;
+                    }
+                }
+            });
+        });
+
+        $('form').on('submit', function (event) {
+            if (numCinExists) {
+                //event.preventDefault();
+                //alert('Le numéro de CIN existe déjà. Veuillez en choisir un autre.');
+                submitBtn.prop('disabled', true);
+            }
+        });
+    });
+</script>
+<!-- Ensure you include the SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+        var dateRecrutementInput = $('#dateRecrutementInput');
+        var dateValidationMessage = $('#dateValidationMessage');
+        var submitBtn = $('#submitBtn');
+
+        function validateDate() {
+            var inputDate = dateRecrutementInput.val();
+            var selectedDate = new Date(inputDate);
+            var today = new Date();
+            var minDate = new Date("2012-06-15");
+
+            if (selectedDate > today) {
+                // Display error message for future date
+
+                dateValidationMessage.text('La date de recrutement ne peut pas être dans le futur.').show();
+                submitBtn.prop('disabled', true);
+                return false;
+            } else if (selectedDate < minDate) {
+                // Display error message for date before 15 June 2012
+                dateValidationMessage.text('La date de recrutement ne peut pas être antérieure au 15 juin 2012.').show();
+                submitBtn.prop('disabled', true);
+                return false;
+            }
+
+            // Clear any previous error message
+            dateValidationMessage.text('');
+            submitBtn.prop('disabled', false);
+            return true;
+        }
+
+        dateRecrutementInput.on('blur', validateDate);
+
+        $('form').on('submit', function (event) {
+            if (!validateDate()) {
+                event.preventDefault(); // Prevent form submission if date is not valid
+            }
+        });
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#telephoneInput').on('blur', function () {
+            var numero = $(this).val();
+            if (numero) {
+                $.ajax({
+                    url: '@Url.Action("ChecknNumero", "FicheFonctions")',
+                    type: 'GET',
+                    data: { numero: numero },
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#submitBtn').prop('disabled', true);
+                            $('#validationMessageTel').text('Ce numéro de téléphone existe déjà.');
+                        } else {
+                            $('#submitBtn').prop('disabled', false);
+                            $('#validationMessageTel').text(''); // Clear the message
+                        }
+                    }
+                });
+            } else {
+                //$('#submitBtn').prop('disabled', true);
+                $('#validationMessageTel').text('Le champ ne peut pas être vide.'); // Optionally handle empty input
+            }
+        });
+
+        // Initial state of submit button
+        $('#submitBtn').prop('disabled', true);
+
+        // Enable button if input is not empty on page load
+        if ($('#telephoneInput').val().trim() !== '') {
+            $('#telephoneInput').trigger('blur');
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var matriculeInput = $('#MatriculeInput');
+        var matriculeErrorMessage = $('#matriculeErrorMessage2');
+        var form = $('form');
+
+        // Fonction pour valider la longueur du matricule
+        function validateMatriculeLength() {
+            var matricule = matriculeInput.val().trim();
+            if (matricule.length !== 6) {
+                showMatriculeLengthError("Le matricule doit comporter exactement 6 chiffres.");
+                return false;
+            }
+            removeMatriculeLengthError();
+            return true;
+        }
+
+        // Fonction pour afficher l'erreur de longueur de matricule
+        function showMatriculeLengthError(message) {
+            removeMatriculeLengthError();
+            matriculeErrorMessage.text("Le matricule doit comporter exactement 6 chiffres.").show();
+            matriculeInput.addClass('is-invalid');
+        }
+
+        // Fonction pour supprimer l'erreur de longueur de matricule
+        function removeMatriculeLengthError() {
+            matriculeErrorMessage.hide();
+            matriculeInput.removeClass('is-invalid');
+        }
+
+        // Valider la longueur du matricule lors de la soumission du formulaire
+        form.submit(function (event) {
+            if (!validateMatriculeLength()) {
+                event.preventDefault(); // Annuler la soumission du formulaire si la validation échoue
+            }
+        });
+
+        // Valider la longueur du matricule lors de la perte de focus et au moment de la saisie
+        matriculeInput.on('input blur', function () {
+            validateMatriculeLength();
+        });
+    });
+
+
+</script>
